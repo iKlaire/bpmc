@@ -1,6 +1,15 @@
 import React, { useState } from 'react';
 import './App.css';
 import Town from './temp.jpg';
+import Cow from './cow.png';
+import Beef from './meat.png';
+import Energy from './energy.png';
+import Money from './money.png';
+import Patty from './patty.png';
+import Sell from './sell.png';
+import Employees from './employee.png';
+import Thermometer from './thermo.png';
+import GGPerDay from './ggpd.png';
 import { LineChart, XAxis, Tooltip, CartesianGrid, Line, ResponsiveContainer } from 'recharts';
 
 const App = () => {
@@ -302,23 +311,32 @@ const App = () => {
       <div className="game-container">
         <div className="header-container">
           <div className="money-container">
-            <span className="money-icon">💲</span>
+            <span className="money-icon">
+              <img src={Money} />
+            </span>
             <span className="money-count">{resourcesState.money}</span>
           </div>
           <div className="energy-container">
-            <span className="energy-icon">🔋</span>
+            <span className="energy-icon">
+              <img src={Energy} />
+            </span>
             <span className="energy-count">
               {resourcesState.energy}/{energyCap}
             </span>
           </div>
+          <div className="employees-container">
+            <span className="employees-icon">
+              <img src={Employees} />
+            </span>
+            <span className="employees-count">{resourcesState.employee}</span>
+          </div>
         </div>
         <div className="stats-container">
           <div className="stats">
-            employees: {resourcesState.employee} <br />
-            gg: {resourcesState.gg} <br />
-            sea level: {resourcesState.seaLevel} <br />
-            temp: {resourcesState.temperature}
-            <br />
+            <div className="temperature">
+              <img src={Thermometer} />
+              {resourcesState.temperature}°c
+            </div>
           </div>
           <div className="charts">
             <div className="chart-card">
@@ -354,21 +372,27 @@ const App = () => {
           <div className="sell-bar">
             <div className="products-count">
               <div className="cow">
-                <span className="cow-icon">🐮</span>
+                <span className="cow-icon">
+                  <img src={Cow} />
+                </span>
                 <span>{resourcesState.cow}</span>
               </div>
               <div className="beef">
-                <span className="beef-icon">🥩</span>
+                <span className="beef-icon">
+                  <img src={Beef} />
+                </span>
                 <span>{resourcesState.beef}</span>
               </div>
               <div className="patty">
-                <span className="patty-icon">🍔</span>
+                <span className="patty-icon">
+                  <img src={Patty} />
+                </span>
                 <span>{resourcesState.patty}</span>
               </div>
             </div>
             <div className="sell-button-container">
               <button className="sell-button" onClick={handleSellButton}>
-                SELL
+                <img src={Sell} />
               </button>
             </div>
           </div>
