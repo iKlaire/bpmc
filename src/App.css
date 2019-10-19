@@ -1,22 +1,151 @@
-.App {
+::-webkit-scrollbar {
+  display: none;
+}
+
+.container {
+  display: block;
+  height: 100vh;
+  background: #b2ced6;
+}
+
+.game-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: auto;
+  min-width: 320px;
+  max-width: 812px;
+}
+
+.header-container {
+  background: #f48e27;
+  align-items: center;
+  height: 5%;
+  display: flex;
+  flex-direction: row;
+}
+
+.stats-container {
+  background: white;
+  height: 25%;
+}
+
+.visual-container {
+  height: 35%;
+  overflow: scroll;
+}
+
+.town-image {
+  width: 1099px;
+}
+
+.actions-container {
+  height: 35%;
+  background: #ffffff;
+}
+
+.sell-bar {
+  position: relative;
+  top: -10px;
+  margin-bottom: -10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 40px;
+  background: #f48e27;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.products-count {
+  display: flex;
+  flex-direction: row;
+}
+
+.actions-list {
+  height: 86%;
+  overflow: scroll;
+  overflow-x: hidden;
+}
+
+.actions-card {
+  margin: auto;
+  margin-top: 20px;
+  padding-top: 20px;
+  padding-bottom: 10px;
+  width: 92%;
+  background: white;
+  box-shadow: 0px 0px 25px 0px rgba(196, 196, 196, 0.4);
+}
+
+.action {
+  width: 92%;
+  margin: auto;
+  display: flex;
+  padding: 5px;
+  margin-bottom: 8px;
+  border-radius: 5px;
+  flex-direction: row;
+  justify-content: space-between;
+  background: #edf5f7;
+}
+
+.action-icon {
+  width: 13%;
+  align-self: center;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.action-content {
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  width: 57%;
 }
 
-.App-link {
-  color: #09d3ac;
+.action-label {
+  font-size: 1.15em;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: green;
+}
+
+.action-description {
+  font-size: 0.75em;
+}
+
+.action-button-container {
+  width: 30%;
+}
+
+button.action-button {
+  color: white;
+  font-weight: bold;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  background-color: #f48e27;
+  border-bottom: #c46918;
+  border-bottom-width: 5px;
+  border-bottom-style: solid;
+  outline: none;
+}
+
+button.action-button:hover {
+  cursor: pointer;
+  outline: none;
+  background-color: #f48e27;
+}
+
+button:active {
+  outline: none;
+  border: none;
+  border-top: #edf5f7;
+  border-top-width: 5px;
+  border-top-style: solid;
+}
+
+button:focus {
+  outline: none;
 }
