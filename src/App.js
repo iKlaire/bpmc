@@ -475,7 +475,7 @@ const App = () => {
           </div>
           <div className="actions-list">
             <div className="actions-card">
-              <div className="actions-header" style={{ backgroundColor: '#00ff00' }}>
+              <div className="actions-header solo">
                 <span className="actions-header-text">Solo</span>
               </div>
               {Object.values(actions.one).map(action => (
@@ -499,7 +499,7 @@ const App = () => {
                   </div>
                 </div>
               ))}
-              <div className="actions-header" style={{ backgroundColor: '#7fff00' }}>
+              <div className="actions-header start-up">
                 <span className="actions-header-text">Start up</span>
               </div>
               {Object.values(actions.two).map(action => (
@@ -520,13 +520,13 @@ const App = () => {
                   </div>
                 </div>
               ))}
-              <div className="actions-header" style={{ backgroundColor: '#ffff00' }}>
+              <div className="actions-header sme">
                 <span className="actions-header-text">Small company</span>
               </div>
-              <div className="actions-header" style={{ backgroundColor: '#ff7f00' }}>
+              <div className="actions-header ipo">
                 <span className="actions-header-text">Large company</span>
               </div>
-              <div className="actions-header" style={{ backgroundColor: '#ff0000' }}>
+              <div className="actions-header glc">
                 <span className="actions-header-text">Government Corporation</span>
               </div>
             </div>
