@@ -10,8 +10,10 @@ import Sell from './sell.png';
 import Employees from './employee.png';
 import Thermometer from './thermo.png';
 import GGPerDay from './ggpd.png';
+import GameOver from './gameover.png';
 import { LineChart, XAxis, Tooltip, CartesianGrid, Line, ResponsiveContainer } from 'recharts';
 import AlertBox from './components/AlertBox/AlertBox';
+import GameOverAlertBox from './components/GameOverAlertBox/GameOverAlertBox';
 
 const onTest = () => {
   // TODO: Do custom function name here
@@ -313,14 +315,21 @@ const App = () => {
   // Set up Company - RM 20,000, requires Build Workshop, unlock Public Relations, third stage
   // Hire Employee - RM 10,000++ each, reduce energy usage, max 10
 
+  const generalAlertBox = (
+    <AlertBox
+      title="Congratulations"
+      imageUrl={Employees}
+      message="U earn nothing!"
+      buttons={[{ label: 'Yes', function: onTest }, { label: 'No' }]}
+    />
+  );
+
+  const gameOverAlertBox = <GameOverAlertBox imageUrl={GameOver} message={resourcesState} />;
+
   return (
     <div className="container">
-      <AlertBox
-        title="Congratulations"
-        imageUrl="https://developers.video.ibm.com/images/example-channel-nasa.jpg"
-        message="U earn nothing!"
-        buttons={[{ label: 'Yes', function: onTest }, { label: 'No' }]}
-      />
+      {/* {generalAlertBox} */}
+      {gameOverAlertBox}
       <div className="game-container">
         <div className="header-container">
           <div className="money-container">

@@ -14,7 +14,7 @@ body {
   height: 100%; /* Full height */
   overflow: auto; /* Enable scroll if needed */
   background-color: rgb(0, 0, 0); /* Fallback color */
-  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+  background-color: rgba(0, 0, 0, 0.9); /* Black w/ opacity */
   text-align: center;
 }
 
@@ -47,7 +47,7 @@ img {
 /* Modal Header */
 .modal-header {
   padding: 2px 16px;
-  background-color: #f48e27;
+  background-color: #f0351c;
   color: white;
   text-align: left;
   height: 60px;
@@ -74,6 +74,43 @@ img {
   max-width: 650px;
 }
 
-/* button.action-button {
-  background-color: black;
-} */
+button.game-over-action-button {
+  color: white;
+  font-weight: bold;
+  padding: 11% 19%;
+  border-radius: 8px;
+  border: none;
+  background-color: #f0351c;
+  border-bottom: #611208;
+  border-bottom-width: 5px;
+  border-bottom-style: solid;
+  outline: none;
+}
+
+button.game-over-action-button:hover {
+  cursor: pointer;
+  outline: none;
+  background-color: #f0351c;
+}
+
+button.game-over-action-button:active {
+  cursor: pointer;
+  outline: none;
+  background-color: #f0351c;
+  border-top: #edf5f7;
+  border-top-width: 5px;
+  border-top-style: solid;
+}
+
+button:active {
+  outline: none;
+  border: none;
+}
+
+button:focus {
+  outline: none;
+}
+
+.game-over-message-body {
+  background-color: #e5e5e5;
+}

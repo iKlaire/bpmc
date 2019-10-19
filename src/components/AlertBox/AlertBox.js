@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import './AlertBox.css';
 import '../../App.css';
-import generate from '@babel/generator';
-// import { Icon } from 'antd';
 
 class AlertBox extends Component {
   constructor(props) {
@@ -22,7 +20,7 @@ class AlertBox extends Component {
       }
       return (
         <>
-          <button className="action-button" onClick={func}>
+          <button className="action-button" onClick={func} style={{ padding: '6% 20%' }}>
             {button.label}
           </button>
           &nbsp;
@@ -47,24 +45,26 @@ class AlertBox extends Component {
     const { title, imageUrl, message, buttons } = this.props;
     const { modalClassName } = this.state;
     return (
-      <div id="myModal" class={modalClassName}>
-        <div class="modal-content">
-          <div class="modal-header">
-            <span class="close" onClick={this.onClose}>
-              &times;
-            </span>
-            <h2>{title}</h2>
-          </div>
-          <div class="modal-body">
-            <img src={imageUrl} alt="Avatar" />
-            <br />
-            {message}
-            <br />
-            <br />
-            {this.generateButtons(buttons)}
+      <>
+        <div id="myModal" class={modalClassName}>
+          <div class="modal-content w3-animate-zoom">
+            <div class="modal-header">
+              <span class="close" onClick={this.onClose}>
+                &times;
+              </span>
+              <h2>{title}</h2>
+            </div>
+            <div class="modal-body">
+              <img src={imageUrl} alt="Avatar" />
+              <br />
+              {message}
+              <br />
+              <br />
+              {this.generateButtons(buttons)}
+            </div>
           </div>
         </div>
-      </div>
+      </>
     );
   }
 }
