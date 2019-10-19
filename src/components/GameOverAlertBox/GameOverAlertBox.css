@@ -14,7 +14,7 @@ body {
   height: 100%; /* Full height */
   overflow: auto; /* Enable scroll if needed */
   background-color: rgb(0, 0, 0); /* Fallback color */
-  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+  background-color: rgba(0, 0, 0, 0.9); /* Black w/ opacity */
   text-align: center;
 }
 
@@ -38,7 +38,7 @@ body {
   cursor: pointer;
 }
 
-.modal-body > div > img {
+img {
   border-radius: 50%;
   width: 50%;
   background-color: #f48e27;
@@ -47,7 +47,7 @@ body {
 /* Modal Header */
 .modal-header {
   padding: 2px 16px;
-  background-color: #f48e27;
+  background-color: #f0351c;
   color: white;
   text-align: left;
   height: 60px;
@@ -56,32 +56,7 @@ body {
 
 /* Modal Body */
 .modal-body {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
   padding: 16px 16px;
-}
-
-.modal-body-top {
-  height: 80%;
-}
-
-.modal-body-buttons {
-  height: 20%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-}
-
-.modal-body-buttons > .action-button {
-  padding: 5% 10%;
-}
-
-/* Modal Footer */
-.modal-footer {
-  padding: 2px 16px;
-  background-color: #5cb85c;
-  color: white;
 }
 
 /* Modal Content */
@@ -90,6 +65,7 @@ body {
   background-color: #fefefe;
   margin: auto;
   padding: 0;
+  border: 1px solid #888;
   width: 90%;
   max-height: 1000px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -98,6 +74,43 @@ body {
   max-width: 650px;
 }
 
-/* button.action-button {
-  background-color: black;
-} */
+button.game-over-action-button {
+  color: white;
+  font-weight: bold;
+  padding: 11% 19%;
+  border-radius: 8px;
+  border: none;
+  background-color: #f0351c;
+  border-bottom: #611208;
+  border-bottom-width: 5px;
+  border-bottom-style: solid;
+  outline: none;
+}
+
+button.game-over-action-button:hover {
+  cursor: pointer;
+  outline: none;
+  background-color: #f0351c;
+}
+
+button.game-over-action-button:active {
+  cursor: pointer;
+  outline: none;
+  background-color: #f0351c;
+  border-top: #edf5f7;
+  border-top-width: 5px;
+  border-top-style: solid;
+}
+
+button:active {
+  outline: none;
+  border: none;
+}
+
+button:focus {
+  outline: none;
+}
+
+.game-over-message-body {
+  background-color: #e5e5e5;
+}
