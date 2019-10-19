@@ -71,8 +71,6 @@ const App = () => {
           const { buyCow } = resourceMultipliers;
           const newState = resourcesState;
 
-          console.log(this.money);
-
           buyCow.money = buyCow.money * 1.01;
           buyCow.energy = buyCow.energy * 1.01;
           buyCow.gg = buyCow.gg * 1.01;
@@ -446,6 +444,9 @@ const App = () => {
           </div>
           <div className="actions-list">
             <div className="actions-card">
+              <div className="actions-header" style={{ backgroundColor: '#a4c143' }}>
+                <span className="actions-header-text">Solo</span>
+              </div>
               {actions.one.map(action => (
                 <div className="action" key={`${action.label}-key`}>
                   <div className="action-icon">🈳</div>
@@ -461,6 +462,9 @@ const App = () => {
                   </div>
                 </div>
               ))}
+              <div className="actions-header" style={{ backgroundColor: '#a4c143' }}>
+                <span className="actions-header-text">Start up</span>
+              </div>
               {actions.two.map(action => (
                 <div className="action" key={`${action.label}-key`}>
                   <div className="action-icon">🈳</div>
@@ -469,12 +473,21 @@ const App = () => {
                     <span className="action-description">{action.description}</span>
                   </div>
                   <div className="action-button-container">
-                    <button className="action-button" onClick={action.updateResourceMultiplier}>
+                    <button className="action-button" onClick={() => action.updateResourceMultiplier()}>
                       💲 {action.money}
                     </button>
                   </div>
                 </div>
               ))}
+              <div className="actions-header" style={{ backgroundColor: '#a4c143' }}>
+                <span className="actions-header-text">Small company</span>
+              </div>
+              <div className="actions-header" style={{ backgroundColor: '#a4c143' }}>
+                <span className="actions-header-text">Large company</span>
+              </div>
+              <div className="actions-header" style={{ backgroundColor: '#a4c143' }}>
+                <span className="actions-header-text">Government Corporation</span>
+              </div>
             </div>
           </div>
         </div>
