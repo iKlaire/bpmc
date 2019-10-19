@@ -42,23 +42,23 @@ const App = () => {
     temperature: 10
   });
 
-  const abbreviateNumber = value => {
-    let newValue = value;
-    if (value >= 1000) {
-      let suffixes = ["", "k", "m", "b", "t"];
-      let suffixNum = Math.floor(("" + value).length / 3);
-      let shortValue = "";
-      for (let precision = 2; precision >= 1; precision--) {
-        shortValue = parseFloat((suffixNum !== 0 ? value / Math.pow(1000, suffixNum) : value).toPrecision(precision));
-        let dotLessShortValue = (shortValue + "").replace(/[^a-zA-Z 0-9]+/g, "");
-        if (dotLessShortValue.length <= 2) {
-          break;
-        }
+  function abbreviateNumber(value) {
+    if (value >= 100) {
+      let newValue = value;
+      const suffixes = ["", "K", "M", "B", "T"];
+      let suffixNum = 0;
+      while (newValue >= 1000) {
+        newValue /= 1000;
+        suffixNum++;
       }
-      newValue = shortValue + suffixes[suffixNum];
+
+      newValue = newValue.toPrecision(3);
+
+      newValue += suffixes[suffixNum];
+      return newValue;
     }
-    return newValue;
-  };
+    return value.toFixed(2);
+  }
 
   const animateMinusMoney = async () => {
     const moneyContainer = document.getElementsByClassName("money-container")[0];
@@ -389,8 +389,8 @@ const App = () => {
     },
     three: {
       goldenGrass: {
-        label: 'Golden Grass',
-        description: 'Increase price of beef patties by 10%, at the cost of environmental impact',
+        label: "Golden Grass",
+        description: "Increase price of beef patties by 10%, at the cost of environmental impact",
         stage: 3,
         actionUsed: 0,
         costMultiplier: 1.9,
@@ -421,8 +421,8 @@ const App = () => {
         }
       },
       hireWorker: {
-        label: 'Hire Worker',
-        description: 'Reduce energy usage of Actions by 2',
+        label: "Hire Worker",
+        description: "Reduce energy usage of Actions by 2",
         stage: 3,
         actionUsed: 0,
         costMultiplier: 1.9,
@@ -454,8 +454,8 @@ const App = () => {
         }
       },
       monsterEnergy: {
-        label: 'Monster Energy',
-        description: 'RM 50,000++ each, increase max energy by 10',
+        label: "Monster Energy",
+        description: "RM 50,000++ each, increase max energy by 10",
         stage: 3,
         actionUsed: 0,
         costMultiplier: 1.9,
@@ -485,8 +485,8 @@ const App = () => {
         }
       },
       strikeDeal: {
-        label: 'Strike A Better Deal',
-        description: 'RM 100,000, double Buy Cow price, get x6 cows each time',
+        label: "Strike A Better Deal",
+        description: "RM 100,000, double Buy Cow price, get x6 cows each time",
         stage: 3,
         actionUsed: 0,
         costMultiplier: 1.9,
@@ -518,8 +518,8 @@ const App = () => {
         }
       },
       hireMarketing: {
-        label: 'Hire Marketing Team',
-        description: 'RM 150,000, increase Sell patty price by 100% additively, single purchase',
+        label: "Hire Marketing Team",
+        description: "RM 150,000, increase Sell patty price by 100% additively, single purchase",
         stage: 3,
         actionUsed: 0,
         costMultiplier: 1.9,
@@ -548,8 +548,8 @@ const App = () => {
         }
       },
       buildFarm: {
-        label: 'Build Cow Farm',
-        description: 'RM 500,000, RM 1,000,000, halve Buy Cow price, increase GG impact (m)',
+        label: "Build Cow Farm",
+        description: "RM 500,000, RM 1,000,000, halve Buy Cow price, increase GG impact (m)",
         stage: 3,
         actionUsed: 0,
         costMultiplier: 2,
@@ -581,9 +581,9 @@ const App = () => {
         }
       },
       buildFactory: {
-        label: 'Build Factory',
+        label: "Build Factory",
         description:
-          'RM 2,000,000, triple amount of patties processed and packaged each time, increase energy usage, GG impact (m), requires 30 employees, single purchase',
+          "RM 2,000,000, triple amount of patties processed and packaged each time, increase energy usage, GG impact (m), requires 30 employees, single purchase",
         stage: 3,
         actionUsed: 0,
         costMultiplier: 2,
@@ -619,8 +619,8 @@ const App = () => {
         }
       },
       ipo: {
-        label: 'Initial Public Offering',
-        description: 'RM 10,000,000, unlock fourth stage, requires 30 employees',
+        label: "Initial Public Offering",
+        description: "RM 10,000,000, unlock fourth stage, requires 30 employees",
         stage: 3,
         actionUsed: 0,
         costMultiplier: 2,
