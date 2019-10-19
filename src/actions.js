@@ -67,6 +67,8 @@ const handleAction = actionName => {
 const handleSellButton = () => {
   const { money, patty, gg } = resourcesState;
 
+  calculateEnvironmentalChanges();
+
   const updatedState = {
     money: money + patty * pricePerPatty,
     patty: 0,
@@ -97,6 +99,7 @@ const upgrades = [
   {
     label: 'Improve Meat Quality',
     desc: 'RM 1000++ each, increase Buy Cow and Sell Patty price, energy usage, increase GG impact for Buy Cow (a)',
+    stage: 1,
     actionUsed: 0,
     costIncrement: 500,
     cost: 1000,
@@ -114,6 +117,7 @@ const upgrades = [
   {
     label: 'Reduce Process Cost',
     desc: 'RM 2000++ each, reduce Process Cow price, increase energy usage, increase GG impact (a)',
+    stage: 1,
     actionUsed: 0,
     costIncrement: 1000,
     cost: 2000,
