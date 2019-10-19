@@ -413,7 +413,7 @@ const App = () => {
 
   return (
     <div className="container">
-      {/* {generalAlertBox} */}
+      {generalAlertBox}
       {gameOverAlertBox}
       <div className="game-container">
         <div className="header-container">
