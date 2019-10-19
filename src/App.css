@@ -290,7 +290,7 @@ button.sell-button:active {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 57%;
+  width: 62%;
 }
 
 .action-label {
@@ -315,7 +315,7 @@ button.sell-button:active {
 }
 
 .action-button-container {
-  width: 30%;
+  width: 25%;
   display: flex;
   flex-direction: column;
 }
@@ -329,14 +329,14 @@ button.sell-button:active {
 }
 
 .action-button > div > img {
-  width: 40%;
+  width: 30%;
 }
 
 button.action-button {
   color: white;
   font-size: 1em;
   font-weight: bold;
-  padding: 6% 14%;
+  padding: 5% 13%;
   border-radius: 8px;
   border: none;
   background-color: #f48e27;

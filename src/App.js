@@ -8,8 +8,9 @@ import Money from "./money.png";
 import Patty from "./patty.png";
 import Sell from "./sell.png";
 import Employees from "./employee.png";
+import Calendar from "./cal.png";
 import Thermometer from "./thermo.png";
-import GGPerDay from "./ggpd.png";
+import TodayGG from "./ggpd.png";
 import GameOver from "./gameover.png";
 import Act from "./act.jpg";
 import { LineChart, XAxis, Tooltip, CartesianGrid, Line, ResponsiveContainer } from "recharts";
@@ -25,7 +26,7 @@ const onTest = () => {
 const App = () => {
   const [energyCap, setEnergyCap] = useState(100);
   const [pricePerPatty, setPricePerPatty] = useState(1.5);
-  const [day, setDay] = useState(0);
+  const [day, setDay] = useState(1);
   const [graphData, setGraphData] = useState([]);
 
   const [resourcesState, setResourcesState] = useState({
@@ -419,7 +420,7 @@ const App = () => {
               <img src={Energy} />
             </span>
             <span className="energy-count">
-              {resourcesState.energy}/{energyCap}
+              {Math.floor(resourcesState.energy)}/{energyCap}
             </span>
           </div>
           <div className="employees-container">
@@ -431,8 +432,16 @@ const App = () => {
         </div>
         <div className="stats-container">
           <div className="stats">
+            <div className="calendar">
+              <img src={Calendar} />
+              {day}
+            </div>
             <div className="temperature">
               <img src={Thermometer} />
+              {resourcesState.temperature.toFixed(2)}°c
+            </div>
+            <div className="today-gg">
+              <img src={TodayGG} />
               {resourcesState.temperature.toFixed(2)}°c
             </div>
           </div>
@@ -514,7 +523,7 @@ const App = () => {
                         <img src={Money} /> {action.money.toFixed(2)}
                       </div>
                       <div>
-                        <img src={Energy} /> {action.energy.toFixed(2)}
+                        <img src={Energy} /> {Math.floor(action.energy)}
                       </div>
                     </button>
                   </div>
