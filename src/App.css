@@ -238,7 +238,7 @@ button.sell-button:active {
   font-size: 1.5em;
   font-weight: bold;
   text-transform: uppercase;
-  color: white;
+  color: #333;
 }
 
 .action {
