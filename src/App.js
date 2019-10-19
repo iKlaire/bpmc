@@ -33,7 +33,7 @@ const App = () => {
     cow: 0,
     beef: 0,
     patty: 0,
-    money: 1000000,
+    money: 10000000000,
     energy: energyCap,
     employee: 0,
     gg: 1,
@@ -209,7 +209,7 @@ const App = () => {
       },
       strikeADeal: {
         label: 'Strike A Deal',
-        description: 'Get 5x cows per buy, at 1.5 times the cost',
+        description: 'Get 5 times the number of cows per buy, at 1.5 times the cost',
         actionUsed: 0,
         money: 2000,
         updateResourceMultiplier: function() {
@@ -305,7 +305,7 @@ const App = () => {
       },
       setUpCompany: {
         label: 'Set Up Company',
-        description: 'Increase Sell Patty price, unlock Public Relations',
+        description: 'Increase Sell Patty price, unlock Public Relations and third stage',
         actionUsed: 0,
         money: 20000,
         updateResourceMultiplier: function() {
@@ -337,7 +337,7 @@ const App = () => {
         label: 'Hire Labourer',
         description: 'Reduce energy usage for all actions',
         actionUsed: 0,
-        costMultiplier: 3,
+        costMultiplier: 1.1,
         money: 10000,
         updateResourceMultiplier: function() {
           if (actions.two.setUpCompany.actionUsed > 0 && this.actionUsed < 10) {
@@ -345,12 +345,13 @@ const App = () => {
               if (initialState.money > actions.two.hireLabourer.money) {
                 const newActions = { ...actions };
                 const { money, costMultiplier } = actions.two.hireLabourer;
-                newActions.one.buyCow.energy = newActions.one.buyCow.energy * 0.9;
-                newActions.one.processCow.energy = newActions.one.processCow.energy * 0.9;
-                newActions.one.packagePatty.energy = newActions.one.packagePatty.energy * 0.9;
+                newActions.one.buyCow.energy = newActions.one.buyCow.energy - 1;
+                newActions.one.processCow.energy = newActions.one.processCow.energy - 1;
+                newActions.one.packagePatty.energy = newActions.one.packagePatty.energy - 1;
 
                 const newState = {
-                  money: initialState.money - money
+                  money: initialState.money - money,
+                  employee: initialState.employee + 1
                 };
 
                 newActions.two.hireLabourer.actionUsed += 1;
@@ -368,7 +369,263 @@ const App = () => {
         }
       }
     },
-    three: {}
+    three: {},
+    four: {
+      hireEmployee: {
+        label: 'Hire Employee',
+        description: 'Reduce energy consumption even more',
+        actionUsed: 0,
+        costMultiplier: 1.5,
+        money: 1000000,
+        updateResourceMultiplier: function() {
+          if (this.actionUsed < 100) {
+            setResourcesState(initialState => {
+              if (initialState.money > actions.four.hireEmployee.money) {
+                const newActions = { ...actions };
+                const { money, costMultiplier } = actions.four.hireEmployee;
+                newActions.one.buyCow.energy = newActions.one.buyCow.energy - 2;
+                newActions.one.processCow.energy = newActions.one.processCow.energy - 2;
+                newActions.one.packagePatty.energy = newActions.one.packagePatty.energy - 2;
+
+                const newState = {
+                  money: initialState.money - money,
+                  employee: initialState.employee + 1
+                };
+
+                newActions.four.hireEmployee.actionUsed += 1;
+                newActions.four.hireEmployee.money = newActions.four.hireEmployee.money * costMultiplier;
+
+                setActions(newActions);
+                animateMinusMoney();
+
+                return { ...initialState, ...newState };
+              } else {
+                return initialState;
+              }
+            });
+          }
+        }
+      },
+      minotaurPower: {
+        label: 'Minotaur Power',
+        description: 'Increase maximum energy per day even more',
+        actionUsed: 0,
+        costMultiplier: 4,
+        money: 10000000,
+        updateResourceMultiplier: function() {
+          setResourcesState(initialState => {
+            if (initialState.money > actions.four.minotaurPower.money) {
+              const newActions = { ...actions };
+              const { money, costMultiplier } = actions.four.minotaurPower;
+
+              const newState = {
+                money: initialState.money - money
+              };
+
+              newActions.four.minotaurPower.actionUsed += 1;
+              newActions.four.minotaurPower.money = newActions.four.minotaurPower.money * costMultiplier;
+
+              setEnergyCap(initialCap => initialCap + 15);
+              setActions(newActions);
+              animateMinusMoney();
+
+              return { ...initialState, ...newState };
+            } else {
+              return initialState;
+            }
+          });
+        }
+      },
+      hireFactoryManager: {
+        label: 'Hire Factory Manager',
+        description: 'Reduce Process and Package costs by 35%',
+        actionUsed: 0,
+        costMultiplier: 8,
+        money: 10000000,
+        updateResourceMultiplier: function() {
+          setResourcesState(initialState => {
+            if (initialState.money > actions.four.hireFactoryManager.money) {
+              const newActions = { ...actions };
+              const { money, costMultiplier } = actions.four.hireFactoryManager;
+              newActions.one.processCow.money = newActions.one.processCow.money * 0.65;
+              newActions.one.packagePatty.money = newActions.one.packagePatty.money * 0.65;
+
+              const newState = {
+                money: initialState.money - money
+              };
+
+              newActions.four.hireFactoryManager.actionUsed += 1;
+              newActions.four.hireFactoryManager.money = newActions.four.hireFactoryManager.money * costMultiplier;
+
+              setActions(newActions);
+              animateMinusMoney();
+
+              return { ...initialState, ...newState };
+            } else {
+              return initialState;
+            }
+          });
+        }
+      },
+      buildFactory2: {
+        label: 'Build Factory',
+        description: 'Double Process and Package output, and also GG impact',
+        actionUsed: 0,
+        money: 1000,
+        updateResourceMultiplier: function() {
+          if (resourcesState.employee >= 60 && this.actionUsed === 0) {
+            setResourcesState(initialState => {
+              if (initialState.money > actions.four.buildFactory2.money) {
+                const newActions = { ...actions };
+                const { money } = actions.four.buildFactory2;
+                newActions.one.processCow.beef = newActions.one.processCow.beef * 2;
+                newActions.one.processCow.gg = newActions.one.processCow.gg * 2;
+                newActions.one.packagePatty.patty = newActions.one.packagePatty.patty * 2;
+                newActions.one.packagePatty.gg = newActions.one.packagePatty.gg * 2;
+
+                const newState = {
+                  money: initialState.money - money
+                };
+
+                newActions.four.buildFactory2.actionUsed += 1;
+
+                setActions(newActions);
+                animateMinusMoney();
+
+                return { ...initialState, ...newState };
+              } else {
+                return initialState;
+              }
+            });
+          }
+        }
+      },
+      strikeTheBestDeal: {
+        label: 'Strike The Best Deal',
+        description: 'Get 10 times the number of cows per buy, at 5 times the cost',
+        actionUsed: 0,
+        money: 45000000,
+        updateResourceMultiplier: function() {
+          if (this.actionUsed === 0) {
+            setResourcesState(initialState => {
+              if (initialState.money > actions.four.strikeTheBestDeal.money) {
+                const newActions = { ...actions };
+                const { money } = actions.four.strikeTheBestDeal;
+                newActions.one.buyCow.money = newActions.one.buyCow.money * 5;
+                newActions.one.buyCow.cow = newActions.one.buyCow.cow * 10;
+
+                const newState = {
+                  money: initialState.money - money
+                };
+
+                newActions.four.strikeTheBestDeal.actionUsed += 1;
+
+                setActions(newActions);
+                animateMinusMoney();
+
+                return { ...initialState, ...newState };
+              } else {
+                return initialState;
+              }
+            });
+          }
+        }
+      },
+      hireHRTeam: {
+        label: 'Hire HR Team',
+        description: 'Our cowatherapists will increase Sell Patty prices by a multiple of 10',
+        actionUsed: 0,
+        money: 50000000,
+        updateResourceMultiplier: function() {
+          if (this.actionUsed === 0) {
+            setResourcesState(initialState => {
+              if (initialState.money > actions.four.hireHRTeam.money) {
+                const newActions = { ...actions };
+                const { money } = actions.four.hireHRTeam;
+                setPricePerPatty(pricePerPatty * 10);
+
+                const newState = {
+                  money: initialState.money - money
+                };
+
+                newActions.four.hireHRTeam.actionUsed += 1;
+
+                setActions(newActions);
+                animateMinusMoney();
+
+                return { ...initialState, ...newState };
+              } else {
+                return initialState;
+              }
+            });
+          }
+        }
+      },
+      upgradeFactory: {
+        label: 'Upgrade Factory',
+        description: 'Triple Process and Package output, and also energy usage',
+        actionUsed: 0,
+        money: 100000000,
+        updateResourceMultiplier: function() {
+          if (this.actionUsed === 0) {
+            setResourcesState(initialState => {
+              if (initialState.money > actions.four.upgradeFactory.money) {
+                const newActions = { ...actions };
+                const { money } = actions.four.upgradeFactory;
+                newActions.one.processCow.beef = newActions.one.processCow.beef * 3;
+                newActions.one.processCow.energy = newActions.one.processCow.energy * 3;
+                newActions.one.processCow.gg = newActions.one.processCow.gg * 3;
+                newActions.one.packagePatty.beef = newActions.one.packagePatty.beef * 3;
+                newActions.one.packagePatty.energy = newActions.one.packagePatty.energy * 3;
+                newActions.one.packagePatty.gg = newActions.one.packagePatty.beef * 3;
+
+                const newState = {
+                  money: initialState.money - money
+                };
+
+                newActions.four.upgradeFactory.actionUsed += 1;
+
+                setActions(newActions);
+                animateMinusMoney();
+
+                return { ...initialState, ...newState };
+              } else {
+                return initialState;
+              }
+            });
+          }
+        }
+      },
+      runForPresident: {
+        label: 'Run For President',
+        description: 'Unlock fifth stage',
+        actionUsed: 0,
+        money: 200000000,
+        updateResourceMultiplier: function() {
+          if (actions.four.hireHRTeam.actionUsed > 0 && this.actionUsed === 0) {
+            setResourcesState(initialState => {
+              if (initialState.money > actions.four.runForPresident.money) {
+                const newActions = { ...actions };
+                const { money } = actions.four.runForPresident;
+
+                const newState = {
+                  money: initialState.money - money
+                };
+
+                newActions.four.runForPresident.actionUsed += 1;
+
+                setActions(newActions);
+                animateMinusMoney();
+
+                return { ...initialState, ...newState };
+              } else {
+                return initialState;
+              }
+            });
+          }
+        }
+      }
+    }
   });
 
   const handleStageProgression = props => {
@@ -695,6 +952,27 @@ const App = () => {
               <div className="actions-header ipo">
                 <span className="actions-header-text">Large company</span>
               </div>
+              {Object.values(actions.four).map(action => (
+                <div className="action" key={`${action.label}-key`}>
+                  <div className="action-icon">
+                    <img src={Act} />
+                  </div>
+                  <div className="action-content">
+                    <span className="action-label">
+                      {action.label}
+                      <span className="action-bought">(bought: {action.actionUsed})</span>
+                    </span>
+                    <span className="action-description">{action.description}</span>
+                  </div>
+                  <div className="action-button-container">
+                    <button className="action-button" onClick={() => action.updateResourceMultiplier()}>
+                      <div>
+                        <img src={Money} /> {action.money.toFixed(2)}
+                      </div>
+                    </button>
+                  </div>
+                </div>
+              ))}
               <div className="actions-header glc">
                 <span className="actions-header-text">Government Corporation</span>
               </div>
