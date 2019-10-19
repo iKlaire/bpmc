@@ -27,6 +27,7 @@ const App = () => {
   const [pricePerPatty, setPricePerPatty] = useState(2);
   const [day, setDay] = useState(0);
   const [graphData, setGraphData] = useState([]);
+  const [todayGG, setTodayGG] = useState(0);
 
   const [resourcesState, setResourcesState] = useState({
     cow: 0,
@@ -407,6 +408,8 @@ const App = () => {
             gg: initialState.gg + action.gg
           };
 
+          setTodayGG(initialGG => initialGG + action.gg);
+
           toggleMinus();
 
           return { ...initialState, ...newState };
@@ -419,6 +422,8 @@ const App = () => {
             gg: initialState.gg + action.gg
           };
 
+          setTodayGG(initialGG => initialGG + action.gg);
+
           toggleMinus();
 
           return { ...initialState, ...newState };
@@ -430,6 +435,8 @@ const App = () => {
             patty: initialState.patty + action.patty,
             gg: initialState.gg + action.gg
           };
+
+          setTodayGG(initialGG => initialGG + action.gg);
 
           toggleMinus();
 
