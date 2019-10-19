@@ -505,7 +505,7 @@ const App = () => {
                       onClick={async () => {
                         const moneyContainer = document.getElementsByClassName('money-container')[0];
                         await moneyContainer.classList.toggle('minus');
-                        await setTimeout(() => moneyContainer.classList.toggle('minus'), 500);
+                        await setTimeout(() => moneyContainer.classList.toggle('minus'), 200);
                         return action.updateResourceMultiplier();
                       }}
                     >
