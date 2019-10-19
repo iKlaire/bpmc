@@ -77,24 +77,27 @@ const App = () => {
         money: 1000,
         updateResourceMultiplier: function() {
           setResourcesState(initialState => {
-            const newActions = { ...actions };
-            const { money, costMultiplier } = actions.two.improveMeatQuality;
+            if (initialState.money > actions.two.improveMeatQuality.money) {
+              const newActions = { ...actions };
+              const { money, costMultiplier } = actions.two.improveMeatQuality;
+              newActions.one.buyCow.money = newActions.one.buyCow.money * 1.01;
+              newActions.one.buyCow.energy = newActions.one.buyCow.energy * 1.01;
+              newActions.one.buyCow.gg = newActions.one.buyCow.gg * 1.01;
+              setPricePerPatty(pricePerPatty * 1.01);
 
-            newActions.one.buyCow.money = newActions.one.buyCow.money * 1.01;
-            newActions.one.buyCow.energy = newActions.one.buyCow.energy * 1.01;
-            newActions.one.buyCow.gg = newActions.one.buyCow.gg * 1.01;
-            setPricePerPatty(pricePerPatty * 1.01);
+              const newState = {
+                money: initialState.money - money
+              };
 
-            const newState = {
-              money: initialState.money - money
-            };
+              newActions.two.improveMeatQuality.actionUsed += 1;
+              newActions.two.improveMeatQuality.money = newActions.two.improveMeatQuality.money * costMultiplier;
 
-            newActions.two.improveMeatQuality.actionUsed += 1;
-            newActions.two.improveMeatQuality.money = newActions.two.improveMeatQuality.money * costMultiplier;
+              setActions(newActions);
 
-            setActions(newActions);
-
-            return { ...initialState, ...newState };
+              return { ...initialState, ...newState };
+            } else {
+              return initialState;
+            }
           });
         }
       }
@@ -128,13 +131,9 @@ const App = () => {
   };
 
   const handleAction = actionName => {
-    // console.log(newState);
     const action = actions.one[actionName];
     setResourcesState(initialState => {
       if (initialState.energy >= action.energy && initialState.money >= action.money) {
-        // console.log(actionName === 'buyCow', 'buyCow');
-        // console.log(actionName === 'processCow' && newState.cow >= action.cow, 'processCow');
-        // console.log(actionName === 'packagePatty' && newState.beef >= action.beef, 'packagePatty');
         if (actionName === 'buyCow') {
           const newState = {
             energy: initialState.energy - action.energy,
@@ -176,14 +175,15 @@ const App = () => {
     newState.money = newState.money + newState.patty * pricePerPatty;
     newState.patty = 0;
     newState.energy = energyCap;
-    newState.temperature = newState.gg / 20000 + 10;
-    newState.seaLevel = (newState.temperature - 10) * 5;
 
     if (Math.random() < 0.2 && newState.gg > 1) {
       newState.gg = newState.gg - 1;
     } else {
       newState.gg = newState.gg + 1;
     }
+
+    newState.temperature = newState.gg / 20000 + 10;
+    newState.seaLevel = (newState.temperature - 10) * 5;
 
     const visualContainer = document.getElementsByClassName('town-image')[0];
     const sellButton = document.getElementsByClassName('sell-button')[0];
@@ -504,7 +504,7 @@ const App = () => {
                         const moneyContainer = document.getElementsByClassName('money-container')[0];
                         await moneyContainer.classList.toggle('minus');
                         await setTimeout(() => moneyContainer.classList.toggle('minus'), 500);
-                        return action.updateResourceMultiplier();
+                        action.updateResourceMultiplier();
                       }}
                     >
                       <div>
