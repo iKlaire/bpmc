@@ -3,7 +3,7 @@ body {
 }
 
 /* The Modal (background) */
-.modal {
+.game-over-modal {
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
   z-index: 1; /* Sit on top */
@@ -16,14 +16,17 @@ body {
   background-color: rgb(0, 0, 0); /* Fallback color */
   background-color: rgba(0, 0, 0, 0.9); /* Black w/ opacity */
   text-align: center;
+  animation-delay: 2s;
+  -webkit-animation-delay: 5s; /* Safari and Chrome */
+  -webkit-animation-fill-mode: forwards;
 }
 
-.modal-hide {
+.game-over-modal-hide {
   display: none;
 }
 
 /* The Close Button */
-.close {
+.game-over-close {
   color: white;
   float: right;
   font-size: 28px;
@@ -45,7 +48,7 @@ body {
 }
 
 /* Modal Header */
-.modal-header {
+.game-over-modal-header {
   padding: 2px 16px;
   background-color: #f0351c;
   color: white;
@@ -55,12 +58,19 @@ body {
 }
 
 /* Modal Body */
-.modal-body {
+.game-over-modal-body {
+  padding: 16px 16px;
+  display: flex;
+  flex-direction: column;
   padding: 16px 16px;
 }
 
+.game-over-modal-body-top {
+  height: 80%;
+}
+
 /* Modal Content */
-.modal-content {
+.game-over-modal-content {
   position: relative;
   background-color: #fefefe;
   margin: auto;

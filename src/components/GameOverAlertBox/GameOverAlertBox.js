@@ -11,13 +11,13 @@ class GameOverAlertBox extends Component {
 
   onClose = () => {
     this.setState({
-      modalClassName: 'modal-hide' // TODO: change this for real
+      modalClassName: 'game-over-modal-hide' // TODO: change this for real
     });
   };
 
   componentDidMount() {
     this.setState({
-      modalClassName: 'modal' // TODO: change this for real
+      modalClassName: 'game-over-modal' // TODO: change this for real
     });
   }
 
@@ -43,25 +43,26 @@ class GameOverAlertBox extends Component {
 
     return (
       <>
-        {/* <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"></link> */}
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"></link>
         <div id="myModal" class={modalClassName}>
-          <div class="modal-content w3-animate-zoom">
-            <div class="modal-header">
-              <span class="close" onClick={this.onClose}>
+          <div class="game-over-modal-content w3-animate-zoom">
+            <div class="game-over-modal-header">
+              <span class="game-over-close" onClick={this.onClose}>
                 &times;
               </span>
               <h2>GAME OVER!!!</h2>
             </div>
-            <div class="modal-body">
-              <img src={imageUrl} alt="Avatar" />
-              <br />
-              {/* {message} */}
-              <div className="game-over-message-body">{parseMessage(message)}</div>
-              <br />
-              <br />
-              <button className="game-over-action-button" onClick={this.onClose} style={{ padding: '6% 20%' }}>
-                Okay
-              </button>
+            <div class="game-over-modal-body">
+              <div class="game-over-modal-body-top">
+                <img src={imageUrl} alt="Avatar" />
+                <br />
+                <br />
+                <div className="game-over-message-body">{parseMessage(message)}</div>
+                <br />
+                <button className="game-over-action-button" onClick={this.onClose} style={{ padding: '6% 20%' }}>
+                  Okay
+                </button>
+              </div>
             </div>
           </div>
         </div>

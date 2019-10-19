@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import './AlertBox.css';
-import '../../App.css';
 
 class AlertBox extends Component {
   constructor(props) {
