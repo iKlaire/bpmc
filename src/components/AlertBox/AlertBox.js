@@ -45,7 +45,7 @@ class AlertBox extends Component {
     const { modalClassName } = this.state;
     return (
       <div id="myModal" class={modalClassName}>
-        <div class="modal-content">
+        <div class="modal-content w3-animate-zoom">
           <div class="modal-header">
             <span class="close" onClick={this.onClose}>
               &times;

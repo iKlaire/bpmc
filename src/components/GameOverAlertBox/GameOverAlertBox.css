@@ -16,9 +16,6 @@ body {
   background-color: rgb(0, 0, 0); /* Fallback color */
   background-color: rgba(0, 0, 0, 0.9); /* Black w/ opacity */
   text-align: center;
-  animation-delay: 2s;
-  -webkit-animation-delay: 5s; /* Safari and Chrome */
-  -webkit-animation-fill-mode: forwards;
 }
 
 .game-over-modal-hide {
@@ -41,7 +38,7 @@ body {
   cursor: pointer;
 }
 
-.modal-body > div > img {
+.game-over-modal-body > div > img {
   border-radius: 50%;
   width: 50%;
   background-color: #f48e27;
