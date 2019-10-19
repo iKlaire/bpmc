@@ -35,6 +35,12 @@ const App = () => {
     temperature: 10
   });
 
+  const animateMinusMoney = async () => {
+    const moneyContainer = document.getElementsByClassName('money-container')[0];
+    moneyContainer.classList.toggle('minus');
+    await setTimeout(() => moneyContainer.classList.toggle('minus'), 200);
+  };
+
   const [actions, setActions] = useState({
     one: {
       buyCow: {
@@ -75,7 +81,7 @@ const App = () => {
         actionUsed: 0,
         costMultiplier: 1.5,
         money: 1000,
-        updateResourceMultiplier: function() {
+        updateResourceMultiplier: async function() {
           setResourcesState(initialState => {
             const newActions = { ...actions };
             const { money, costMultiplier } = actions.two.improveMeatQuality;
@@ -96,6 +102,7 @@ const App = () => {
 
             return { ...initialState, ...newState };
           });
+          animateMinusMoney();
         }
       }
     },
@@ -127,7 +134,7 @@ const App = () => {
     }
   };
 
-  const handleAction = actionName => {
+  const handleAction = async actionName => {
     // console.log(newState);
     const action = actions.one[actionName];
     setResourcesState(initialState => {
@@ -168,6 +175,13 @@ const App = () => {
         return initialState;
       }
     });
+
+    const moneyContainer = document.getElementsByClassName('money-container')[0];
+    await moneyContainer.classList.toggle('minus');
+    const energyContainer = document.getElementsByClassName('energy-container')[0];
+    await energyContainer.classList.toggle('minus');
+    setTimeout(() => moneyContainer.classList.toggle('minus'), 200);
+    setTimeout(() => energyContainer.classList.toggle('minus'), 200);
   };
 
   const handleSellButton = async () => {
@@ -187,8 +201,8 @@ const App = () => {
 
     const visualContainer = document.getElementsByClassName('town-image')[0];
     const sellButton = document.getElementsByClassName('sell-button')[0];
-    await visualContainer.classList.toggle('night');
     await sellButton.classList.toggle('animate');
+    await visualContainer.classList.toggle('night');
     setTimeout(() => visualContainer.classList.toggle('night'), 1000);
     setTimeout(() => sellButton.classList.toggle('animate'), 200);
 
@@ -498,15 +512,7 @@ const App = () => {
                     <span className="action-description">{action.description}</span>
                   </div>
                   <div className="action-button-container">
-                    <button
-                      className="action-button"
-                      onClick={async () => {
-                        const moneyContainer = document.getElementsByClassName('money-container')[0];
-                        await moneyContainer.classList.toggle('minus');
-                        await setTimeout(() => moneyContainer.classList.toggle('minus'), 200);
-                        return action.updateResourceMultiplier();
-                      }}
-                    >
+                    <button className="action-button" onClick={() => action.updateResourceMultiplier()}>
                       <div>
                         <img src={Money} /> {action.money}
                       </div>
