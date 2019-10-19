@@ -13,7 +13,14 @@ import Thermometer from "./thermo.png";
 import TodayGG from "./ggpd.png";
 import GameOver from "./gameover.png";
 import Act from "./act.jpg";
-import { LineChart, XAxis, Tooltip, CartesianGrid, Line, ResponsiveContainer } from "recharts";
+import {
+  LineChart,
+  XAxis,
+  Tooltip,
+  CartesianGrid,
+  Line,
+  ResponsiveContainer
+} from "recharts";
 import AlertBox from "./components/AlertBox/AlertBox";
 import GameOverAlertBox from "./components/GameOverAlertBox/GameOverAlertBox";
 
@@ -43,7 +50,9 @@ const App = () => {
   });
 
   const animateMinusMoney = async () => {
-    const moneyContainer = document.getElementsByClassName("money-container")[0];
+    const moneyContainer = document.getElementsByClassName(
+      "money-container"
+    )[0];
     moneyContainer.classList.toggle("minus");
     await setTimeout(() => moneyContainer.classList.toggle("minus"), 200);
   };
@@ -83,7 +92,8 @@ const App = () => {
     two: {
       improveMeatQuality: {
         label: "Improve Meat Quality",
-        description: "Increase Buy Cow and Sell Cow price by 1%, at the cost of increasing GG impact",
+        description:
+          "Increase Buy Cow and Sell Cow price by 1%, at the cost of increasing GG impact",
         actionUsed: 0,
         costMultiplier: 1.5,
         money: 1000,
@@ -93,7 +103,8 @@ const App = () => {
               const newActions = { ...actions };
               const { money, costMultiplier } = actions.two.improveMeatQuality;
               newActions.one.buyCow.money = newActions.one.buyCow.money * 1.01;
-              newActions.one.buyCow.energy = newActions.one.buyCow.energy * 1.01;
+              newActions.one.buyCow.energy =
+                newActions.one.buyCow.energy * 1.01;
               newActions.one.buyCow.gg = newActions.one.buyCow.gg * 1.01;
               setPricePerPatty(pricePerPatty * 1.01);
 
@@ -116,7 +127,8 @@ const App = () => {
       },
       reduceProcessCost: {
         label: "Reduce Process Cost",
-        description: "Reduce Process Cow price by 1%, at the cost of increased energy usage and GG impact",
+        description:
+          "Reduce Process Cow price by 1%, at the cost of increased energy usage and GG impact",
         actionUsed: 0,
         costMultiplier: 1.5,
         money: 2000,
@@ -125,8 +137,10 @@ const App = () => {
             if (initialState.money > actions.two.reduceProcessCost.money) {
               const newActions = { ...actions };
               const { money, costMultiplier } = actions.two.reduceProcessCost;
-              newActions.one.processCow.money = newActions.one.processCow.money * 0.99;
-              newActions.one.processCow.energy = newActions.one.processCow.energy + 2;
+              newActions.one.processCow.money =
+                newActions.one.processCow.money * 0.99;
+              newActions.one.processCow.energy =
+                newActions.one.processCow.energy + 2;
               newActions.one.processCow.gg = newActions.one.processCow.gg * 1.1;
 
               const newState = {
@@ -134,7 +148,8 @@ const App = () => {
               };
 
               newActions.two.reduceProcessCost.actionUsed += 1;
-              newActions.two.reduceProcessCost.money = newActions.two.reduceProcessCost.money * costMultiplier;
+              newActions.two.reduceProcessCost.money =
+                newActions.two.reduceProcessCost.money * costMultiplier;
 
               setActions(newActions);
               animateMinusMoney();
@@ -148,7 +163,8 @@ const App = () => {
       },
       reducePackageCost: {
         label: "Reduce Package Cost",
-        description: "Reduce Package Cow price by 1%, at the cost of increased energy usage and GG impact",
+        description:
+          "Reduce Package Cow price by 1%, at the cost of increased energy usage and GG impact",
         actionUsed: 0,
         costMultiplier: 1.5,
         money: 2000,
@@ -157,16 +173,20 @@ const App = () => {
             if (initialState.money > actions.two.reducePackageCost.money) {
               const newActions = { ...actions };
               const { money, costMultiplier } = actions.two.reducePackageCost;
-              newActions.one.packagePatty.money = newActions.one.packagePatty.money * 0.99;
-              newActions.one.packagePatty.energy = newActions.one.packagePatty.energy + 2;
-              newActions.one.packagePatty.gg = newActions.one.packagePatty.gg * 1.1;
+              newActions.one.packagePatty.money =
+                newActions.one.packagePatty.money * 0.99;
+              newActions.one.packagePatty.energy =
+                newActions.one.packagePatty.energy + 2;
+              newActions.one.packagePatty.gg =
+                newActions.one.packagePatty.gg * 1.1;
 
               const newState = {
                 money: initialState.money - money
               };
 
               newActions.two.reducePackageCost.actionUsed += 1;
-              newActions.two.reducePackageCost.money = newActions.two.reducePackageCost.money * costMultiplier;
+              newActions.two.reducePackageCost.money =
+                newActions.two.reducePackageCost.money * costMultiplier;
 
               setActions(newActions);
               animateMinusMoney();
@@ -195,7 +215,8 @@ const App = () => {
               };
 
               newActions.two.redBull.actionUsed += 1;
-              newActions.two.redBull.money = newActions.two.redBull.money * costMultiplier;
+              newActions.two.redBull.money =
+                newActions.two.redBull.money * costMultiplier;
 
               setEnergyCap(initialCap => initialCap + 5);
               setActions(newActions);
@@ -241,7 +262,8 @@ const App = () => {
       },
       buildWorkshop: {
         label: "Build Workshop",
-        description: "Reduce Process and Package price and energy usage significantly, while increasing GG impact",
+        description:
+          "Reduce Process and Package price and energy usage significantly, while increasing GG impact",
         actionUsed: 0,
         money: 10000,
         updateResourceMultiplier: function() {
@@ -250,12 +272,17 @@ const App = () => {
               if (initialState.money > actions.two.buildWorkshop.money) {
                 const newActions = { ...actions };
                 const { money } = actions.two.buildWorkshop;
-                newActions.one.processCow.money = newActions.one.processCow.money * 0.5;
-                newActions.one.processCow.energy = newActions.one.processCow.energy * 0.5;
+                newActions.one.processCow.money =
+                  newActions.one.processCow.money * 0.5;
+                newActions.one.processCow.energy =
+                  newActions.one.processCow.energy * 0.5;
                 newActions.one.processCow.gg = newActions.one.processCow.gg + 3;
-                newActions.one.packagePatty.money = newActions.one.packagePatty.money * 0.5;
-                newActions.one.packagePatty.energy = newActions.one.packagePatty.energy * 0.5;
-                newActions.one.packagePatty.gg = newActions.one.packagePatty.gg + 3;
+                newActions.one.packagePatty.money =
+                  newActions.one.packagePatty.money * 0.5;
+                newActions.one.packagePatty.energy =
+                  newActions.one.packagePatty.energy * 0.5;
+                newActions.one.packagePatty.gg =
+                  newActions.one.packagePatty.gg + 3;
 
                 const newState = {
                   money: initialState.money - money
@@ -282,7 +309,9 @@ const App = () => {
         updateResourceMultiplier: function() {
           if (this.actionUsed === 0) {
             setResourcesState(initialState => {
-              if (initialState.money > actions.two.purchaseAdvertisements.money) {
+              if (
+                initialState.money > actions.two.purchaseAdvertisements.money
+              ) {
                 const newActions = { ...actions };
                 const { money } = actions.two.purchaseAdvertisements;
                 setPricePerPatty(pricePerPatty * 1.5);
@@ -310,7 +339,10 @@ const App = () => {
         actionUsed: 0,
         money: 20000,
         updateResourceMultiplier: function() {
-          if (actions.two.buildWorkshop.actionUsed > 0 && this.actionUsed === 0) {
+          if (
+            actions.two.buildWorkshop.actionUsed > 0 &&
+            this.actionUsed === 0
+          ) {
             setResourcesState(initialState => {
               if (initialState.money > actions.two.setUpCompany.money) {
                 const newActions = { ...actions };
@@ -346,16 +378,20 @@ const App = () => {
               if (initialState.money > actions.two.hireLabourer.money) {
                 const newActions = { ...actions };
                 const { money, costMultiplier } = actions.two.hireLabourer;
-                newActions.one.buyCow.energy = newActions.one.buyCow.energy * 0.9;
-                newActions.one.processCow.energy = newActions.one.processCow.energy * 0.9;
-                newActions.one.packagePatty.energy = newActions.one.packagePatty.energy * 0.9;
+                newActions.one.buyCow.energy =
+                  newActions.one.buyCow.energy * 0.9;
+                newActions.one.processCow.energy =
+                  newActions.one.processCow.energy * 0.9;
+                newActions.one.packagePatty.energy =
+                  newActions.one.packagePatty.energy * 0.9;
 
                 const newState = {
                   money: initialState.money - money
                 };
 
                 newActions.two.hireLabourer.actionUsed += 1;
-                newActions.two.hireLabourer.money = newActions.two.hireLabourer.money * costMultiplier;
+                newActions.two.hireLabourer.money =
+                  newActions.two.hireLabourer.money * costMultiplier;
 
                 setActions(newActions);
                 animateMinusMoney();
@@ -371,8 +407,9 @@ const App = () => {
     },
     three: {
       goldenGrass: {
-        label: 'Golden Grass',
-        description: 'Increase price of beef patties by 10%, at the cost of environmental impact',
+        label: "Golden Grass",
+        description:
+          "Increase price of beef patties by 10%, at the cost of environmental impact",
         stage: 3,
         actionUsed: 0,
         costMultiplier: 1.9,
@@ -403,8 +440,8 @@ const App = () => {
         }
       },
       hireWorker: {
-        label: 'Hire Worker',
-        description: 'Reduce energy usage of Actions by 2',
+        label: "Hire Worker",
+        description: "Reduce energy usage of all actions by 2",
         stage: 3,
         actionUsed: 0,
         costMultiplier: 1.9,
@@ -415,8 +452,10 @@ const App = () => {
               const newActions = { ...actions };
               const { money, costMultiplier } = actions.three.hireWorker;
               newActions.one.buyCow.energy = actions.one.buyCow.energy - 2;
-              newActions.one.processCow.energy = actions.one.processCow.energy - 2;
-              newActions.one.packagePatty.energy = actions.one.packagePatty.energy - 2;
+              newActions.one.processCow.energy =
+                actions.one.processCow.energy - 2;
+              newActions.one.packagePatty.energy =
+                actions.one.packagePatty.energy - 2;
 
               const newState = {
                 money: initialState.money - money
@@ -436,8 +475,8 @@ const App = () => {
         }
       },
       monsterEnergy: {
-        label: 'Monster Energy',
-        description: 'RM 50,000++ each, increase max energy by 10',
+        label: "Monster Energy",
+        description: "Increase max energy by 10",
         stage: 3,
         actionUsed: 0,
         costMultiplier: 1.9,
@@ -467,8 +506,8 @@ const App = () => {
         }
       },
       strikeDeal: {
-        label: 'Strike A Better Deal',
-        description: 'RM 100,000, double Buy Cow price, get x6 cows each time',
+        label: "Strike A Better Deal",
+        description: "Doubles up price of buying cow, get x6 cows each time",
         stage: 3,
         actionUsed: 0,
         costMultiplier: 1.9,
@@ -500,8 +539,9 @@ const App = () => {
         }
       },
       hireMarketing: {
-        label: 'Hire Marketing Team',
-        description: 'RM 150,000, increase Sell patty price by 100% additively, single purchase',
+        label: "Hire Marketing Team",
+        description:
+          "Increase Sell patty price by 100% additively, single purchase",
         stage: 3,
         actionUsed: 0,
         costMultiplier: 1.9,
@@ -530,15 +570,19 @@ const App = () => {
         }
       },
       buildFarm: {
-        label: 'Build Cow Farm',
-        description: 'RM 500,000, RM 1,000,000, halve Buy Cow price, increase GG impact (m)',
+        label: "Build Cow Farm",
+        description: "Halve Buy Cow price, Increases GG impact",
         stage: 3,
         actionUsed: 0,
         costMultiplier: 2,
         money: 500000,
         updateResourceMultiplier: function() {
           setResourcesState(initialState => {
-            const { money, costMultiplier, actionUsed } = actions.three.buildFarm;
+            const {
+              money,
+              costMultiplier,
+              actionUsed
+            } = actions.three.buildFarm;
             if (initialState.money > money && actionUsed < 2) {
               const newActions = { ...actions };
 
@@ -563,9 +607,9 @@ const App = () => {
         }
       },
       buildFactory: {
-        label: 'Build Factory',
+        label: "Build Factory",
         description:
-          'RM 2,000,000, triple amount of patties processed and packaged each time, increase energy usage, GG impact (m), requires 30 employees, single purchase',
+          "Triple amount of cow processed and patty packaged each time, increase energy usage and GG impact, requires 30 employees, single purchase",
         stage: 3,
         actionUsed: 0,
         costMultiplier: 2,
@@ -573,15 +617,22 @@ const App = () => {
         updateResourceMultiplier: function() {
           setResourcesState(initialState => {
             const { money, actionUsed } = actions.three.buildFactory;
-            if (initialState.money > money && initialState.employee >= 30 && actionUsed === 0) {
+            if (
+              initialState.money > money &&
+              initialState.employee >= 30 &&
+              actionUsed === 0
+            ) {
               const newActions = { ...actions };
 
               newActions.one.processCow.beef = actions.one.processCow.beef * 3;
-              newActions.one.processCow.energy = actions.one.processCow.energy * 2;
+              newActions.one.processCow.energy =
+                actions.one.processCow.energy * 2;
               newActions.one.processCow.gg = actions.one.processCow.gg * 2;
 
-              newActions.one.packagePatty.patty = actions.one.packagePatty.patty * 3;
-              newActions.one.packagePatty.energy = actions.one.packagePatty.energy * 2;
+              newActions.one.packagePatty.patty =
+                actions.one.packagePatty.patty * 3;
+              newActions.one.packagePatty.energy =
+                actions.one.packagePatty.energy * 2;
               newActions.one.packagePatty.gg = actions.one.packagePatty.gg * 2;
 
               const newState = {
@@ -601,8 +652,8 @@ const App = () => {
         }
       },
       ipo: {
-        label: 'Initial Public Offering',
-        description: 'RM 10,000,000, unlock fourth stage, requires 30 employees',
+        label: "Initial Public Offering",
+        description: "Unlocks 4th stage, requires 30 employees",
         stage: 3,
         actionUsed: 0,
         costMultiplier: 2,
@@ -610,7 +661,11 @@ const App = () => {
         updateResourceMultiplier: function() {
           setResourcesState(initialState => {
             const { money, actionUsed } = actions.three.ipo;
-            if (initialState.money > money && initialState.employee >= 30 && actionUsed === 0) {
+            if (
+              initialState.money > money &&
+              initialState.employee >= 30 &&
+              actionUsed === 0
+            ) {
               const newActions = { ...actions };
 
               const newState = {
@@ -652,15 +707,22 @@ const App = () => {
     const action = actions.one[actionName];
 
     const toggleMinus = async () => {
-      const moneyContainer = document.getElementsByClassName("money-container")[0];
+      const moneyContainer = document.getElementsByClassName(
+        "money-container"
+      )[0];
       await moneyContainer.classList.toggle("minus");
-      const energyContainer = document.getElementsByClassName("energy-container")[0];
+      const energyContainer = document.getElementsByClassName(
+        "energy-container"
+      )[0];
       await energyContainer.classList.toggle("minus");
       setTimeout(() => moneyContainer.classList.toggle("minus"), 200);
       setTimeout(() => energyContainer.classList.toggle("minus"), 200);
     };
     setResourcesState(initialState => {
-      if (initialState.energy >= action.energy && initialState.money >= action.money) {
+      if (
+        initialState.energy >= action.energy &&
+        initialState.money >= action.money
+      ) {
         if (actionName === "buyCow") {
           const newState = {
             energy: initialState.energy - action.energy,
@@ -674,7 +736,10 @@ const App = () => {
           toggleMinus();
 
           return { ...initialState, ...newState };
-        } else if (actionName === "processCow" && initialState.cow >= action.cow) {
+        } else if (
+          actionName === "processCow" &&
+          initialState.cow >= action.cow
+        ) {
           const newState = {
             energy: initialState.energy - action.energy,
             money: initialState.money - action.money,
@@ -688,7 +753,10 @@ const App = () => {
           toggleMinus();
 
           return { ...initialState, ...newState };
-        } else if (actionName === "packagePatty" && initialState.beef >= action.beef) {
+        } else if (
+          actionName === "packagePatty" &&
+          initialState.beef >= action.beef
+        ) {
           const newState = {
             energy: initialState.energy - action.energy,
             money: initialState.money - action.money,
@@ -727,7 +795,10 @@ const App = () => {
     newState.temperature = newState.gg / 20000 + 10;
     newState.seaLevel = (newState.temperature - 10) * 5;
 
-    const newGraphData = [...graphData, { day, ggLevel: newState.gg, seaLevel: newState.seaLevel }];
+    const newGraphData = [
+      ...graphData,
+      { day, ggLevel: newState.gg, seaLevel: newState.seaLevel }
+    ];
     if (newGraphData.length > 6) {
       newGraphData.shift();
     }
@@ -762,7 +833,9 @@ const App = () => {
     />
   );
 
-  const gameOverAlertBox = <GameOverAlertBox imageUrl={GameOver} message={resourcesState} />;
+  const gameOverAlertBox = (
+    <GameOverAlertBox imageUrl={GameOver} message={resourcesState} />
+  );
 
   return (
     <div className="container">
@@ -774,7 +847,9 @@ const App = () => {
             <span className="money-icon">
               <img src={Money} />
             </span>
-            <span className="money-count">{resourcesState.money.toFixed(2)}</span>
+            <span className="money-count">
+              {resourcesState.money.toFixed(2)}
+            </span>
           </div>
           <div className="energy-container">
             <span className="energy-icon">
@@ -813,7 +888,12 @@ const App = () => {
                   <XAxis dataKey="day" />
                   <Tooltip />
                   <CartesianGrid stroke="#f5f5f5" />
-                  <Line type="monotone" dataKey="ggLevel" stroke="#ff7300" yAxisId={0} />
+                  <Line
+                    type="monotone"
+                    dataKey="ggLevel"
+                    stroke="#ff7300"
+                    yAxisId={0}
+                  />
                 </LineChart>
               </ResponsiveContainer>
               <div className="chart-title">GG Level</div>
@@ -824,7 +904,12 @@ const App = () => {
                   <XAxis dataKey="day" />
                   <Tooltip />
                   <CartesianGrid stroke="#f5f5f5" />
-                  <Line type="monotone" dataKey="seaLevel" stroke="#ff7300" yAxisId={0} />
+                  <Line
+                    type="monotone"
+                    dataKey="seaLevel"
+                    stroke="#ff7300"
+                    yAxisId={0}
+                  />
                 </LineChart>
               </ResponsiveContainer>
               <div className="chart-title">Sea Level</div>
@@ -876,7 +961,9 @@ const App = () => {
                   </div>
                   <div className="action-content">
                     <span className="action-label">{action.label}</span>
-                    <span className="action-description">{action.description}</span>
+                    <span className="action-description">
+                      {action.description}
+                    </span>
                   </div>
                   <div className="action-button-container">
                     <button className="action-button" onClick={action.onClick}>
@@ -901,12 +988,19 @@ const App = () => {
                   <div className="action-content">
                     <span className="action-label">
                       {action.label}
-                      <span className="action-bought">(bought: {action.actionUsed})</span>
+                      <span className="action-bought">
+                        (bought: {action.actionUsed})
+                      </span>
                     </span>
-                    <span className="action-description">{action.description}</span>
+                    <span className="action-description">
+                      {action.description}
+                    </span>
                   </div>
                   <div className="action-button-container">
-                    <button className="action-button" onClick={() => action.updateResourceMultiplier()}>
+                    <button
+                      className="action-button"
+                      onClick={() => action.updateResourceMultiplier()}
+                    >
                       <div>
                         <img src={Money} /> {action.money.toFixed(2)}
                       </div>
@@ -921,7 +1015,9 @@ const App = () => {
                 <span className="actions-header-text">Large company</span>
               </div>
               <div className="actions-header glc">
-                <span className="actions-header-text">Government Corporation</span>
+                <span className="actions-header-text">
+                  Government Corporation
+                </span>
               </div>
             </div>
           </div>
