@@ -85,26 +85,29 @@ const App = () => {
         money: 1000,
         updateResourceMultiplier: async function() {
           setResourcesState(initialState => {
-            const newActions = { ...actions };
-            const { money, costMultiplier } = actions.two.improveMeatQuality;
+            if (initialState.money > actions.two.improveMeatQuality.money) {
+              const newActions = { ...actions };
+              const { money, costMultiplier } = actions.two.improveMeatQuality;
+              newActions.one.buyCow.money = newActions.one.buyCow.money * 1.01;
+              newActions.one.buyCow.energy = newActions.one.buyCow.energy * 1.01;
+              newActions.one.buyCow.gg = newActions.one.buyCow.gg * 1.01;
+              setPricePerPatty(pricePerPatty * 1.01);
 
-            newActions.one.buyCow.money = newActions.one.buyCow.money * 1.01;
-            newActions.one.buyCow.energy = newActions.one.buyCow.energy * 1.01;
-            newActions.one.buyCow.gg = newActions.one.buyCow.gg * 1.01;
-            setPricePerPatty(pricePerPatty * 1.01);
+              const newState = {
+                money: initialState.money - money
+              };
 
-            const newState = {
-              money: initialState.money - money
-            };
+              newActions.two.improveMeatQuality.actionUsed += 1;
+              newActions.two.improveMeatQuality.money = newActions.two.improveMeatQuality.money * costMultiplier;
 
-            newActions.two.improveMeatQuality.actionUsed += 1;
-            newActions.two.improveMeatQuality.money = newActions.two.improveMeatQuality.money * costMultiplier;
+              setActions(newActions);
+              animateMinusMoney();
 
-            setActions(newActions);
-
-            return { ...initialState, ...newState };
+              return { ...initialState, ...newState };
+            } else {
+              return initialState;
+            }
           });
-          animateMinusMoney();
         }
       }
     },
@@ -136,14 +139,19 @@ const App = () => {
     }
   };
 
-  const handleAction = async actionName => {
-    // console.log(newState);
+  const handleAction = actionName => {
     const action = actions.one[actionName];
+
+    const toggleMinus = async () => {
+      const moneyContainer = document.getElementsByClassName('money-container')[0];
+      await moneyContainer.classList.toggle('minus');
+      const energyContainer = document.getElementsByClassName('energy-container')[0];
+      await energyContainer.classList.toggle('minus');
+      setTimeout(() => moneyContainer.classList.toggle('minus'), 200);
+      setTimeout(() => energyContainer.classList.toggle('minus'), 200);
+    };
     setResourcesState(initialState => {
       if (initialState.energy >= action.energy && initialState.money >= action.money) {
-        // console.log(actionName === 'buyCow', 'buyCow');
-        // console.log(actionName === 'processCow' && newState.cow >= action.cow, 'processCow');
-        // console.log(actionName === 'packagePatty' && newState.beef >= action.beef, 'packagePatty');
         if (actionName === 'buyCow') {
           const newState = {
             energy: initialState.energy - action.energy,
@@ -151,6 +159,9 @@ const App = () => {
             cow: initialState.cow + action.cow,
             gg: initialState.gg + action.gg
           };
+
+          toggleMinus();
+
           return { ...initialState, ...newState };
         } else if (actionName === 'processCow' && initialState.cow >= action.cow) {
           const newState = {
@@ -160,6 +171,9 @@ const App = () => {
             beef: initialState.beef + action.beef,
             gg: initialState.gg + action.gg
           };
+
+          toggleMinus();
+
           return { ...initialState, ...newState };
         } else if (actionName === 'packagePatty' && initialState.beef >= action.beef) {
           const newState = {
@@ -169,6 +183,9 @@ const App = () => {
             patty: initialState.patty + action.patty,
             gg: initialState.gg + action.gg
           };
+
+          toggleMinus();
+
           return { ...initialState, ...newState };
         } else {
           return initialState;
@@ -177,13 +194,6 @@ const App = () => {
         return initialState;
       }
     });
-
-    const moneyContainer = document.getElementsByClassName('money-container')[0];
-    await moneyContainer.classList.toggle('minus');
-    const energyContainer = document.getElementsByClassName('energy-container')[0];
-    await energyContainer.classList.toggle('minus');
-    setTimeout(() => moneyContainer.classList.toggle('minus'), 200);
-    setTimeout(() => energyContainer.classList.toggle('minus'), 200);
   };
 
   const handleSellButton = async () => {
@@ -192,14 +202,15 @@ const App = () => {
     newState.money = newState.money + newState.patty * pricePerPatty;
     newState.patty = 0;
     newState.energy = energyCap;
-    newState.temperature = newState.gg / 20000 + 10;
-    newState.seaLevel = (newState.temperature - 10) * 5;
 
     if (Math.random() < 0.2 && newState.gg > 1) {
       newState.gg = newState.gg - 1;
     } else {
       newState.gg = newState.gg + 1;
     }
+
+    newState.temperature = newState.gg / 20000 + 10;
+    newState.seaLevel = (newState.temperature - 10) * 5;
 
     const newGraphData = [...graphData, { day, ggLevel: newState.gg, seaLevel: newState.seaLevel }];
     if (newGraphData.length > 6) {
