@@ -43,7 +43,6 @@ class GameOverAlertBox extends Component {
 
     return (
       <>
-        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"></link>
         <div id="myModal" class={modalClassName}>
           <div class="game-over-modal-content w3-animate-zoom">
             <div class="game-over-modal-header">
