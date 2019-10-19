@@ -19,9 +19,12 @@ class AlertBox extends Component {
         func = this.onClose;
       }
       return (
-        <button className="action-button" onClick={func}>
-          {button.label}
-        </button>
+        <>
+          <button className="action-button" onClick={func} style={{ padding: '6% 20%' }}>
+            {button.label}
+          </button>
+          &nbsp;
+        </>
       );
     });
   };
