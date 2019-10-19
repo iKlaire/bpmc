@@ -228,22 +228,25 @@ button.sell-button:active {
 }
 
 .actions-header {
-  width: '100%';
-  padding: 16px;
-  padding-left: 16px;
-  margin-bottom: 8px;
+  width: "100%";
+  border-radius: 5px;
+  padding: 3px;
+  padding-left: 8px;
+  margin: 10px;
+  position: relative;
+  top: 5px;
 }
 
 .actions-header.solo {
-  background-color: #a9ffa9;
+  background-color: #d3ffe7;
 }
 
 .actions-header.start-up {
-  background-color: #d7ffaf;
+  background-color: #c5ffbd;
 }
 
 .actions-header.sme {
-  background-color: #ffffac;
+  background-color: #f0ffac;
 }
 
 .actions-header.ipo {
@@ -255,10 +258,10 @@ button.sell-button:active {
 }
 
 .actions-header-text {
-  font-size: 1.5em;
+  font-size: 0.85em;
   font-weight: bold;
   text-transform: uppercase;
-  color: #333;
+  color: #434343;
 }
 
 .action {
