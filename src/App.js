@@ -11,6 +11,13 @@ import Employees from './employee.png';
 import Thermometer from './thermo.png';
 import GGPerDay from './ggpd.png';
 import { LineChart, XAxis, Tooltip, CartesianGrid, Line, ResponsiveContainer } from 'recharts';
+import AlertBox from './components/AlertBox/AlertBox';
+
+const onTest = () => {
+  // TODO: Do custom function name here
+  console.log('Check your console!!!');
+  // TODO: Do custom function here
+};
 
 const App = () => {
   const [energyCap, setEnergyCap] = useState(100);
@@ -343,6 +350,12 @@ const App = () => {
 
   return (
     <div className="container">
+      <AlertBox
+        title="Congratulations"
+        imageUrl="https://developers.video.ibm.com/images/example-channel-nasa.jpg"
+        message="U earn nothing!"
+        buttons={[{ label: 'Yes', function: onTest }, { label: 'No' }]}
+      />
       <div className="game-container">
         <div className="header-container">
           <div className="money-container">
