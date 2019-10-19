@@ -42,7 +42,7 @@ const App = () => {
     temperature: 10
   });
 
-  function abbreviateNumber(value) {
+  const abbreviateNumber = value => {
     if (value >= 100) {
       let newValue = value;
       const suffixes = ["", "K", "M", "B", "T"];
@@ -58,7 +58,7 @@ const App = () => {
       return newValue;
     }
     return value.toFixed(2);
-  }
+  };
 
   const animateMinusMoney = async () => {
     const moneyContainer = document.getElementsByClassName("money-container")[0];
@@ -422,7 +422,7 @@ const App = () => {
       },
       hireWorker: {
         label: "Hire Worker",
-        description: "Reduce energy usage of Actions by 2",
+        description: "Reduce energy usage of all actions by 2",
         stage: 3,
         actionUsed: 0,
         costMultiplier: 1.9,
@@ -455,7 +455,7 @@ const App = () => {
       },
       monsterEnergy: {
         label: "Monster Energy",
-        description: "RM 50,000++ each, increase max energy by 10",
+        description: "Increase max energy by 10",
         stage: 3,
         actionUsed: 0,
         costMultiplier: 1.9,
@@ -486,7 +486,7 @@ const App = () => {
       },
       strikeDeal: {
         label: "Strike A Better Deal",
-        description: "RM 100,000, double Buy Cow price, get x6 cows each time",
+        description: "Doubles up price of buying cow, get x6 cows each time",
         stage: 3,
         actionUsed: 0,
         costMultiplier: 1.9,
@@ -519,7 +519,7 @@ const App = () => {
       },
       hireMarketing: {
         label: "Hire Marketing Team",
-        description: "RM 150,000, increase Sell patty price by 100% additively, single purchase",
+        description: "Increase Sell patty price by 100% additively, single purchase",
         stage: 3,
         actionUsed: 0,
         costMultiplier: 1.9,
@@ -549,7 +549,7 @@ const App = () => {
       },
       buildFarm: {
         label: "Build Cow Farm",
-        description: "RM 500,000, RM 1,000,000, halve Buy Cow price, increase GG impact (m)",
+        description: "Halve Buy Cow price, Increases GG impact",
         stage: 3,
         actionUsed: 0,
         costMultiplier: 2,
@@ -583,7 +583,7 @@ const App = () => {
       buildFactory: {
         label: "Build Factory",
         description:
-          "RM 2,000,000, triple amount of patties processed and packaged each time, increase energy usage, GG impact (m), requires 30 employees, single purchase",
+          "Triple amount of cow processed and patty packaged each time, increase energy usage and GG impact, requires 30 employees, single purchase",
         stage: 3,
         actionUsed: 0,
         costMultiplier: 2,
@@ -620,7 +620,7 @@ const App = () => {
       },
       ipo: {
         label: "Initial Public Offering",
-        description: "RM 10,000,000, unlock fourth stage, requires 30 employees",
+        description: "Unlocks 4th stage, requires 30 employees",
         stage: 3,
         actionUsed: 0,
         costMultiplier: 2,
