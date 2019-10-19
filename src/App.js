@@ -43,21 +43,21 @@ const App = () => {
   });
 
   const abbreviateNumber = value => {
-    let newValue = value;
-    if (value >= 1000) {
-      let suffixes = ['', 'k', 'm', 'b', 't'];
-      let suffixNum = Math.floor(('' + value).length / 3);
-      let shortValue = '';
-      for (let precision = 2; precision >= 1; precision--) {
-        shortValue = parseFloat((suffixNum !== 0 ? value / Math.pow(1000, suffixNum) : value).toPrecision(precision));
-        let dotLessShortValue = (shortValue + '').replace(/[^a-zA-Z 0-9]+/g, '');
-        if (dotLessShortValue.length <= 2) {
-          break;
-        }
+    if (value >= 100) {
+      let newValue = value;
+      const suffixes = ['', 'K', 'M', 'B', 'T'];
+      let suffixNum = 0;
+      while (newValue >= 1000) {
+        newValue /= 1000;
+        suffixNum++;
       }
-      newValue = shortValue + suffixes[suffixNum];
+
+      newValue = newValue.toPrecision(3);
+
+      newValue += suffixes[suffixNum];
+      return newValue;
     }
-    return newValue;
+    return value.toFixed(2);
   };
 
   const animateMinusMoney = async () => {
