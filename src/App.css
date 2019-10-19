@@ -129,7 +129,7 @@ body {
 .town-image {
   transition: all 0.5s;
   opacity: 1;
-  width: 800px;
+  width: 900px;
 }
 
 .town-image.night {

@@ -35,6 +35,12 @@ const App = () => {
     temperature: 10
   });
 
+  const animateMinusMoney = async () => {
+    const moneyContainer = document.getElementsByClassName('money-container')[0];
+    moneyContainer.classList.toggle('minus');
+    await setTimeout(() => moneyContainer.classList.toggle('minus'), 200);
+  };
+
   const [actions, setActions] = useState({
     one: {
       buyCow: {
@@ -75,7 +81,7 @@ const App = () => {
         actionUsed: 0,
         costMultiplier: 1.5,
         money: 1000,
-        updateResourceMultiplier: function() {
+        updateResourceMultiplier: async function() {
           setResourcesState(initialState => {
             if (initialState.money > actions.two.improveMeatQuality.money) {
               const newActions = { ...actions };
@@ -93,6 +99,7 @@ const App = () => {
               newActions.two.improveMeatQuality.money = newActions.two.improveMeatQuality.money * costMultiplier;
 
               setActions(newActions);
+              animateMinusMoney();
 
               return { ...initialState, ...newState };
             } else {
@@ -132,6 +139,15 @@ const App = () => {
 
   const handleAction = actionName => {
     const action = actions.one[actionName];
+
+    const toggleMinus = async () => {
+      const moneyContainer = document.getElementsByClassName('money-container')[0];
+      await moneyContainer.classList.toggle('minus');
+      const energyContainer = document.getElementsByClassName('energy-container')[0];
+      await energyContainer.classList.toggle('minus');
+      setTimeout(() => moneyContainer.classList.toggle('minus'), 200);
+      setTimeout(() => energyContainer.classList.toggle('minus'), 200);
+    };
     setResourcesState(initialState => {
       if (initialState.energy >= action.energy && initialState.money >= action.money) {
         if (actionName === 'buyCow') {
@@ -141,6 +157,9 @@ const App = () => {
             cow: initialState.cow + action.cow,
             gg: initialState.gg + action.gg
           };
+
+          toggleMinus();
+
           return { ...initialState, ...newState };
         } else if (actionName === 'processCow' && initialState.cow >= action.cow) {
           const newState = {
@@ -150,6 +169,9 @@ const App = () => {
             beef: initialState.beef + action.beef,
             gg: initialState.gg + action.gg
           };
+
+          toggleMinus();
+
           return { ...initialState, ...newState };
         } else if (actionName === 'packagePatty' && initialState.beef >= action.beef) {
           const newState = {
@@ -159,6 +181,9 @@ const App = () => {
             patty: initialState.patty + action.patty,
             gg: initialState.gg + action.gg
           };
+
+          toggleMinus();
+
           return { ...initialState, ...newState };
         } else {
           return initialState;
@@ -187,8 +212,8 @@ const App = () => {
 
     const visualContainer = document.getElementsByClassName('town-image')[0];
     const sellButton = document.getElementsByClassName('sell-button')[0];
-    await visualContainer.classList.toggle('night');
     await sellButton.classList.toggle('animate');
+    await visualContainer.classList.toggle('night');
     setTimeout(() => visualContainer.classList.toggle('night'), 1000);
     setTimeout(() => sellButton.classList.toggle('animate'), 200);
 
@@ -498,15 +523,7 @@ const App = () => {
                     <span className="action-description">{action.description}</span>
                   </div>
                   <div className="action-button-container">
-                    <button
-                      className="action-button"
-                      onClick={async () => {
-                        const moneyContainer = document.getElementsByClassName('money-container')[0];
-                        await moneyContainer.classList.toggle('minus');
-                        await setTimeout(() => moneyContainer.classList.toggle('minus'), 500);
-                        action.updateResourceMultiplier();
-                      }}
-                    >
+                    <button className="action-button" onClick={() => action.updateResourceMultiplier()}>
                       <div>
                         <img src={Money} /> {action.money}
                       </div>
