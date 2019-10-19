@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./App.css";
 import Town from "./temp.jpg";
+import { LineChart, XAxis, Tooltip, CartesianGrid, Line, ResponsiveContainer } from "recharts";
 
 function App() {
   const [money] = useState(10);
@@ -59,6 +60,14 @@ function App() {
       money: 5
     }
   ]);
+  const data = [
+    { name: "Page A", uv: 1, amt: 2400 },
+    { name: "Page B", uv: 2, amt: 12 },
+    { name: "Page C", uv: 88, amt: 678 },
+    { name: "Page D", uv: 777, amt: 3 },
+    { name: "Page E", uv: 1800, amt: 137 },
+    { name: "Page F", uv: 6000, amt: 888 }
+  ];
   return (
     <div className="container">
       <div className="game-container">
@@ -74,7 +83,39 @@ function App() {
             </span>
           </div>
         </div>
-        <div className="stats-container">stats</div>
+        <div className="stats-container">
+          <div className="stats">
+            employees: <br />
+            gg per day: <br />
+            gg: <br />
+            sea level: <br />
+            temp: <br />
+          </div>
+          <div className="charts">
+            <div className="chart-card">
+              <ResponsiveContainer width="100%" height="80%">
+                <LineChart data={data}>
+                  <XAxis dataKey="name" />
+                  <Tooltip />
+                  <CartesianGrid stroke="#f5f5f5" />
+                  <Line type="monotone" dataKey="uv" stroke="#ff7300" yAxisId={0} />
+                </LineChart>
+              </ResponsiveContainer>
+              <div className="chart-title">GG Level</div>
+            </div>
+            <div className="chart-card">
+              <ResponsiveContainer width="100%" height="80%">
+                <LineChart data={data}>
+                  <XAxis dataKey="name" />
+                  <Tooltip />
+                  <CartesianGrid stroke="#f5f5f5" />
+                  <Line type="monotone" dataKey="uv" stroke="#ff7300" yAxisId={0} />
+                </LineChart>
+              </ResponsiveContainer>
+              <div className="chart-title">Water Level</div>
+            </div>
+          </div>
+        </div>
         <div className="visual-container">
           <div className="town-image-container">
             <img className="town-image" src={Town}></img>

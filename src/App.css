@@ -27,12 +27,40 @@
 }
 
 .stats-container {
+  padding: 10px;
   background: white;
-  height: 25%;
+  height: 15%;
+  display: flex;
+  flex-direction: row;
+}
+
+.stats {
+  width: 30%;
+}
+
+.charts {
+  width: 70%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.chart-card {
+  width: 40%;
+  padding: 10px;
+  margin-left: 10px;
+  background: white;
+  box-shadow: 0px 0px 15px 0px rgba(196, 196, 196, 0.4);
+}
+
+.chart-title {
+  height: 20%;
+  font-weight: bold;
+  text-align: center;
 }
 
 .visual-container {
-  height: 35%;
+  height: 45%;
   overflow: scroll;
 }
 
@@ -117,12 +145,14 @@
 
 .action-button-container {
   width: 30%;
+  display: flex;
+  flex-direction: column;
 }
 
 button.action-button {
   color: white;
   font-weight: bold;
-  padding: 10px 20px;
+  padding: 11% 19%;
   border-radius: 8px;
   border: none;
   background-color: #f48e27;
