@@ -41,7 +41,7 @@ body {
   cursor: pointer;
 }
 
-.game-over-modal-body > div > img {
+.modal-body > div > img {
   border-radius: 50%;
   width: 50%;
   background-color: #f48e27;
