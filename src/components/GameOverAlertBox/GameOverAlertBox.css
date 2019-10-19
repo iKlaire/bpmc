@@ -38,7 +38,7 @@ body {
   cursor: pointer;
 }
 
-img {
+.modal-body > div > img {
   border-radius: 50%;
   width: 50%;
   background-color: #f48e27;

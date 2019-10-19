@@ -1,24 +1,24 @@
-import React, { useState } from 'react';
-import './App.css';
-import Town from './temp.jpg';
-import Cow from './cow.png';
-import Beef from './meat.png';
-import Energy from './energy.png';
-import Money from './money.png';
-import Patty from './patty.png';
-import Sell from './sell.png';
-import Employees from './employee.png';
-import Thermometer from './thermo.png';
-import GGPerDay from './ggpd.png';
-import GameOver from './gameover.png';
-import Act from './act.jpg';
-import { LineChart, XAxis, Tooltip, CartesianGrid, Line, ResponsiveContainer } from 'recharts';
-import AlertBox from './components/AlertBox/AlertBox';
-import GameOverAlertBox from './components/GameOverAlertBox/GameOverAlertBox';
+import React, { useState } from "react";
+import "./App.css";
+import Town from "./temp.jpg";
+import Cow from "./cow.png";
+import Beef from "./meat.png";
+import Energy from "./energy.png";
+import Money from "./money.png";
+import Patty from "./patty.png";
+import Sell from "./sell.png";
+import Employees from "./employee.png";
+import Thermometer from "./thermo.png";
+import GGPerDay from "./ggpd.png";
+import GameOver from "./gameover.png";
+import Act from "./act.jpg";
+import { LineChart, XAxis, Tooltip, CartesianGrid, Line, ResponsiveContainer } from "recharts";
+import AlertBox from "./components/AlertBox/AlertBox";
+import GameOverAlertBox from "./components/GameOverAlertBox/GameOverAlertBox";
 
 const onTest = () => {
   // TODO: Do custom function name here
-  console.log('Check your console!!!');
+  console.log("Check your console!!!");
   // TODO: Do custom function here
 };
 
@@ -41,47 +41,47 @@ const App = () => {
   });
 
   const animateMinusMoney = async () => {
-    const moneyContainer = document.getElementsByClassName('money-container')[0];
-    moneyContainer.classList.toggle('minus');
-    await setTimeout(() => moneyContainer.classList.toggle('minus'), 200);
+    const moneyContainer = document.getElementsByClassName("money-container")[0];
+    moneyContainer.classList.toggle("minus");
+    await setTimeout(() => moneyContainer.classList.toggle("minus"), 200);
   };
 
   const [actions, setActions] = useState({
     one: {
       buyCow: {
-        label: 'Buy Cow',
-        description: 'You buy a cow. A dead cow.',
+        label: "Buy Cow",
+        description: "You buy a cow. A dead cow.",
         energy: 10,
         money: 0.5,
         cow: 1,
         gg: 1,
-        onClick: () => handleAction('buyCow')
+        onClick: () => handleAction("buyCow")
       },
       processCow: {
-        label: 'Process Cow',
-        description: 'You process the dead cow. Into beef.',
+        label: "Process Cow",
+        description: "You process the dead cow. Into beef.",
         energy: 10,
         money: 0.3,
         cow: 1,
         beef: 1,
         gg: 1,
-        onClick: () => handleAction('processCow')
+        onClick: () => handleAction("processCow")
       },
       packagePatty: {
-        label: 'Package Patty',
-        description: 'You patty the beef. Then package it.',
+        label: "Package Patty",
+        description: "You patty the beef. Then package it.",
         energy: 10,
         money: 0.2,
         beef: 1,
         patty: 1,
         gg: 1,
-        onClick: () => handleAction('packagePatty')
+        onClick: () => handleAction("packagePatty")
       }
     },
     two: {
       improveMeatQuality: {
-        label: 'Improve Meat Quality',
-        description: 'RM 1000++ each, increase Buy Cow and Sell Patty price, energy usage, increase GG impact for Buy Cow (a)',
+        label: "Improve Meat Quality",
+        description: "RM 1000++ each, increase Buy Cow and Sell Patty price, energy usage, increase GG impact for Buy Cow (a)",
         stage: 2,
         actionUsed: 0,
         costMultiplier: 1.5,
@@ -137,16 +137,16 @@ const App = () => {
     const action = actions.one[actionName];
 
     const toggleMinus = async () => {
-      const moneyContainer = document.getElementsByClassName('money-container')[0];
-      await moneyContainer.classList.toggle('minus');
-      const energyContainer = document.getElementsByClassName('energy-container')[0];
-      await energyContainer.classList.toggle('minus');
-      setTimeout(() => moneyContainer.classList.toggle('minus'), 200);
-      setTimeout(() => energyContainer.classList.toggle('minus'), 200);
+      const moneyContainer = document.getElementsByClassName("money-container")[0];
+      await moneyContainer.classList.toggle("minus");
+      const energyContainer = document.getElementsByClassName("energy-container")[0];
+      await energyContainer.classList.toggle("minus");
+      setTimeout(() => moneyContainer.classList.toggle("minus"), 200);
+      setTimeout(() => energyContainer.classList.toggle("minus"), 200);
     };
     setResourcesState(initialState => {
       if (initialState.energy >= action.energy && initialState.money >= action.money) {
-        if (actionName === 'buyCow') {
+        if (actionName === "buyCow") {
           const newState = {
             energy: initialState.energy - action.energy,
             money: initialState.money - action.money,
@@ -157,7 +157,7 @@ const App = () => {
           toggleMinus();
 
           return { ...initialState, ...newState };
-        } else if (actionName === 'processCow' && initialState.cow >= action.cow) {
+        } else if (actionName === "processCow" && initialState.cow >= action.cow) {
           const newState = {
             energy: initialState.energy - action.energy,
             money: initialState.money - action.money,
@@ -169,7 +169,7 @@ const App = () => {
           toggleMinus();
 
           return { ...initialState, ...newState };
-        } else if (actionName === 'packagePatty' && initialState.beef >= action.beef) {
+        } else if (actionName === "packagePatty" && initialState.beef >= action.beef) {
           const newState = {
             energy: initialState.energy - action.energy,
             money: initialState.money - action.money,
@@ -211,12 +211,12 @@ const App = () => {
       newGraphData.shift();
     }
 
-    const visualContainer = document.getElementsByClassName('town-image')[0];
-    const sellButton = document.getElementsByClassName('sell-button')[0];
-    await sellButton.classList.toggle('animate');
-    await visualContainer.classList.toggle('night');
-    setTimeout(() => visualContainer.classList.toggle('night'), 1000);
-    setTimeout(() => sellButton.classList.toggle('animate'), 200);
+    const visualContainer = document.getElementsByClassName("town-image")[0];
+    const sellButton = document.getElementsByClassName("sell-button")[0];
+    await sellButton.classList.toggle("animate");
+    await visualContainer.classList.toggle("night");
+    setTimeout(() => visualContainer.classList.toggle("night"), 1000);
+    setTimeout(() => sellButton.classList.toggle("animate"), 200);
 
     setGraphData(newGraphData);
     setResourcesState(newState);
@@ -396,7 +396,7 @@ const App = () => {
       title="Congratulations"
       imageUrl={Employees}
       message="U earn nothing!"
-      buttons={[{ label: 'Yes', function: onTest }, { label: 'No' }]}
+      buttons={[{ label: "Yes", function: onTest }, { label: "No" }]}
     />
   );
 
