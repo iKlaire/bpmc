@@ -228,11 +228,7 @@ const App = () => {
       },
       strikeADeal: {
         label: 'Strike A Deal',
-<<<<<<< HEAD
-        description: 'Get 5x cows per buy, at 1.5 times the cost',
-=======
         description: 'Get 5 times the number of cows per buy, at 1.5 times the cost',
->>>>>>> a439320d704560daf3f0392b5fba9f0c66203595
         actionUsed: 0,
         money: 2000,
         updateResourceMultiplier: function() {
@@ -328,11 +324,7 @@ const App = () => {
       },
       setUpCompany: {
         label: 'Set Up Company',
-<<<<<<< HEAD
-        description: 'Increase Sell Patty price, unlock Public Relations',
-=======
         description: 'Increase Sell Patty price, unlock Public Relations and third stage',
->>>>>>> a439320d704560daf3f0392b5fba9f0c66203595
         actionUsed: 0,
         money: 20000,
         updateResourceMultiplier: function() {
@@ -493,11 +485,7 @@ const App = () => {
           });
         }
       },
-<<<<<<< HEAD
-      strikeDeal: {
-=======
       StrikeABetterDeal: {
->>>>>>> a439320d704560daf3f0392b5fba9f0c66203595
         label: 'Strike A Better Deal',
         description: 'Doubles up price of buying cow, get x6 cows each time',
         stage: 3,
