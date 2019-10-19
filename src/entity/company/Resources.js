@@ -1,21 +1,34 @@
 import React, { useState } from "./node_modules/react";
 
 const Resources = props => {
-  const [beefPatty, setBeefPatty] = useState({
-    name: "Beef Patty",
+  const [cow, setCow] = useState({
+    label: "Beef Patty",
     desc: "Produced by the player. All sold at once",
-    value: 0
+    cost: 0.5,
+    countMultiplier: 1,
+    costMultiplier: 1
+  });
+  const [beefPatty, setBeefPatty] = useState({
+    label: "Beef Patty",
+    desc: "Produced by the player. All sold at once",
+    cost: 1,
+    countMultiplier: 1,
+    costMultiplier: 1
   });
   const [energy, setEnergy] = useState({
-    name: "Energy",
+    label: "Energy",
     desc:
       "Can be increased through upgrades or number of people. Affected by the efficiency multiplier.",
-    value: 100
+    cost: 1,
+    countMultiplier: 1,
+    costMultiplier: 1
   });
   const [money, setMoney] = useState({
-    name: "Money",
+    label: "Money",
     desc: "Money currency, spent to generate more.",
-    value: 10
+    cost: 1,
+    countMultiplier: 1,
+    costMultiplier: 1
   });
 
   return <div></div>;
