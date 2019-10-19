@@ -38,7 +38,7 @@ body {
   cursor: pointer;
 }
 
-img {
+.modal-body > div > img {
   border-radius: 50%;
   width: 50%;
   background-color: #f48e27;
@@ -56,7 +56,32 @@ img {
 
 /* Modal Body */
 .modal-body {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
   padding: 16px 16px;
+}
+
+.modal-body-top {
+  height: 80%;
+}
+
+.modal-body-buttons {
+  height: 20%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.modal-body-buttons > .action-button {
+  padding: 5% 10%;
+}
+
+/* Modal Footer */
+.modal-footer {
+  padding: 2px 16px;
+  background-color: #5cb85c;
+  color: white;
 }
 
 /* Modal Content */
@@ -65,7 +90,6 @@ img {
   background-color: #fefefe;
   margin: auto;
   padding: 0;
-  border: 1px solid #888;
   width: 90%;
   max-height: 1000px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);

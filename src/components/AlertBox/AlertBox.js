@@ -45,26 +45,26 @@ class AlertBox extends Component {
     const { title, imageUrl, message, buttons } = this.props;
     const { modalClassName } = this.state;
     return (
-      <>
-        <div id="myModal" class={modalClassName}>
-          <div class="modal-content w3-animate-zoom">
-            <div class="modal-header">
-              <span class="close" onClick={this.onClose}>
-                &times;
-              </span>
-              <h2>{title}</h2>
-            </div>
-            <div class="modal-body">
+      <div id="myModal" class={modalClassName}>
+        <div class="modal-content">
+          <div class="modal-header">
+            <span class="close" onClick={this.onClose}>
+              &times;
+            </span>
+            <h2>{title}</h2>
+          </div>
+          <div class="modal-body">
+            <div class="modal-body-top">
               <img src={imageUrl} alt="Avatar" />
               <br />
               {message}
               <br />
               <br />
-              {this.generateButtons(buttons)}
             </div>
+            <div class="modal-body-buttons">{this.generateButtons(buttons)}</div>
           </div>
         </div>
-      </>
+      </div>
     );
   }
 }
