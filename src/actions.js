@@ -34,27 +34,30 @@ const resourceMultipliers = {
     cow: 1,
     money: -0.5,
     energy: -1,
-    gg: 1
+    gg: 1,
+    description: 'You buy a cow. A dead cow.'
   },
   processCow: {
     cow: -1,
     beef: 1,
     money: -0.3,
     energy: -1,
-    gg: 1
+    gg: 1,
+    description: 'You process the dead cow. Into beef patties.'
   },
   packagePatty: {
     beef: -1,
     patty: 1,
     money: -0.2,
     energy: -1,
-    gg: 1
+    gg: 1,
+    description: 'You package the beef patties'
   }
 };
 
 const calculateEnvironmentalChanges = () => {
   const { gg } = resourcesState;
-  resourcesState.temperature = gg / 20000 + 28;
+  resourcesState.temperature = gg / 200000 + 28;
   resourcesState.seaLevel = (resourcesState.temperature - 28) * 5;
 };
 
@@ -66,8 +69,6 @@ const handleAction = actionName => {
 
 const handleSellButton = () => {
   const { money, patty, gg } = resourcesState;
-
-  calculateEnvironmentalChanges();
 
   const updatedState = {
     money: money + patty * pricePerPatty,
@@ -87,6 +88,8 @@ const handleSellButton = () => {
     ...resourcesState,
     ...updatedState
   };
+
+  calculateEnvironmentalChanges();
 };
 
 module.exports = {
@@ -128,6 +131,44 @@ const upgrades = [
       this.actionUsed++;
       resourcesState.money = resourcesState.money - this.cost;
       this.cost = this.cost + this.costIncrement;
+    }
+  },
+  {
+    label: 'Golden Grass',
+    desc: 'Increase price of beef patties by 10%, at the cost of environmental impact',
+    stage: 3,
+    actionUsed: 0,
+    costMultiplier: 1.9,
+    cost: 100000,
+    updateResourceMultiplier: function() {
+      const { buyCow } = resourceMultipliers;
+
+      buyCow.gg = buyCow.gg + 2;
+      pricePerPatty = pricePerPatty * 1.1;
+
+      resourcesState.money = resourcesState.money - this.cost;
+
+      this.actionUsed++;
+      this.cost = this.cost + this.costMultiplier;
+    }
+  },
+  {
+    label: 'Hire Worker',
+    desc: 'Increase price of beef patties by 10%, at the cost of environmental impact',
+    stage: 3,
+    actionUsed: 0,
+    costMultiplier: 1.9,
+    cost: 35000,
+    updateResourceMultiplier: function() {
+      const { buyCow } = resourceMultipliers;
+
+      buyCow.gg = buyCow.gg + 2;
+      pricePerPatty = pricePerPatty * 1.1;
+
+      resourcesState.money = resourcesState.money - this.cost;
+
+      this.actionUsed++;
+      this.cost = this.cost + this.costMultiplier;
     }
   }
 ];
