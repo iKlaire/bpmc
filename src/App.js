@@ -9,7 +9,6 @@ import Patty from './patty.png';
 import Sell from './sell.png';
 import Employees from './employee.png';
 import Thermometer from './thermo.png';
-import GGPerDay from './ggpd.png';
 import { LineChart, XAxis, Tooltip, CartesianGrid, Line, ResponsiveContainer } from 'recharts';
 import AlertBox from './components/AlertBox/AlertBox';
 
@@ -35,7 +34,7 @@ const App = () => {
     temperature: 10
   });
 
-  const actions = {
+  const [actions, setActions] = useState({
     one: [
       {
         label: 'Buy Cow',
@@ -59,8 +58,8 @@ const App = () => {
         onClick: () => handleAction('packagePatty')
       }
     ],
-    two: [
-      {
+    two: {
+      improveMeatQuality: {
         label: 'Improve Meat Quality',
         description: 'RM 1000++ each, increase Buy Cow and Sell Patty price, energy usage, increase GG impact for Buy Cow (a)',
         stage: 2,
@@ -69,23 +68,28 @@ const App = () => {
         money: 1000,
         updateResourceMultiplier: function() {
           const { buyCow } = resourceMultipliers;
-          const newState = resourcesState;
+          const newState = { ...resourcesState };
+
+          const newActions = { ...actions };
+          const { money, costMultiplier } = actions.two.improveMeatQuality;
 
           buyCow.money = buyCow.money * 1.01;
           buyCow.energy = buyCow.energy * 1.01;
           buyCow.gg = buyCow.gg * 1.01;
           setPricePerPatty(pricePerPatty * 1.01);
 
-          newState.money = newState.money - this.money;
+          newState.money = newState.money - money;
 
-          this.actionUsed++;
-          this.money = this.money * this.costMultiplier;
+          newActions.two.improveMeatQuality.actionUsed += 1;
+          newActions.two.improveMeatQuality.money = money * costMultiplier;
 
+          setActions(newActions);
           setResourcesState(newState);
         }
       }
-    ]
-  };
+    }
+  });
+
   const data = [
     { name: 'Page A', uv: 1, amt: 2400 },
     { name: 'Page B', uv: 2, amt: 12 },
@@ -147,6 +151,7 @@ const App = () => {
 
     if (
       newState.energy >= Math.abs(resourceMultipliers[actionName].energy) &&
+      newState.money >= Math.abs(resourceMultipliers[actionName].money) &&
       ((actionName === 'processCow' && newState.cow >= Math.abs(resourceMultipliers.processCow.cow)) ||
         (actionName === 'packagePatty' && newState.beef >= Math.abs(resourceMultipliers.packagePatty.beef)) ||
         actionName === 'buyCow')
@@ -465,7 +470,7 @@ const App = () => {
               <div className="actions-header" style={{ backgroundColor: '#a4c143' }}>
                 <span className="actions-header-text">Start up</span>
               </div>
-              {actions.two.map(action => (
+              {Object.values(actions.two).map(action => (
                 <div className="action" key={`${action.label}-key`}>
                   <div className="action-icon">🈳</div>
                   <div className="action-content">
