@@ -47,6 +47,32 @@
   width: 35px;
 }
 
+.money-container {
+  position: relative;
+  top: 0px;
+  transition: all 0.4s;
+  color: white;
+}
+
+.money-container.minus {
+  color: red;
+  position: relative;
+  top: 3px;
+}
+
+.energy-container {
+  position: relative;
+  top: 0px;
+  transition: all 0.4s;
+  color: white;
+}
+
+.energy-container.minus {
+  color: red;
+  position: relative;
+  top: 3px;
+}
+
 .stats-container {
   padding: 10px;
   background: white;
@@ -92,10 +118,17 @@
 .visual-container {
   height: 45%;
   overflow: scroll;
+  background-color: rgb(0, 1, 32);
 }
 
 .town-image {
-  width: 1000px;
+  transition: all 0.5s;
+  opacity: 1;
+  width: 800px;
+}
+
+.town-image.night {
+  opacity: 0.1;
 }
 
 .actions-container {
@@ -150,11 +183,17 @@ button.sell-button > img {
 }
 
 button.sell-button {
+  transition: all 0.2s;
   position: relative;
   top: -60px;
   border: none;
   background-color: transparent;
   outline: none;
+}
+
+button.sell-button.animate {
+  transform: rotate(-1deg) scale(1.05);
+  top: -58px;
 }
 
 button.sell-button:hover {
@@ -165,7 +204,6 @@ button.sell-button:hover {
 button.sell-button:active {
   outline: none;
   border: none;
-  transform: scale(0.9);
 }
 
 .actions-list {
@@ -185,7 +223,7 @@ button.sell-button:active {
 }
 
 .actions-header {
-  width: "100%";
+  width: '100%';
   padding: 16px;
   padding-left: 16px;
   margin-bottom: 8px;
@@ -216,6 +254,10 @@ button.sell-button:active {
   text-align: center;
 }
 
+.action-icon > img {
+  width: 80%;
+}
+
 .action-content {
   display: flex;
   flex-direction: column;
@@ -240,10 +282,23 @@ button.sell-button:active {
   flex-direction: column;
 }
 
+.action-button > div {
+  width: 100%;
+  margin: auto;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.action-button > div > img {
+  width: 40%;
+}
+
 button.action-button {
   color: white;
+  font-size: 1em;
   font-weight: bold;
-  padding: 11% 19%;
+  padding: 6% 14%;
   border-radius: 8px;
   border: none;
   background-color: #f48e27;
@@ -251,6 +306,8 @@ button.action-button {
   border-bottom-width: 5px;
   border-bottom-style: solid;
   outline: none;
+  display: flex;
+  flex-direction: column;
 }
 
 button.action-button:hover {
