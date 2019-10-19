@@ -33,7 +33,8 @@ const resourceMultipliers = {
   buyCow: {
     cow: 1,
     money: -0.5,
-    energy: -1
+    energy: -1,
+    gg: 1
   },
   processCow: {
     cow: -1,
@@ -59,24 +60,32 @@ const calculateEnvironmentalChanges = () => {
 
 const handleAction = actionName => {
   Object.keys(resourceMultipliers[actionName]).forEach(resource => {
-    resourcesState[resource] =
-      resourcesState[resource] + resourceMultipliers.buyCow[resource];
+    resourcesState[resource] = resourcesState[resource] + resourceMultipliers.buyCow[resource];
   });
 };
 
 const handleSellButton = () => {
   const { money, patty, gg } = resourcesState;
-  const { seaLevel, temperature } = calculateEnvironmentalChanges();
-  return {
-    resourcesState: {
-      ...resourcesState,
-      money: money + patty * pricePerPatty,
-      patty: 0,
-      energy: energyCap,
-      gg: gg + 1,
-      seaLevel,
-      temperature
-    }
+
+  calculateEnvironmentalChanges();
+
+  const updatedState = {
+    money: money + patty * pricePerPatty,
+    patty: 0,
+    energy: energyCap,
+    seaLevel,
+    temperature
+  };
+
+  if (Math.random() < 0.2 && gg > 1) {
+    updatedState.gg = gg - 1;
+  } else {
+    updatedState.gg = gg + 1;
+  }
+
+  resourcesState = {
+    ...resourcesState,
+    ...updatedState
   };
 };
 
@@ -88,9 +97,9 @@ module.exports = {
 
 const upgrades = [
   {
-    label: "Improve meat quality",
-    desc:
-      "RM 1000++ each, increase Buy Cow and Sell Patty price, energy usage, increase GG impact for Buy Cow (a)",
+    label: 'Improve Meat Quality',
+    desc: 'RM 1000++ each, increase Buy Cow and Sell Patty price, energy usage, increase GG impact for Buy Cow (a)',
+    stage: 1,
     actionUsed: 0,
     costIncrement: 500,
     cost: 1000,
@@ -106,9 +115,9 @@ const upgrades = [
     }
   },
   {
-    label: "Reduce Process Cost",
-    desc:
-      "RM 2000++ each, reduce Process Cow price, increase energy usage, increase GG impact (a)",
+    label: 'Reduce Process Cost',
+    desc: 'RM 2000++ each, reduce Process Cow price, increase energy usage, increase GG impact (a)',
+    stage: 1,
     actionUsed: 0,
     costIncrement: 1000,
     cost: 2000,
