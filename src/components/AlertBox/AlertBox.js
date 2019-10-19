@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import './AlertBox.css';
 import '../../App.css';
-import generate from '@babel/generator';
-// import { Icon } from 'antd';
 
 class AlertBox extends Component {
   constructor(props) {
@@ -21,12 +19,9 @@ class AlertBox extends Component {
         func = this.onClose;
       }
       return (
-        <>
-          <button className="action-button" onClick={func}>
-            {button.label}
-          </button>
-          &nbsp;
-        </>
+        <button className="action-button" onClick={func}>
+          {button.label}
+        </button>
       );
     });
   };
@@ -56,12 +51,14 @@ class AlertBox extends Component {
             <h2>{title}</h2>
           </div>
           <div class="modal-body">
-            <img src={imageUrl} alt="Avatar" />
-            <br />
-            {message}
-            <br />
-            <br />
-            {this.generateButtons(buttons)}
+            <div class="modal-body-top">
+              <img src={imageUrl} alt="Avatar" />
+              <br />
+              {message}
+              <br />
+              <br />
+            </div>
+            <div class="modal-body-buttons">{this.generateButtons(buttons)}</div>
           </div>
         </div>
       </div>

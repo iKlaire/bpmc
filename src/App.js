@@ -407,7 +407,7 @@ const App = () => {
                   <Line type="monotone" dataKey="uv" stroke="#ff7300" yAxisId={0} />
                 </LineChart>
               </ResponsiveContainer>
-              <div className="chart-title">Water Level</div>
+              <div className="chart-title">Sea Level</div>
             </div>
           </div>
         </div>
