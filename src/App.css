@@ -16,14 +16,35 @@
   margin: auto;
   min-width: 320px;
   max-width: 812px;
+  box-shadow: 0px 0px 25px 0px rgba(196, 196, 196, 0.4);
 }
 
 .header-container {
+  padding: 0 10px;
   background: #f48e27;
+  color: white;
+  font-weight: bold;
   align-items: center;
   height: 5%;
   display: flex;
   flex-direction: row;
+}
+
+.header-container > div {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  margin-left: 10px;
+}
+
+.header-container > div > span {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+}
+
+.header-container > div > span > img {
+  width: 35px;
 }
 
 .stats-container {
@@ -36,6 +57,15 @@
 
 .stats {
   width: 30%;
+}
+
+.stats > div {
+  display: flex;
+  align-items: center;
+}
+
+.stats > div > img {
+  width: 30px;
 }
 
 .charts {
@@ -65,7 +95,7 @@
 }
 
 .town-image {
-  width: 1099px;
+  width: 1000px;
 }
 
 .actions-container {
@@ -75,24 +105,71 @@
 
 .sell-bar {
   position: relative;
-  top: -10px;
-  margin-bottom: -10px;
+  top: -15px;
+  margin-bottom: -15px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   height: 40px;
-  background: #f48e27;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
+  background: #799996;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  padding: 0px 10px;
 }
 
 .products-count {
   display: flex;
   flex-direction: row;
+  color: white;
+  font-weight: bold;
+}
+
+.products-count > div {
+  margin-left: 15px;
+}
+
+.products-count > div > span {
+  position: relative;
+  top: -15px;
+}
+
+.cow-icon > img {
+  width: 45px;
+}
+
+.beef-icon > img {
+  width: 45px;
+}
+
+.patty-icon > img {
+  width: 45px;
+}
+
+button.sell-button > img {
+  width: 100px;
+}
+
+button.sell-button {
+  position: relative;
+  top: -60px;
+  border: none;
+  background-color: transparent;
+  outline: none;
+}
+
+button.sell-button:hover {
+  cursor: pointer;
+  outline: none;
+}
+
+button.sell-button:active {
+  outline: none;
+  border: none;
+  transform: scale(0.9);
 }
 
 .actions-list {
-  height: 86%;
+  height: 89%;
   overflow: scroll;
   overflow-x: hidden;
 }
@@ -168,12 +245,18 @@ button.action-button:hover {
   background-color: #f48e27;
 }
 
-button:active {
+button.action-button:active {
+  cursor: pointer;
   outline: none;
-  border: none;
+  background-color: #f48e27;
   border-top: #edf5f7;
   border-top-width: 5px;
   border-top-style: solid;
+}
+
+button:active {
+  outline: none;
+  border: none;
 }
 
 button:focus {

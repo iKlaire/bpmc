@@ -1,95 +1,121 @@
-import React, { useState } from "react";
-import "./App.css";
-import Town from "./temp.jpg";
-import { LineChart, XAxis, Tooltip, CartesianGrid, Line, ResponsiveContainer } from "recharts";
+import React, { useState } from 'react';
+import './App.css';
+import Town from './temp.jpg';
+import Cow from './cow.png';
+import Beef from './meat.png';
+import Energy from './energy.png';
+import Money from './money.png';
+import Patty from './patty.png';
+import Sell from './sell.png';
+import Employees from './employee.png';
+import Thermometer from './thermo.png';
+import GGPerDay from './ggpd.png';
+
+import { LineChart, XAxis, Tooltip, CartesianGrid, Line, ResponsiveContainer } from 'recharts';
 
 function App() {
   const [money] = useState(10);
   const [energy] = useState(100);
   const [energyCap] = useState(100);
+  const [employees] = useState(0);
+  const [ggPerDay] = useState(500);
+  const [temperature] = useState(15);
   const [cow] = useState(0);
   const [beef] = useState(0);
   const [patty] = useState(0);
   const [actions] = useState([
     {
-      label: "Buy Cow",
-      description: "You buy a cow. Bow.",
+      label: 'Buy Cow',
+      description: 'You buy a cow. Bow.',
       energy: 3,
       money: 3
     },
     {
-      label: "Process Cow",
-      description: "You process a cow. Wow.",
+      label: 'Process Cow',
+      description: 'You process a cow. Wow.',
       energy: 5,
       money: 5
     },
     {
-      label: "Buy Cow",
-      description: "You buy a cow. Bow.",
+      label: 'Buy Cow',
+      description: 'You buy a cow. Bow.',
       energy: 3,
       money: 3
     },
     {
-      label: "Process Cow",
-      description: "You process a cow. Wow.",
+      label: 'Process Cow',
+      description: 'You process a cow. Wow.',
       energy: 5,
       money: 5
     },
     {
-      label: "Buy Cow",
-      description: "You buy a cow. Bow.",
+      label: 'Buy Cow',
+      description: 'You buy a cow. Bow.',
       energy: 3,
       money: 3
     },
     {
-      label: "Process Cow",
-      description: "You process a cow. Wow.",
+      label: 'Process Cow',
+      description: 'You process a cow. Wow.',
       energy: 5,
       money: 5
     },
     {
-      label: "Buy Cow",
-      description: "You buy a cow. Bow.",
+      label: 'Buy Cow',
+      description: 'You buy a cow. Bow.',
       energy: 3,
       money: 3
     },
     {
-      label: "Process Cow",
-      description: "You process a cow. Wow.",
+      label: 'Process Cow',
+      description: 'You process a cow. Wow.',
       energy: 5,
       money: 5
     }
   ]);
   const data = [
-    { name: "Page A", uv: 1, amt: 2400 },
-    { name: "Page B", uv: 2, amt: 12 },
-    { name: "Page C", uv: 88, amt: 678 },
-    { name: "Page D", uv: 777, amt: 3 },
-    { name: "Page E", uv: 1800, amt: 137 },
-    { name: "Page F", uv: 6000, amt: 888 }
+    { name: 'Page A', uv: 1, amt: 2400 },
+    { name: 'Page B', uv: 2, amt: 12 },
+    { name: 'Page C', uv: 88, amt: 678 },
+    { name: 'Page D', uv: 777, amt: 3 },
+    { name: 'Page E', uv: 1800, amt: 137 },
+    { name: 'Page F', uv: 6000, amt: 888 }
   ];
   return (
     <div className="container">
       <div className="game-container">
         <div className="header-container">
           <div className="money-container">
-            <span className="money-icon">💲</span>
+            <span className="money-icon">
+              <img src={Money} />
+            </span>
             <span className="money-count">{money}</span>
           </div>
           <div className="energy-container">
-            <span className="energy-icon">🔋</span>
+            <span className="energy-icon">
+              <img src={Energy} />
+            </span>
             <span className="energy-count">
               {energy}/{energyCap}
             </span>
           </div>
+          <div className="employees-container">
+            <span className="employees-icon">
+              <img src={Employees} />
+            </span>
+            <span className="employees-count">{employees}</span>
+          </div>
         </div>
         <div className="stats-container">
           <div className="stats">
-            employees: <br />
-            gg per day: <br />
-            gg: <br />
-            sea level: <br />
-            temp: <br />
+            <div className="ggpd">
+              <img src={GGPerDay} />
+              {ggPerDay}/day
+            </div>
+            <div className="temperature">
+              <img src={Thermometer} />
+              {temperature}°c
+            </div>
           </div>
           <div className="charts">
             <div className="chart-card">
@@ -125,20 +151,28 @@ function App() {
           <div className="sell-bar">
             <div className="products-count">
               <div className="cow">
-                <span className="cow-icon">🐮</span>
+                <span className="cow-icon">
+                  <img src={Cow} />
+                </span>
                 <span>{cow}</span>
               </div>
               <div className="beef">
-                <span className="beef-icon">🥩</span>
+                <span className="beef-icon">
+                  <img src={Beef} />
+                </span>
                 <span>{beef}</span>
               </div>
               <div className="patty">
-                <span className="patty-icon">🍔</span>
+                <span className="patty-icon">
+                  <img src={Patty} />
+                </span>
                 <span>{patty}</span>
               </div>
             </div>
             <div className="sell-button-container">
-              <button className="sell-button">SELL</button>
+              <button className="sell-button">
+                <img src={Sell} />
+              </button>
             </div>
           </div>
           <div className="actions-list">
