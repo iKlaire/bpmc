@@ -49,6 +49,32 @@ const App = () => {
     temperature: 10
   });
 
+  const abbreviateNumber = value => {
+    let newValue = value;
+    if (value >= 1000) {
+      let suffixes = ["", "k", "m", "b", "t"];
+      let suffixNum = Math.floor(("" + value).length / 3);
+      let shortValue = "";
+      for (let precision = 2; precision >= 1; precision--) {
+        shortValue = parseFloat(
+          (suffixNum !== 0
+            ? value / Math.pow(1000, suffixNum)
+            : value
+          ).toPrecision(precision)
+        );
+        let dotLessShortValue = (shortValue + "").replace(
+          /[^a-zA-Z 0-9]+/g,
+          ""
+        );
+        if (dotLessShortValue.length <= 2) {
+          break;
+        }
+      }
+      newValue = shortValue + suffixes[suffixNum];
+    }
+    return newValue;
+  };
+
   const animateMinusMoney = async () => {
     const moneyContainer = document.getElementsByClassName(
       "money-container"
@@ -848,7 +874,7 @@ const App = () => {
               <img src={Money} />
             </span>
             <span className="money-count">
-              {resourcesState.money.toFixed(2)}
+              {abbreviateNumber(resourcesState.money)}
             </span>
           </div>
           <div className="energy-container">
@@ -878,7 +904,7 @@ const App = () => {
             </div>
             <div className="today-gg">
               <img src={TodayGG} />
-              {resourcesState.temperature.toFixed(2)}°c
+              {todayGG.toFixed(2)}ppm
             </div>
           </div>
           <div className="charts">
@@ -968,7 +994,7 @@ const App = () => {
                   <div className="action-button-container">
                     <button className="action-button" onClick={action.onClick}>
                       <div>
-                        <img src={Money} /> {action.money.toFixed(2)}
+                        <img src={Money} /> {abbreviateNumber(action.money)}
                       </div>
                       <div>
                         <img src={Energy} /> {Math.floor(action.energy)}
@@ -1002,7 +1028,7 @@ const App = () => {
                       onClick={() => action.updateResourceMultiplier()}
                     >
                       <div>
-                        <img src={Money} /> {action.money.toFixed(2)}
+                        <img src={Money} /> {abbreviateNumber(action.money)}
                       </div>
                     </button>
                   </div>
