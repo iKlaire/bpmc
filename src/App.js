@@ -20,7 +20,7 @@ const App = () => {
     cow: 0,
     beef: 0,
     patty: 0,
-    money: 10,
+    money: 10000,
     energy: energyCap,
     employee: 0,
     gg: 1,
@@ -33,23 +33,51 @@ const App = () => {
       {
         label: 'Buy Cow',
         description: 'You buy a cow. A dead cow.',
-        energy: 20,
+        energy: 10,
         money: 0.5,
         onClick: () => handleAction('buyCow')
       },
       {
         label: 'Process Cow',
         description: 'You process the dead cow. Into beef.',
-        energy: 20,
+        energy: 10,
         money: 0.3,
         onClick: () => handleAction('processCow')
       },
       {
         label: 'Package Patty',
         description: 'You patty the beef. Then package it.',
-        energy: 20,
+        energy: 10,
         money: 0.2,
         onClick: () => handleAction('packagePatty')
+      }
+    ],
+    two: [
+      {
+        label: 'Improve Meat Quality',
+        description: 'RM 1000++ each, increase Buy Cow and Sell Patty price, energy usage, increase GG impact for Buy Cow (a)',
+        stage: 2,
+        actionUsed: 0,
+        costMultiplier: 1.5,
+        money: 1000,
+        updateResourceMultiplier: function() {
+          const { buyCow } = resourceMultipliers;
+          const newState = resourcesState;
+
+          console.log(this.money);
+
+          buyCow.money = buyCow.money * 1.01;
+          buyCow.energy = buyCow.energy * 1.01;
+          buyCow.gg = buyCow.gg * 1.01;
+          setPricePerPatty(pricePerPatty * 1.01);
+
+          newState.money = newState.money - this.money;
+
+          this.actionUsed++;
+          this.money = this.money * this.costMultiplier;
+
+          setResourcesState(newState);
+        }
       }
     ]
   };
@@ -82,21 +110,21 @@ const App = () => {
     buyCow: {
       cow: 1,
       money: -0.5,
-      energy: -20,
+      energy: -10,
       gg: 1
     },
     processCow: {
       cow: -1,
       beef: 1,
       money: -0.3,
-      energy: -20,
+      energy: -10,
       gg: 1
     },
     packagePatty: {
       beef: -1,
       patty: 1,
       money: -0.2,
-      energy: -20,
+      energy: -10,
       gg: 1
     }
   };
@@ -149,11 +177,11 @@ const App = () => {
     two: [
       {
         label: 'Improve meat quality',
-        desc: 'RM 1000++ each, increase Buy Cow and Sell Patty price, energy usage, increase GG impact for Buy Cow (a)',
+        description: 'RM 1000++ each, increase Buy Cow and Sell Patty price, energy usage, increase GG impact for Buy Cow (a)',
         stage: 2,
         actionUsed: 0,
         costMultiplier: 1.5,
-        cost: 1000,
+        money: 1000,
         updateResourceMultiplier: function() {
           const { buyCow } = resourceMultipliers;
           const newState = resourcesState;
@@ -161,22 +189,23 @@ const App = () => {
           buyCow.money = buyCow.money * 1.01;
           buyCow.energy = buyCow.energy * 1.01;
           buyCow.gg = buyCow.gg * 1.01;
-          pricePerPatty = pricePerPatty * 1.01;
+          setPricePerPatty(pricePerPatty * 1.01);
 
-          newState.money = newState.money - this.cost;
-          setResourcesState(newState);
+          newState.money = newState.money - this.money;
 
           this.actionUsed++;
-          this.cost = this.cost * this.costMultiplier;
+          this.money = this.money * this.costMultiplier;
+
+          setResourcesState(newState);
         }
       },
       {
         label: 'Reduce Process Cost',
-        desc: 'RM 2000++ each, reduce Process Cow price, increase energy usage, increase GG impact (a)',
+        description: 'RM 2000++ each, reduce Process Cow price, increase energy usage, increase GG impact (a)',
         stage: 2,
         actionUsed: 0,
         costMultiplier: 1.5,
-        cost: 2000,
+        money: 2000,
         updateResourceMultiplier: function() {
           const { processCow } = resourceMultipliers;
           const newState = resourcesState;
@@ -185,118 +214,124 @@ const App = () => {
           processCow.energy = processCow.energy - 2;
           processCow.gg = processCow.gg * 1.1;
 
-          newState.money = newState.money - this.cost;
-          setResourcesState(newState);
+          newState.money = newState.money - this.money;
 
           this.actionUsed++;
-          this.cost = this.cost * this.costMultiplier;
+          this.money = this.money * this.costMultiplier;
+
+          setResourcesState(newState);
         }
       },
       {
         label: 'Red Bull',
-        desc: 'RM 5000++ each, increase energy by 5',
+        description: 'RM 5000++ each, increase energy by 5',
         stage: 2,
         actionUsed: 0,
         costMultiplier: 1.5,
-        cost: 5000,
+        money: 5000,
         updateResourceMultiplier: function() {
           const { packagePatty } = resourceMultipliers;
           const newState = resourcesState;
 
           packagePatty.money = packagePatty.money * 0.99;
-          pricePerPatty = pricePerPatty * 0.01;
+          setPricePerPatty(pricePerPatty * 0.01);
 
-          newState.money = newState.money - this.cost;
-          setResourcesState(newState);
+          newState.money = newState.money - this.money;
 
           this.actionUsed++;
-          this.cost = this.cost * this.costMultiplier;
+          this.money = this.money * this.costMultiplier;
+
+          setResourcesState(newState);
         }
       },
       {
         label: 'Strike A Deal',
-        desc: 'RM5,000, increase Buy Cow price by 1.8, get 2 cows each time, single usage',
+        description: 'RM5,000, increase Buy Cow price by 1.8, get 2 cows each time, single usage',
         stage: 2,
         actionUsed: 0,
         costMultiplier: 1.5,
-        cost: 2000,
+        money: 2000,
         updateResourceMultiplier: function() {
           const { packagePatty } = resourceMultipliers;
           const newState = resourcesState;
 
           packagePatty.money = packagePatty.money * 0.99;
-          pricePerPatty = pricePerPatty * 0.01;
+          setPricePerPatty(pricePerPatty * 0.01);
 
-          newState.money = newState.money - this.cost;
-          setResourcesState(newState);
+          newState.money = newState.money - this.money;
 
           this.actionUsed++;
-          this.cost = this.cost * this.costMultiplier;
+          this.money = this.money * this.costMultiplier;
+
+          setResourcesState(newState);
         }
       },
       {
         label: 'Build Workshop',
-        desc: 'RM 10,000, halve Process and Package costs, energy usage, single purchase, increase GG impact (m)',
+        description: 'RM 10,000, halve Process and Package costs, energy usage, single purchase, increase GG impact (m)',
         stage: 2,
         actionUsed: 0,
         costMultiplier: 1.5,
-        cost: 2000,
+        money: 2000,
         updateResourceMultiplier: function() {
           const { packagePatty } = resourceMultipliers;
           const newState = resourcesState;
 
           packagePatty.money = packagePatty.money * 0.99;
-          pricePerPatty = pricePerPatty * 0.01;
+          setPricePerPatty(pricePerPatty * 0.01);
 
-          newState.money = newState.money - this.cost;
-          setResourcesState(newState);
+          newState.money = newState.money - this.money;
 
           this.actionUsed++;
-          this.cost = this.cost * this.costMultiplier;
+          this.money = this.money * this.costMultiplier;
+
+          setResourcesState(newState);
         }
       }
     ],
     three: [
       {
         label: 'Golden Grass',
-        desc: 'Increase price of beef patties by 10%, at the cost of environmental impact',
+        description: 'Increase price of beef patties by 10%, at the cost of environmental impact',
         stage: 3,
         actionUsed: 0,
         costMultiplier: 1.9,
-        cost: 100000,
+        money: 100000,
         updateResourceMultiplier: function() {
           const { buyCow } = resourceMultipliers;
           const newState = resourcesState;
 
           buyCow.gg = buyCow.gg + 2;
-          pricePerPatty = pricePerPatty * 1.1;
+          setPricePerPatty(pricePerPatty * 1.1);
 
-          newState.money = newState.money - this.cost;
-          setResourcesState(newState);
+          newState.money = newState.money - this.money;
 
           this.actionUsed++;
-          this.cost = this.cost + this.costMultiplier;
+          this.money = this.money + this.costMultiplier;
+
+          setResourcesState(newState);
         }
       },
       {
         label: 'Hire Worker',
-        desc: 'Increase price of beef patties by 10%, at the cost of environmental impact',
+        description: 'Reduce energy usage of Actions by 2.',
         stage: 3,
         actionUsed: 0,
         costMultiplier: 1.9,
-        cost: 35000,
+        money: 35000,
         updateResourceMultiplier: function() {
           const { buyCow } = resourceMultipliers;
           const newState = resourcesState;
 
           buyCow.gg = buyCow.gg + 2;
-          pricePerPatty = pricePerPatty * 1.1;
+          setPricePerPatty(pricePerPatty * 1.1);
 
-          newState.money = newState.money - this.cost;
-          setResourcesState(newState);
+          newState.money = newState.money - this.money;
 
           this.actionUsed++;
-          this.cost = this.cost + this.costMultiplier;
+          this.money = this.money + this.costMultiplier;
+
+          setResourcesState(newState);
         }
       }
     ]
@@ -409,6 +444,20 @@ const App = () => {
                     <button className="action-button" onClick={action.onClick}>
                       🔋 {action.energy}
                       <br /> 💲 {action.money}
+                    </button>
+                  </div>
+                </div>
+              ))}
+              {actions.two.map(action => (
+                <div className="action" key={`${action.label}-key`}>
+                  <div className="action-icon">🈳</div>
+                  <div className="action-content">
+                    <span className="action-label">{action.label}</span>
+                    <span className="action-description">{action.description}</span>
+                  </div>
+                  <div className="action-button-container">
+                    <button className="action-button" onClick={action.updateResourceMultiplier}>
+                      💲 {action.money}
                     </button>
                   </div>
                 </div>
