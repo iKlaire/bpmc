@@ -22,6 +22,8 @@ const onTest = () => {
 const App = () => {
   const [energyCap, setEnergyCap] = useState(100);
   const [pricePerPatty, setPricePerPatty] = useState(1.5);
+  const [day, setDay] = useState(0);
+  const [graphData, setGraphData] = useState([]);
 
   const [resourcesState, setResourcesState] = useState({
     cow: 0,
@@ -199,6 +201,11 @@ const App = () => {
       newState.gg = newState.gg + 1;
     }
 
+    const newGraphData = [...graphData, { day, ggLevel: newState.gg, seaLevel: newState.seaLevel }];
+    if (newGraphData.length > 6) {
+      newGraphData.shift();
+    }
+
     const visualContainer = document.getElementsByClassName('town-image')[0];
     const sellButton = document.getElementsByClassName('sell-button')[0];
     await sellButton.classList.toggle('animate');
@@ -206,7 +213,9 @@ const App = () => {
     setTimeout(() => visualContainer.classList.toggle('night'), 1000);
     setTimeout(() => sellButton.classList.toggle('animate'), 200);
 
+    setGraphData(newGraphData);
     setResourcesState(newState);
+    setDay(day + 1);
   };
 
   // const upgrades = {
@@ -418,22 +427,22 @@ const App = () => {
           <div className="charts">
             <div className="chart-card">
               <ResponsiveContainer width="100%" height="80%">
-                <LineChart data={data}>
-                  <XAxis dataKey="name" />
+                <LineChart data={graphData}>
+                  <XAxis dataKey="day" />
                   <Tooltip />
                   <CartesianGrid stroke="#f5f5f5" />
-                  <Line type="monotone" dataKey="uv" stroke="#ff7300" yAxisId={0} />
+                  <Line type="monotone" dataKey="ggLevel" stroke="#ff7300" yAxisId={0} />
                 </LineChart>
               </ResponsiveContainer>
               <div className="chart-title">GG Level</div>
             </div>
             <div className="chart-card">
               <ResponsiveContainer width="100%" height="80%">
-                <LineChart data={data}>
-                  <XAxis dataKey="name" />
+                <LineChart data={graphData}>
+                  <XAxis dataKey="day" />
                   <Tooltip />
                   <CartesianGrid stroke="#f5f5f5" />
-                  <Line type="monotone" dataKey="uv" stroke="#ff7300" yAxisId={0} />
+                  <Line type="monotone" dataKey="seaLevel" stroke="#ff7300" yAxisId={0} />
                 </LineChart>
               </ResponsiveContainer>
               <div className="chart-title">Sea Level</div>
