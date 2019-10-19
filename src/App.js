@@ -9,6 +9,7 @@ import Patty from './patty.png';
 import Sell from './sell.png';
 import Employees from './employee.png';
 import Thermometer from './thermo.png';
+import Act from './act.jpg';
 import { LineChart, XAxis, Tooltip, CartesianGrid, Line, ResponsiveContainer } from 'recharts';
 import AlertBox from './components/AlertBox/AlertBox';
 
@@ -169,8 +170,7 @@ const App = () => {
     });
   };
 
-  const handleSellButton = () => {
-    console.log(resourcesState);
+  const handleSellButton = async () => {
     const newState = { ...resourcesState };
 
     newState.money = newState.money + newState.patty * pricePerPatty;
@@ -184,6 +184,13 @@ const App = () => {
     } else {
       newState.gg = newState.gg + 1;
     }
+
+    const visualContainer = document.getElementsByClassName('town-image')[0];
+    const sellButton = document.getElementsByClassName('sell-button')[0];
+    await visualContainer.classList.toggle('night');
+    await sellButton.classList.toggle('animate');
+    setTimeout(() => visualContainer.classList.toggle('night'), 1000);
+    setTimeout(() => sellButton.classList.toggle('animate'), 200);
 
     setResourcesState(newState);
   };
@@ -415,7 +422,7 @@ const App = () => {
                   <Line type="monotone" dataKey="uv" stroke="#ff7300" yAxisId={0} />
                 </LineChart>
               </ResponsiveContainer>
-              <div className="chart-title">Water Level</div>
+              <div className="chart-title">Sea Level</div>
             </div>
           </div>
         </div>
@@ -459,15 +466,21 @@ const App = () => {
               </div>
               {Object.values(actions.one).map(action => (
                 <div className="action" key={`${action.label}-key`}>
-                  <div className="action-icon">🈳</div>
+                  <div className="action-icon">
+                    <img src={Act} />
+                  </div>
                   <div className="action-content">
                     <span className="action-label">{action.label}</span>
                     <span className="action-description">{action.description}</span>
                   </div>
                   <div className="action-button-container">
                     <button className="action-button" onClick={action.onClick}>
-                      🔋 {action.energy}
-                      <br /> 💲 {action.money}
+                      <div>
+                        <img src={Money} /> {action.money}
+                      </div>
+                      <div>
+                        <img src={Energy} /> {action.energy}
+                      </div>
                     </button>
                   </div>
                 </div>
@@ -477,14 +490,26 @@ const App = () => {
               </div>
               {Object.values(actions.two).map(action => (
                 <div className="action" key={`${action.label}-key`}>
-                  <div className="action-icon">🈳</div>
+                  <div className="action-icon">
+                    <img src={Act} />
+                  </div>
                   <div className="action-content">
                     <span className="action-label">{action.label}</span>
                     <span className="action-description">{action.description}</span>
                   </div>
                   <div className="action-button-container">
-                    <button className="action-button" onClick={action.updateResourceMultiplier}>
-                      💲 {action.money}
+                    <button
+                      className="action-button"
+                      onClick={async () => {
+                        const moneyContainer = document.getElementsByClassName('money-container')[0];
+                        await moneyContainer.classList.toggle('minus');
+                        await setTimeout(() => moneyContainer.classList.toggle('minus'), 500);
+                        return action.updateResourceMultiplier();
+                      }}
+                    >
+                      <div>
+                        <img src={Money} /> {action.money}
+                      </div>
                     </button>
                   </div>
                 </div>
