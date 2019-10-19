@@ -1,31 +1,32 @@
-import React, { useState } from 'react';
-import './App.css';
-import Town from './temp.jpg';
-import Cow from './cow.png';
-import Beef from './meat.png';
-import Energy from './energy.png';
-import Money from './money.png';
-import Patty from './patty.png';
-import Sell from './sell.png';
-import Employees from './employee.png';
-import Thermometer from './thermo.png';
-import GGPerDay from './ggpd.png';
-import GameOver from './gameover.png';
-import Act from './act.jpg';
-import { LineChart, XAxis, Tooltip, CartesianGrid, Line, ResponsiveContainer } from 'recharts';
-import AlertBox from './components/AlertBox/AlertBox';
-import GameOverAlertBox from './components/GameOverAlertBox/GameOverAlertBox';
+import React, { useState } from "react";
+import "./App.css";
+import Town from "./temp.jpg";
+import Cow from "./cow.png";
+import Beef from "./meat.png";
+import Energy from "./energy.png";
+import Money from "./money.png";
+import Patty from "./patty.png";
+import Sell from "./sell.png";
+import Employees from "./employee.png";
+import Calendar from "./cal.png";
+import Thermometer from "./thermo.png";
+import TodayGG from "./ggpd.png";
+import GameOver from "./gameover.png";
+import Act from "./act.jpg";
+import { LineChart, XAxis, Tooltip, CartesianGrid, Line, ResponsiveContainer } from "recharts";
+import AlertBox from "./components/AlertBox/AlertBox";
+import GameOverAlertBox from "./components/GameOverAlertBox/GameOverAlertBox";
 
 const onTest = () => {
   // TODO: Do custom function name here
-  console.log('Check your console!!!');
+  console.log("Check your console!!!");
   // TODO: Do custom function here
 };
 
 const App = () => {
   const [energyCap, setEnergyCap] = useState(100);
   const [pricePerPatty, setPricePerPatty] = useState(2);
-  const [day, setDay] = useState(0);
+  const [day, setDay] = useState(1);
   const [graphData, setGraphData] = useState([]);
   const [todayGG, setTodayGG] = useState(0);
 
@@ -42,47 +43,47 @@ const App = () => {
   });
 
   const animateMinusMoney = async () => {
-    const moneyContainer = document.getElementsByClassName('money-container')[0];
-    moneyContainer.classList.toggle('minus');
-    await setTimeout(() => moneyContainer.classList.toggle('minus'), 200);
+    const moneyContainer = document.getElementsByClassName("money-container")[0];
+    moneyContainer.classList.toggle("minus");
+    await setTimeout(() => moneyContainer.classList.toggle("minus"), 200);
   };
 
   const [actions, setActions] = useState({
     one: {
       buyCow: {
-        label: 'Buy Cow',
-        description: 'You buy a cow. A dead cow.',
+        label: "Buy Cow",
+        description: "You buy a cow. A dead cow.",
         energy: 10,
         money: 0.5,
         cow: 1,
         gg: 1,
-        onClick: () => handleAction('buyCow')
+        onClick: () => handleAction("buyCow")
       },
       processCow: {
-        label: 'Process Cow',
-        description: 'You process the dead cow. Into beef.',
+        label: "Process Cow",
+        description: "You process the dead cow. Into beef.",
         energy: 10,
         money: 0.3,
         cow: 1,
         beef: 1,
         gg: 1,
-        onClick: () => handleAction('processCow')
+        onClick: () => handleAction("processCow")
       },
       packagePatty: {
-        label: 'Package Patty',
-        description: 'You patty the beef. Then package it.',
+        label: "Package Patty",
+        description: "You patty the beef. Then package it.",
         energy: 10,
         money: 0.2,
         beef: 1,
         patty: 1,
         gg: 1,
-        onClick: () => handleAction('packagePatty')
+        onClick: () => handleAction("packagePatty")
       }
     },
     two: {
       improveMeatQuality: {
-        label: 'Improve Meat Quality',
-        description: 'Increase Buy Cow and Sell Cow price by 1%, at the cost of increasing GG impact',
+        label: "Improve Meat Quality",
+        description: "Increase Buy Cow and Sell Cow price by 1%, at the cost of increasing GG impact",
         actionUsed: 0,
         costMultiplier: 1.5,
         money: 1000,
@@ -114,8 +115,8 @@ const App = () => {
         }
       },
       reduceProcessCost: {
-        label: 'Reduce Process Cost',
-        description: 'Reduce Process Cow price by 1%, at the cost of increased energy usage and GG impact',
+        label: "Reduce Process Cost",
+        description: "Reduce Process Cow price by 1%, at the cost of increased energy usage and GG impact",
         actionUsed: 0,
         costMultiplier: 1.5,
         money: 2000,
@@ -146,8 +147,8 @@ const App = () => {
         }
       },
       reducePackageCost: {
-        label: 'Reduce Package Cost',
-        description: 'Reduce Package Cow price by 1%, at the cost of increased energy usage and GG impact',
+        label: "Reduce Package Cost",
+        description: "Reduce Package Cow price by 1%, at the cost of increased energy usage and GG impact",
         actionUsed: 0,
         costMultiplier: 1.5,
         money: 2000,
@@ -178,8 +179,8 @@ const App = () => {
         }
       },
       redBull: {
-        label: 'Red Bull',
-        description: 'Increase maximum energy per day',
+        label: "Red Bull",
+        description: "Increase maximum energy per day",
         actionUsed: 0,
         costMultiplier: 3,
         money: 5000,
@@ -208,8 +209,8 @@ const App = () => {
         }
       },
       strikeADeal: {
-        label: 'Strike A Deal',
-        description: 'Get 5x cows per buy, at 1.5 times the cost',
+        label: "Strike A Deal",
+        description: "Get 5x cows per buy, at 1.5 times the cost",
         actionUsed: 0,
         money: 2000,
         updateResourceMultiplier: function() {
@@ -239,8 +240,8 @@ const App = () => {
         }
       },
       buildWorkshop: {
-        label: 'Build Workshop',
-        description: 'Reduce Process and Package price and energy usage significantly, while increasing GG impact',
+        label: "Build Workshop",
+        description: "Reduce Process and Package price and energy usage significantly, while increasing GG impact",
         actionUsed: 0,
         money: 10000,
         updateResourceMultiplier: function() {
@@ -274,8 +275,8 @@ const App = () => {
         }
       },
       purchaseAdvertisements: {
-        label: 'Purchase Advertisements',
-        description: 'Increase Sell Patty price by 50%',
+        label: "Purchase Advertisements",
+        description: "Increase Sell Patty price by 50%",
         actionUsed: 0,
         money: 30000,
         updateResourceMultiplier: function() {
@@ -304,8 +305,8 @@ const App = () => {
         }
       },
       setUpCompany: {
-        label: 'Set Up Company',
-        description: 'Increase Sell Patty price, unlock Public Relations',
+        label: "Set Up Company",
+        description: "Increase Sell Patty price, unlock Public Relations",
         actionUsed: 0,
         money: 20000,
         updateResourceMultiplier: function() {
@@ -334,8 +335,8 @@ const App = () => {
         }
       },
       hireLabourer: {
-        label: 'Hire Labourer',
-        description: 'Reduce energy usage for all actions',
+        label: "Hire Labourer",
+        description: "Reduce energy usage for all actions",
         actionUsed: 0,
         costMultiplier: 3,
         money: 10000,
@@ -651,16 +652,16 @@ const App = () => {
     const action = actions.one[actionName];
 
     const toggleMinus = async () => {
-      const moneyContainer = document.getElementsByClassName('money-container')[0];
-      await moneyContainer.classList.toggle('minus');
-      const energyContainer = document.getElementsByClassName('energy-container')[0];
-      await energyContainer.classList.toggle('minus');
-      setTimeout(() => moneyContainer.classList.toggle('minus'), 200);
-      setTimeout(() => energyContainer.classList.toggle('minus'), 200);
+      const moneyContainer = document.getElementsByClassName("money-container")[0];
+      await moneyContainer.classList.toggle("minus");
+      const energyContainer = document.getElementsByClassName("energy-container")[0];
+      await energyContainer.classList.toggle("minus");
+      setTimeout(() => moneyContainer.classList.toggle("minus"), 200);
+      setTimeout(() => energyContainer.classList.toggle("minus"), 200);
     };
     setResourcesState(initialState => {
       if (initialState.energy >= action.energy && initialState.money >= action.money) {
-        if (actionName === 'buyCow') {
+        if (actionName === "buyCow") {
           const newState = {
             energy: initialState.energy - action.energy,
             money: initialState.money - action.money,
@@ -673,7 +674,7 @@ const App = () => {
           toggleMinus();
 
           return { ...initialState, ...newState };
-        } else if (actionName === 'processCow' && initialState.cow >= action.cow) {
+        } else if (actionName === "processCow" && initialState.cow >= action.cow) {
           const newState = {
             energy: initialState.energy - action.energy,
             money: initialState.money - action.money,
@@ -687,7 +688,7 @@ const App = () => {
           toggleMinus();
 
           return { ...initialState, ...newState };
-        } else if (actionName === 'packagePatty' && initialState.beef >= action.beef) {
+        } else if (actionName === "packagePatty" && initialState.beef >= action.beef) {
           const newState = {
             energy: initialState.energy - action.energy,
             money: initialState.money - action.money,
@@ -731,12 +732,12 @@ const App = () => {
       newGraphData.shift();
     }
 
-    const visualContainer = document.getElementsByClassName('town-image')[0];
-    const sellButton = document.getElementsByClassName('sell-button')[0];
-    await sellButton.classList.toggle('animate');
-    await visualContainer.classList.toggle('night');
-    setTimeout(() => visualContainer.classList.toggle('night'), 1000);
-    setTimeout(() => sellButton.classList.toggle('animate'), 200);
+    const visualContainer = document.getElementsByClassName("town-image")[0];
+    const sellButton = document.getElementsByClassName("sell-button")[0];
+    await sellButton.classList.toggle("animate");
+    await visualContainer.classList.toggle("night");
+    setTimeout(() => visualContainer.classList.toggle("night"), 1000);
+    setTimeout(() => sellButton.classList.toggle("animate"), 200);
 
     setGraphData(newGraphData);
     setResourcesState(newState);
@@ -757,7 +758,7 @@ const App = () => {
       title="Congratulations"
       imageUrl={Employees}
       message="U earn nothing!"
-      buttons={[{ label: 'Yes', function: onTest }, { label: 'No' }]}
+      buttons={[{ label: "Yes", function: onTest }, { label: "No" }]}
     />
   );
 
@@ -765,7 +766,7 @@ const App = () => {
 
   return (
     <div className="container">
-      {/* {generalAlertBox} */}
+      {generalAlertBox}
       {gameOverAlertBox}
       <div className="game-container">
         <div className="header-container">
@@ -780,7 +781,7 @@ const App = () => {
               <img src={Energy} />
             </span>
             <span className="energy-count">
-              {resourcesState.energy}/{energyCap}
+              {Math.floor(resourcesState.energy)}/{energyCap}
             </span>
           </div>
           <div className="employees-container">
@@ -792,8 +793,16 @@ const App = () => {
         </div>
         <div className="stats-container">
           <div className="stats">
+            <div className="calendar">
+              <img src={Calendar} />
+              {day}
+            </div>
             <div className="temperature">
               <img src={Thermometer} />
+              {resourcesState.temperature.toFixed(2)}°c
+            </div>
+            <div className="today-gg">
+              <img src={TodayGG} />
               {resourcesState.temperature.toFixed(2)}°c
             </div>
           </div>
@@ -875,7 +884,7 @@ const App = () => {
                         <img src={Money} /> {action.money.toFixed(2)}
                       </div>
                       <div>
-                        <img src={Energy} /> {action.energy.toFixed(2)}
+                        <img src={Energy} /> {Math.floor(action.energy)}
                       </div>
                     </button>
                   </div>
