@@ -30,12 +30,13 @@ const App = () => {
   const [graphData, setGraphData] = useState([]);
   const [todayGG, setTodayGG] = useState(0);
   const [stage, setStage] = useState(1);
+  const [isGameOver, setIsGameOver] = useState(false)
 
   const [resourcesState, setResourcesState] = useState({
     cow: 0,
     beef: 0,
     patty: 0,
-    money: 10000000000,
+    money: 10,
     energy: energyCap,
     employee: 0,
     gg: 1,
@@ -1216,22 +1217,6 @@ const App = () => {
     }
   });
 
-  const handleStageProgression = props => {
-    const { stage, statistics, resources, achievements } = props;
-    switch (stage) {
-      case 1:
-        return resources.money > 1000;
-      case 2:
-        return achievements.openCompany;
-      case 3:
-        return achievements.ipo;
-      case 4:
-        return achievements.ipo;
-      default:
-        return false;
-    }
-  };
-
   const handleAction = actionName => {
     const action = actions.one[actionName];
 
@@ -1319,6 +1304,10 @@ const App = () => {
       newGraphData.shift();
     }
 
+    if (newState.gg >= 400000) {
+      setIsGameOver(true)
+    }
+
     const visualContainer = document.getElementsByClassName('town-image')[0];
     const sellButton = document.getElementsByClassName('sell-button')[0];
     await sellButton.classList.toggle('animate');
@@ -1340,7 +1329,7 @@ const App = () => {
     />
   );
 
-  const gameOverAlertBox = <GameOverAlertBox imageUrl={GameOver} message={resourcesState} />;
+  const gameOverAlertBox = isGameOver && <GameOverAlertBox imageUrl={GameOver} message={resourcesState} />;
 
   return (
     <div className="container">
