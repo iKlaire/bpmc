@@ -29,6 +29,7 @@ const App = () => {
   const [day, setDay] = useState(1);
   const [graphData, setGraphData] = useState([]);
   const [todayGG, setTodayGG] = useState(0);
+  const [stage, setStage] = useState(1);
 
   const [resourcesState, setResourcesState] = useState({
     cow: 0,
@@ -341,6 +342,7 @@ const App = () => {
 
                 newActions.two.setUpCompany.actionUsed += 1;
 
+                setStage(3)
                 setActions(newActions);
                 animateMinusMoney();
 
@@ -638,6 +640,7 @@ const App = () => {
 
               newActions.three.ipo.actionUsed += 1;
 
+              setStage(4)
               setActions(newActions);
               animateMinusMoney();
 
@@ -893,6 +896,7 @@ const App = () => {
 
                 newActions.four.runForPresident.actionUsed += 1;
 
+                setStage(5)
                 setActions(newActions);
                 animateMinusMoney();
 
@@ -1249,6 +1253,9 @@ const App = () => {
             gg: initialState.gg + action.gg
           };
 
+          if (stage === 1 && initialState.money > 1000 ) {
+            setStage(2)
+          }
           setTodayGG(initialGG => initialGG + action.gg);
 
           toggleMinus();
@@ -1465,7 +1472,7 @@ const App = () => {
               <div className="actions-header start-up">
                 <span className="actions-header-text">Start up</span>
               </div>
-              {Object.values(actions.two).map(action => (
+              {stage >= 2 && Object.values(actions.two).map(action => (
                 <div className="action" key={`${action.label}-key`}>
                   <div className="action-icon">
                     <img src={Act} />
@@ -1489,7 +1496,7 @@ const App = () => {
               <div className="actions-header sme">
                 <span className="actions-header-text">Small company</span>
               </div>
-              {Object.values(actions.three).map(action => (
+              {stage >= 3 && Object.values(actions.three).map(action => (
                 <div className="action" key={`${action.label}-key`}>
                   <div className="action-icon">
                     <img src={Act} />
@@ -1513,7 +1520,7 @@ const App = () => {
               <div className="actions-header ipo">
                 <span className="actions-header-text">Large company</span>
               </div>
-              {Object.values(actions.four).map(action => (
+              {stage >= 4 && Object.values(actions.four).map(action => (
                 <div className="action" key={`${action.label}-key`}>
                   <div className="action-icon">
                     <img src={Act} />
@@ -1537,7 +1544,7 @@ const App = () => {
               <div className="actions-header glc">
                 <span className="actions-header-text">Government Corporation</span>
               </div>
-              {Object.values(actions.five).map(action => (
+              {stage >= 5 && Object.values(actions.five).map(action => (
                 <div className="action" key={`${action.label}-key`}>
                   <div className="action-icon">
                     <img src={Act} />
