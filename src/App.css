@@ -297,6 +297,16 @@ button.sell-button:active {
   color: green;
 }
 
+.action-bought {
+  position: relative;
+  top: -2px;
+  left: 2px;
+  font-size: 0.6em;
+  font-weight: normal;
+  text-transform: lowercase;
+  color: grey;
+}
+
 .action-description {
   font-size: 0.75em;
 }

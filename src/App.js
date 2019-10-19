@@ -114,15 +114,6 @@ const App = () => {
     three: {}
   });
 
-  const data = [
-    { name: 'Page A', uv: 1, amt: 2400 },
-    { name: 'Page B', uv: 2, amt: 12 },
-    { name: 'Page C', uv: 88, amt: 678 },
-    { name: 'Page D', uv: 777, amt: 3 },
-    { name: 'Page E', uv: 1800, amt: 137 },
-    { name: 'Page F', uv: 6000, amt: 888 }
-  ];
-
   const handleStageProgression = props => {
     const { stage, statistics, resources, achievements } = props;
     switch (stage) {
@@ -411,7 +402,7 @@ const App = () => {
             <span className="money-icon">
               <img src={Money} />
             </span>
-            <span className="money-count">{resourcesState.money}</span>
+            <span className="money-count">{resourcesState.money.toFixed(2)}</span>
           </div>
           <div className="energy-container">
             <span className="energy-icon">
@@ -432,7 +423,7 @@ const App = () => {
           <div className="stats">
             <div className="temperature">
               <img src={Thermometer} />
-              {resourcesState.temperature}°c
+              {resourcesState.temperature.toFixed(2)}°c
             </div>
           </div>
           <div className="charts">
@@ -510,10 +501,10 @@ const App = () => {
                   <div className="action-button-container">
                     <button className="action-button" onClick={action.onClick}>
                       <div>
-                        <img src={Money} /> {action.money}
+                        <img src={Money} /> {action.money.toFixed(2)}
                       </div>
                       <div>
-                        <img src={Energy} /> {action.energy}
+                        <img src={Energy} /> {action.energy.toFixed(2)}
                       </div>
                     </button>
                   </div>
@@ -528,13 +519,16 @@ const App = () => {
                     <img src={Act} />
                   </div>
                   <div className="action-content">
-                    <span className="action-label">{action.label}</span>
+                    <span className="action-label">
+                      {action.label}
+                      <span className="action-bought">(bought: {action.actionUsed})</span>
+                    </span>
                     <span className="action-description">{action.description}</span>
                   </div>
                   <div className="action-button-container">
                     <button className="action-button" onClick={() => action.updateResourceMultiplier()}>
                       <div>
-                        <img src={Money} /> {action.money}
+                        <img src={Money} /> {action.money.toFixed(2)}
                       </div>
                     </button>
                   </div>
