@@ -121,7 +121,7 @@ body {
 }
 
 .visual-container {
-  height: 45%;
+  height: 40%;
   overflow: scroll;
   background-color: rgb(0, 1, 32);
 }
@@ -137,7 +137,7 @@ body {
 }
 
 .actions-container {
-  height: 35%;
+  height: 40%;
   background: #ffffff;
 }
 
@@ -234,6 +234,26 @@ button.sell-button:active {
   margin-bottom: 8px;
 }
 
+.actions-header.solo {
+  background-color: #a9ffa9;
+}
+
+.actions-header.start-up {
+  background-color: #d7ffaf;
+}
+
+.actions-header.sme {
+  background-color: #ffffac;
+}
+
+.actions-header.ipo {
+  background-color: #ffd0a1;
+}
+
+.actions-header.glc {
+  background-color: #ffafaf;
+}
+
 .actions-header-text {
   font-size: 1.5em;
   font-weight: bold;
@@ -275,6 +295,16 @@ button.sell-button:active {
   font-weight: bold;
   text-transform: uppercase;
   color: green;
+}
+
+.action-bought {
+  position: relative;
+  top: -2px;
+  left: 2px;
+  font-size: 0.6em;
+  font-weight: normal;
+  text-transform: lowercase;
+  color: grey;
 }
 
 .action-description {

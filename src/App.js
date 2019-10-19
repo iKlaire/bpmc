@@ -9,9 +9,12 @@ import Patty from './patty.png';
 import Sell from './sell.png';
 import Employees from './employee.png';
 import Thermometer from './thermo.png';
+import GGPerDay from './ggpd.png';
+import GameOver from './gameover.png';
 import Act from './act.jpg';
 import { LineChart, XAxis, Tooltip, CartesianGrid, Line, ResponsiveContainer } from 'recharts';
 import AlertBox from './components/AlertBox/AlertBox';
+import GameOverAlertBox from './components/GameOverAlertBox/GameOverAlertBox';
 
 const onTest = () => {
   // TODO: Do custom function name here
@@ -22,6 +25,8 @@ const onTest = () => {
 const App = () => {
   const [energyCap, setEnergyCap] = useState(100);
   const [pricePerPatty, setPricePerPatty] = useState(2);
+  const [day, setDay] = useState(0);
+  const [graphData, setGraphData] = useState([]);
 
   const [resourcesState, setResourcesState] = useState({
     cow: 0,
@@ -365,15 +370,6 @@ const App = () => {
     three: {}
   });
 
-  const data = [
-    { name: 'Page A', uv: 1, amt: 2400 },
-    { name: 'Page B', uv: 2, amt: 12 },
-    { name: 'Page C', uv: 88, amt: 678 },
-    { name: 'Page D', uv: 777, amt: 3 },
-    { name: 'Page E', uv: 1800, amt: 137 },
-    { name: 'Page F', uv: 6000, amt: 888 }
-  ];
-
   const handleStageProgression = props => {
     const { stage, statistics, resources, achievements } = props;
     switch (stage) {
@@ -463,6 +459,11 @@ const App = () => {
     newState.temperature = newState.gg / 20000 + 10;
     newState.seaLevel = (newState.temperature - 10) * 5;
 
+    const newGraphData = [...graphData, { day, ggLevel: newState.gg, seaLevel: newState.seaLevel }];
+    if (newGraphData.length > 6) {
+      newGraphData.shift();
+    }
+
     const visualContainer = document.getElementsByClassName('town-image')[0];
     const sellButton = document.getElementsByClassName('sell-button')[0];
     await sellButton.classList.toggle('animate');
@@ -470,7 +471,9 @@ const App = () => {
     setTimeout(() => visualContainer.classList.toggle('night'), 1000);
     setTimeout(() => sellButton.classList.toggle('animate'), 200);
 
+    setGraphData(newGraphData);
     setResourcesState(newState);
+    setDay(day + 1);
   };
 
   // const upgrades = {
@@ -526,21 +529,28 @@ const App = () => {
   // Set up Company - RM 20,000, requires Build Workshop, unlock Public Relations, third stage
   // Hire Employee - RM 10,000++ each, reduce energy usage, max 10
 
+  const generalAlertBox = (
+    <AlertBox
+      title="Congratulations"
+      imageUrl={Employees}
+      message="U earn nothing!"
+      buttons={[{ label: 'Yes', function: onTest }, { label: 'No' }]}
+    />
+  );
+
+  const gameOverAlertBox = <GameOverAlertBox imageUrl={GameOver} message={resourcesState} />;
+
   return (
     <div className="container">
-      <AlertBox
-        title="Congratulations"
-        imageUrl="https://developers.video.ibm.com/images/example-channel-nasa.jpg"
-        message="U earn nothing!"
-        buttons={[{ label: 'Yes', function: onTest }, { label: 'No' }]}
-      />
+      {/* {generalAlertBox} */}
+      {gameOverAlertBox}
       <div className="game-container">
         <div className="header-container">
           <div className="money-container">
             <span className="money-icon">
               <img src={Money} />
             </span>
-            <span className="money-count">{resourcesState.money}</span>
+            <span className="money-count">{resourcesState.money.toFixed(2)}</span>
           </div>
           <div className="energy-container">
             <span className="energy-icon">
@@ -561,28 +571,28 @@ const App = () => {
           <div className="stats">
             <div className="temperature">
               <img src={Thermometer} />
-              {resourcesState.temperature}°c
+              {resourcesState.temperature.toFixed(2)}°c
             </div>
           </div>
           <div className="charts">
             <div className="chart-card">
               <ResponsiveContainer width="100%" height="80%">
-                <LineChart data={data}>
-                  <XAxis dataKey="name" />
+                <LineChart data={graphData}>
+                  <XAxis dataKey="day" />
                   <Tooltip />
                   <CartesianGrid stroke="#f5f5f5" />
-                  <Line type="monotone" dataKey="uv" stroke="#ff7300" yAxisId={0} />
+                  <Line type="monotone" dataKey="ggLevel" stroke="#ff7300" yAxisId={0} />
                 </LineChart>
               </ResponsiveContainer>
               <div className="chart-title">GG Level</div>
             </div>
             <div className="chart-card">
               <ResponsiveContainer width="100%" height="80%">
-                <LineChart data={data}>
-                  <XAxis dataKey="name" />
+                <LineChart data={graphData}>
+                  <XAxis dataKey="day" />
                   <Tooltip />
                   <CartesianGrid stroke="#f5f5f5" />
-                  <Line type="monotone" dataKey="uv" stroke="#ff7300" yAxisId={0} />
+                  <Line type="monotone" dataKey="seaLevel" stroke="#ff7300" yAxisId={0} />
                 </LineChart>
               </ResponsiveContainer>
               <div className="chart-title">Sea Level</div>
@@ -624,7 +634,7 @@ const App = () => {
           </div>
           <div className="actions-list">
             <div className="actions-card">
-              <div className="actions-header" style={{ backgroundColor: '#00ff00' }}>
+              <div className="actions-header solo">
                 <span className="actions-header-text">Solo</span>
               </div>
               {Object.values(actions.one).map(action => (
@@ -639,16 +649,16 @@ const App = () => {
                   <div className="action-button-container">
                     <button className="action-button" onClick={action.onClick}>
                       <div>
-                        <img src={Money} /> {action.money}
+                        <img src={Money} /> {action.money.toFixed(2)}
                       </div>
                       <div>
-                        <img src={Energy} /> {action.energy}
+                        <img src={Energy} /> {action.energy.toFixed(2)}
                       </div>
                     </button>
                   </div>
                 </div>
               ))}
-              <div className="actions-header" style={{ backgroundColor: '#7fff00' }}>
+              <div className="actions-header start-up">
                 <span className="actions-header-text">Start up</span>
               </div>
               {Object.values(actions.two).map(action => (
@@ -657,25 +667,28 @@ const App = () => {
                     <img src={Act} />
                   </div>
                   <div className="action-content">
-                    <span className="action-label">{action.label}</span>
+                    <span className="action-label">
+                      {action.label}
+                      <span className="action-bought">(bought: {action.actionUsed})</span>
+                    </span>
                     <span className="action-description">{action.description}</span>
                   </div>
                   <div className="action-button-container">
                     <button className="action-button" onClick={() => action.updateResourceMultiplier()}>
                       <div>
-                        <img src={Money} /> {action.money}
+                        <img src={Money} /> {action.money.toFixed(2)}
                       </div>
                     </button>
                   </div>
                 </div>
               ))}
-              <div className="actions-header" style={{ backgroundColor: '#ffff00' }}>
+              <div className="actions-header sme">
                 <span className="actions-header-text">Small company</span>
               </div>
-              <div className="actions-header" style={{ backgroundColor: '#ff7f00' }}>
+              <div className="actions-header ipo">
                 <span className="actions-header-text">Large company</span>
               </div>
-              <div className="actions-header" style={{ backgroundColor: '#ff0000' }}>
+              <div className="actions-header glc">
                 <span className="actions-header-text">Government Corporation</span>
               </div>
             </div>
