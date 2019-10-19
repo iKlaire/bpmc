@@ -1,6 +1,7 @@
-import React, { useState } from "react";
-import "./App.css";
-import Town from "./temp.jpg";
+import React, { useState } from 'react';
+import './App.css';
+import Town from './temp.jpg';
+import AlertBox from './components/AlertBox/AlertBox';
 
 function App() {
   const [money] = useState(10);
@@ -11,56 +12,69 @@ function App() {
   const [patty] = useState(0);
   const [actions] = useState([
     {
-      label: "Buy Cow",
-      description: "You buy a cow. Bow.",
+      label: 'Buy Cow',
+      description: 'You buy a cow. Bow.',
       energy: 3,
       money: 3
     },
     {
-      label: "Process Cow",
-      description: "You process a cow. Wow.",
+      label: 'Process Cow',
+      description: 'You process a cow. Wow.',
       energy: 5,
       money: 5
     },
     {
-      label: "Buy Cow",
-      description: "You buy a cow. Bow.",
+      label: 'Buy Cow',
+      description: 'You buy a cow. Bow.',
       energy: 3,
       money: 3
     },
     {
-      label: "Process Cow",
-      description: "You process a cow. Wow.",
+      label: 'Process Cow',
+      description: 'You process a cow. Wow.',
       energy: 5,
       money: 5
     },
     {
-      label: "Buy Cow",
-      description: "You buy a cow. Bow.",
+      label: 'Buy Cow',
+      description: 'You buy a cow. Bow.',
       energy: 3,
       money: 3
     },
     {
-      label: "Process Cow",
-      description: "You process a cow. Wow.",
+      label: 'Process Cow',
+      description: 'You process a cow. Wow.',
       energy: 5,
       money: 5
     },
     {
-      label: "Buy Cow",
-      description: "You buy a cow. Bow.",
+      label: 'Buy Cow',
+      description: 'You buy a cow. Bow.',
       energy: 3,
       money: 3
     },
     {
-      label: "Process Cow",
-      description: "You process a cow. Wow.",
+      label: 'Process Cow',
+      description: 'You process a cow. Wow.',
       energy: 5,
       money: 5
     }
   ]);
+
+  const onTest = () => {
+    // TODO: Do custom function name here
+    console.log('Check your console!!!');
+    // TODO: Do custom function here
+  };
+
   return (
     <div className="container">
+      <AlertBox
+        title="Congratulations"
+        imageUrl="https://developers.video.ibm.com/images/example-channel-nasa.jpg"
+        message="U earn nothing!"
+        buttons={[{ label: 'Yes', function: onTest }, { label: 'No' }]}
+      />
       <div className="game-container">
         <div className="header-container">
           <div className="money-container">
