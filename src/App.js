@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import './App.css';
-import Town from './temp.jpg';
+import Stage1 from './stage1.png';
+import Stage2 from './stage2.png';
+import Stage3 from './stage3.png';
+import Stage4 from './stage4.png';
+import Stage5 from './stage5.png';
 import Cow from './cow.png';
 import Beef from './meat.png';
 import Energy from './energy.png';
@@ -23,6 +27,8 @@ const onTest = () => {
   // TODO: Do custom function here
 };
 
+const backgrounds = [Stage1, Stage2, Stage3, Stage4, Stage5];
+
 const App = () => {
   const [energyCap, setEnergyCap] = useState(100);
   const [pricePerPatty, setPricePerPatty] = useState(2);
@@ -30,15 +36,16 @@ const App = () => {
   const [graphData, setGraphData] = useState([]);
   const [todayGG, setTodayGG] = useState(0);
   const [stage, setStage] = useState(1);
+  const [proceedToNextStage, setProceedToNextStage] = useState(false);
   const [isGameOver, setIsGameOver] = useState(false);
-
+  const [currentBackground, setCurrentBackground] = useState(Stage1);
   const [resourcesState, setResourcesState] = useState({
     cow: 0,
     beef: 0,
     patty: 0,
-    money: 10,
+    money: 999999999999,
     energy: energyCap,
-    employee: 0,
+    employee: 30,
     gg: 1,
     seaLevel: 0,
     temperature: 10
@@ -378,7 +385,7 @@ const App = () => {
 
                 newActions.two.setUpCompany.actionUsed += 1;
 
-                setStage(3);
+                setProceedToNextStage(true);
                 setActions(newActions);
                 animateMinusMoney();
 
@@ -644,7 +651,7 @@ const App = () => {
 
               newActions.three.ipo.actionUsed += 1;
 
-              setStage(4);
+              setProceedToNextStage(true);
               setActions(newActions);
               animateMinusMoney();
 
@@ -906,7 +913,7 @@ const App = () => {
 
                 newActions.four.runForPresident.actionUsed += 1;
 
-                setStage(5);
+                setProceedToNextStage(true);
                 setActions(newActions);
                 animateMinusMoney();
 
@@ -1250,9 +1257,6 @@ const App = () => {
             gg: initialState.gg + action.gg
           };
 
-          if (stage === 1 && initialState.money > 1000) {
-            setStage(2);
-          }
           setTodayGG(initialGG => initialGG + action.gg);
 
           toggleMinus();
@@ -1311,13 +1315,18 @@ const App = () => {
     newState.temperature = newState.gg / 20000 + 10;
     newState.seaLevel = (newState.temperature - 10) * 5;
 
+    if (newState.gg >= 400000) {
+      setIsGameOver(true);
+    }
+    if ((stage === 1 && newState.money >= 1000) || proceedToNextStage) {
+      setStage(stage + 1);
+      setCurrentBackground(backgrounds[stage]);
+      setProceedToNextStage(false);
+    }
+
     const newGraphData = [...graphData, { day, ggLevel: newState.gg, seaLevel: newState.seaLevel }];
     if (newGraphData.length > 6) {
       newGraphData.shift();
-    }
-
-    if (newState.gg >= 400000) {
-      setIsGameOver(true);
     }
 
     const visualContainer = document.getElementsByClassName('town-image')[0];
@@ -1413,7 +1422,7 @@ const App = () => {
         </div>
         <div className="visual-container">
           <div className="town-image-container">
-            <img className="town-image" src={Town}></img>
+            <img className="town-image" src={currentBackground}></img>
           </div>
         </div>
         <div className="actions-container">

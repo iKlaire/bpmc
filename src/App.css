@@ -129,7 +129,7 @@ body {
 .town-image {
   transition: all 0.5s;
   opacity: 1;
-  width: 900px;
+  width: 650px;
 }
 
 .town-image.night {
@@ -228,7 +228,7 @@ button.sell-button:active {
 }
 
 .actions-header {
-  width: "100%";
+  width: '100%';
   border-radius: 5px;
   padding: 3px;
   padding-left: 8px;
