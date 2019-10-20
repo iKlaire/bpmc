@@ -43,9 +43,9 @@ const App = () => {
     cow: 0,
     beef: 0,
     patty: 0,
-    money: 999999999999,
+    money: 10,
     energy: energyCap,
-    employee: 30,
+    employee: 0,
     gg: 1,
     seaLevel: 0,
     temperature: 10
@@ -1233,6 +1233,177 @@ const App = () => {
           });
         }
       }
+    },
+    pr: {
+      organicCows: {
+        label: 'Organic Cows',
+        description: 'Increase Buy Cow price, reduce GG level (a) per cow',
+        actionUsed: 0,
+        upgradeCap: 10,
+        costMultiplier: 2,
+        money: 20000,
+        updateResourceMultiplier: function() {
+          setResourcesState(initialState => {
+            const { money, costMultiplier, actionUsed, upgradeCap } = actions.pr.organicCows;
+            if (initialState.money >= money && actionUsed < upgradeCap) {
+              const newActions = { ...actions };
+
+              newActions.one.buyCow.money = actions.one.buyCow.money * 1.5;
+              newActions.one.processCow.gg = actions.one.processCow.gg * 0.85;
+
+              const newState = {
+                money: initialState.money - money
+              };
+
+              newActions.pr.organicCows.actionUsed += 1;
+              newActions.pr.organicCows.money = money * costMultiplier;
+
+              setActions(newActions);
+              animateMinusMoney();
+
+              return { ...initialState, ...newState };
+            } else {
+              return initialState;
+            }
+          });
+        }
+      },
+      osha: {
+        label: 'OSHA Inspection',
+        description: 'Increase Sell Patty price, has a chance to increase or decrease GG impact',
+        actionUsed: 0,
+        upgradeCap: 10,
+        costMultiplier: 2,
+        money: 100000,
+        updateResourceMultiplier: function() {
+          setResourcesState(initialState => {
+            const { money, costMultiplier, actionUsed, upgradeCap } = actions.pr.osha;
+            if (initialState.money >= money && actionUsed < upgradeCap) {
+              const newActions = { ...actions };
+
+              const currentGG = actions.one.buyCow.gg;
+              let newGG = 0;
+
+              if (Math.random() < 0.2 && currentGG > 1) {
+                newGG = currentGG - 1;
+              } else {
+                newGG = currentGG + 1;
+              }
+
+              const newState = {
+                money: initialState.money - money,
+                gg: initialState.gg * newGG
+              };
+
+              newActions.pr.osha.actionUsed += 1;
+              newActions.pr.osha.money = money * costMultiplier;
+
+              setPricePerPatty(currentPrice => currentPrice * 1.1);
+              setActions(newActions);
+              animateMinusMoney();
+
+              return { ...initialState, ...newState };
+            } else {
+              return initialState;
+            }
+          });
+        }
+      },
+      methanGasPlant: {
+        label: 'Methane Gas Plant',
+        description: 'Increase Buy Cow price, Sell Patty base price, reduce GG level per cow',
+        actionUsed: 0,
+        upgradeCap: 10,
+        costMultiplier: 1.3,
+        money: 10000000,
+        updateResourceMultiplier: function() {
+          setResourcesState(initialState => {
+            const { money, costMultiplier, actionUsed, upgradeCap } = actions.pr.methanGasPlant;
+            if (initialState.money >= money && actionUsed < upgradeCap) {
+              const newActions = { ...actions };
+
+              const newState = {
+                money: initialState.money - money
+              };
+
+              newActions.one.buyCow.money = actions.one.buyCow.money * 1.3;
+              newActions.one.buyCow.gg = actions.one.buyCow.gg * 0.85;
+              newActions.pr.methanGasPlant.actionUsed += 1;
+              newActions.pr.methanGasPlant.money = money * costMultiplier;
+
+              setPricePerPatty(5);
+              setActions(newActions);
+              animateMinusMoney();
+
+              return { ...initialState, ...newState };
+            } else {
+              return initialState;
+            }
+          });
+        }
+      },
+      plantTrees: {
+        label: 'Plant Trees',
+        description: 'Reduce GG level',
+        actionUsed: 0,
+        upgradeCap: 10,
+        costMultiplier: 1.3,
+        money: 50000000,
+        updateResourceMultiplier: function() {
+          setResourcesState(initialState => {
+            const { money, costMultiplier, actionUsed, upgradeCap } = actions.pr.plantTrees;
+            if (initialState.money >= money && actionUsed < upgradeCap) {
+              const newActions = { ...actions };
+
+              const newState = {
+                money: initialState.money - money,
+                gg: initialState.gg * 0.9
+              };
+
+              newActions.pr.plantTrees.actionUsed += 1;
+              newActions.pr.plantTrees.money = money * costMultiplier;
+
+              setActions(newActions);
+              animateMinusMoney();
+
+              return { ...initialState, ...newState };
+            } else {
+              return initialState;
+            }
+          });
+        }
+      },
+      installEP: {
+        label: 'Install Electrostatic Precipitator',
+        description: 'Reduce GG level',
+        actionUsed: 0,
+        upgradeCap: 10,
+        costMultiplier: 1.3,
+        money: 150000000,
+        updateResourceMultiplier: function() {
+          setResourcesState(initialState => {
+            const { money, costMultiplier, actionUsed, upgradeCap } = actions.pr.installEP;
+            if (initialState.money >= money && actionUsed < upgradeCap) {
+              const newActions = { ...actions };
+
+              const newState = {
+                money: initialState.money - money,
+                gg: initialState.gg * 0.85
+              };
+
+              newActions.pr.installEP.actionUsed += 1;
+              newActions.pr.installEP.money = money * costMultiplier;
+
+              setActions(newActions);
+              animateMinusMoney();
+
+              return { ...initialState, ...newState };
+            } else {
+              return initialState;
+            }
+          });
+        }
+      }
     }
   });
 
@@ -1568,6 +1739,34 @@ const App = () => {
               </div>
               {stage >= 5 &&
                 Object.values(actions.five).map(action => (
+                  <div className="action" key={`${action.label}-key`}>
+                    <div className="action-icon">
+                      <img src={Act} />
+                    </div>
+                    <div className="action-content">
+                      <span className="action-label">
+                        {action.label}
+                        <span className="action-bought">
+                          (bought: {action.actionUsed}
+                          {action.upgradeCap && ` / ${action.upgradeCap}`})
+                        </span>
+                      </span>
+                      <span className="action-description">{action.description}</span>
+                    </div>
+                    <div className="action-button-container">
+                      <button className="action-button" onClick={() => action.updateResourceMultiplier()}>
+                        <div>
+                          <img src={Money} /> {abbreviateNumber(action.money)}
+                        </div>
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              <div className="actions-header glc">
+                <span className="actions-header-text">Government Corporation</span>
+              </div>
+              {stage >= 3 &&
+                Object.values(actions.pr).map(action => (
                   <div className="action" key={`${action.label}-key`}>
                     <div className="action-icon">
                       <img src={Act} />
