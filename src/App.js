@@ -30,7 +30,7 @@ const App = () => {
   const [graphData, setGraphData] = useState([]);
   const [todayGG, setTodayGG] = useState(0);
   const [stage, setStage] = useState(1);
-  const [isGameOver, setIsGameOver] = useState(false)
+  const [isGameOver, setIsGameOver] = useState(false);
 
   const [resourcesState, setResourcesState] = useState({
     cow: 0,
@@ -324,40 +324,9 @@ const App = () => {
           }
         }
       },
-      setUpCompany: {
-        label: 'Set Up Company',
-        description: 'Increase Sell Patty price, unlock Public Relations and third stage',
-        actionUsed: 0,
-        money: 20000,
-        updateResourceMultiplier: function() {
-          if (actions.two.buildWorkshop.actionUsed > 0 && this.actionUsed === 0) {
-            setResourcesState(initialState => {
-              if (initialState.money > actions.two.setUpCompany.money) {
-                const newActions = { ...actions };
-                const { money } = actions.two.setUpCompany;
-                setPricePerPatty(pricePerPatty + 1000);
-
-                const newState = {
-                  money: initialState.money - money
-                };
-
-                newActions.two.setUpCompany.actionUsed += 1;
-
-                setStage(3)
-                setActions(newActions);
-                animateMinusMoney();
-
-                return { ...initialState, ...newState };
-              } else {
-                return initialState;
-              }
-            });
-          }
-        }
-      },
       hireLabourer: {
         label: 'Hire Labourer',
-        description: 'Reduce energy usage for all actions',
+        description: 'Reduce energy usage for all actions, needs "Set Up Company"',
         actionUsed: 0,
         costMultiplier: 1.1,
         money: 10000,
@@ -375,10 +344,41 @@ const App = () => {
                   money: initialState.money - money,
                   employee: initialState.employee + 1
                 };
-
                 newActions.two.hireLabourer.actionUsed += 1;
                 newActions.two.hireLabourer.money = newActions.two.hireLabourer.money * costMultiplier;
 
+                setActions(newActions);
+                animateMinusMoney();
+
+                return { ...initialState, ...newState };
+              } else {
+                return initialState;
+              }
+            });
+          }
+        }
+      },
+      setUpCompany: {
+        label: 'Set Up Company',
+        description: 'Increase Sell Patty price, unlock Public Relations and third stage, needs "Build Workshop"',
+        actionUsed: 0,
+        upgradeCap: 1,
+        money: 20000,
+        updateResourceMultiplier: function() {
+          if (actions.two.buildWorkshop.actionUsed > 0 && this.actionUsed < this.upgradeCap) {
+            setResourcesState(initialState => {
+              if (initialState.money > actions.two.setUpCompany.money) {
+                const newActions = { ...actions };
+                const { money } = actions.two.setUpCompany;
+                setPricePerPatty(pricePerPatty + 1000);
+
+                const newState = {
+                  money: initialState.money - money
+                };
+
+                newActions.two.setUpCompany.actionUsed += 1;
+
+                setStage(3);
                 setActions(newActions);
                 animateMinusMoney();
 
@@ -441,7 +441,8 @@ const App = () => {
               newActions.one.packagePatty.energy = actions.one.packagePatty.energy - 2;
 
               const newState = {
-                money: initialState.money - money
+                money: initialState.money - money,
+                employee: initialState.employee + 1
               };
 
               newActions.three.hireWorker.actionUsed += 1;
@@ -493,13 +494,13 @@ const App = () => {
         description: 'Doubles up price of buying cow, get x6 cows each time',
         stage: 3,
         actionUsed: 0,
-        costMultiplier: 1.9,
+        upgradeCap: 1,
         money: 100000,
         updateResourceMultiplier: function() {
           setResourcesState(initialState => {
-            if (initialState.money > actions.three.StrikeABetterDeal.money) {
+            const { money, actionUsed, upgradeCap } = actions.three.StrikeABetterDeal;
+            if (initialState.money > money && actionUsed < upgradeCap) {
               const newActions = { ...actions };
-              const { money, costMultiplier } = actions.three.StrikeABetterDeal;
 
               newActions.one.buyCow.money = actions.one.buyCow.money * 2;
               newActions.one.buyCow.cow = actions.one.buyCow.cow * 6;
@@ -509,7 +510,6 @@ const App = () => {
               };
 
               newActions.three.StrikeABetterDeal.actionUsed += 1;
-              newActions.three.StrikeABetterDeal.money = money * costMultiplier;
 
               setActions(newActions);
               animateMinusMoney();
@@ -526,12 +526,13 @@ const App = () => {
         description: 'Increase Sell patty price by 100% additively, single purchase',
         stage: 3,
         actionUsed: 0,
+        upgradeCap: 1,
         costMultiplier: 1.9,
         money: 150000,
         updateResourceMultiplier: function() {
           setResourcesState(initialState => {
-            const { money, actionUsed } = actions.three.hireMarketing;
-            if (initialState.money > money && actionUsed === 0) {
+            const { money, actionUsed, upgradeCap } = actions.three.hireMarketing;
+            if (initialState.money > money && actionUsed < upgradeCap) {
               const newActions = { ...actions };
 
               const newState = {
@@ -556,12 +557,13 @@ const App = () => {
         description: 'Halve Buy Cow price, Increases GG impact',
         stage: 3,
         actionUsed: 0,
+        upgradeCap: 2,
         costMultiplier: 2,
         money: 500000,
         updateResourceMultiplier: function() {
           setResourcesState(initialState => {
-            const { money, costMultiplier, actionUsed } = actions.three.buildFarm;
-            if (initialState.money > money && actionUsed < 2) {
+            const { money, costMultiplier, actionUsed, upgradeCap } = actions.three.buildFarm;
+            if (initialState.money > money && actionUsed < upgradeCap) {
               const newActions = { ...actions };
 
               newActions.one.buyCow.money = actions.one.buyCow.money / 2;
@@ -586,16 +588,16 @@ const App = () => {
       },
       buildFactory: {
         label: 'Build Factory',
-        description:
-          'Triple amount of cow processed and patty packaged each time, increase energy usage and GG impact, requires 30 employees, single purchase',
+        description: 'Triple amount of cow processed and patty packaged each time, increase energy usage and GG impact, requires 30 employees',
         stage: 3,
         actionUsed: 0,
+        upgradeCap: 1,
         costMultiplier: 2,
         money: 2000000,
         updateResourceMultiplier: function() {
           setResourcesState(initialState => {
-            const { money, actionUsed } = actions.three.buildFactory;
-            if (initialState.money > money && initialState.employee >= 30 && actionUsed === 0) {
+            const { money, actionUsed, upgradeCap } = actions.three.buildFactory;
+            if (initialState.money > money && initialState.employee >= 30 && actionUsed < upgradeCap) {
               const newActions = { ...actions };
 
               newActions.one.processCow.beef = actions.one.processCow.beef * 3;
@@ -624,15 +626,16 @@ const App = () => {
       },
       ipo: {
         label: 'Initial Public Offering',
-        description: 'Unlocks 4th stage, requires 30 employees',
+        description: 'Unlocks fourth stage, requires 30 employees',
         stage: 3,
         actionUsed: 0,
+        upgradeCap: 1,
         costMultiplier: 2,
         money: 1000000,
         updateResourceMultiplier: function() {
           setResourcesState(initialState => {
-            const { money, actionUsed } = actions.three.ipo;
-            if (initialState.money > money && initialState.employee >= 30 && actionUsed === 0) {
+            const { money, actionUsed, upgradeCap } = actions.three.ipo;
+            if (initialState.money > money && initialState.employee >= 30 && actionUsed < upgradeCap) {
               const newActions = { ...actions };
 
               const newState = {
@@ -641,7 +644,7 @@ const App = () => {
 
               newActions.three.ipo.actionUsed += 1;
 
-              setStage(4)
+              setStage(4);
               setActions(newActions);
               animateMinusMoney();
 
@@ -658,10 +661,11 @@ const App = () => {
         label: 'Hire Employee',
         description: 'Reduce energy consumption even more',
         actionUsed: 0,
+        upgradeCap: 100,
         costMultiplier: 1.5,
         money: 1000000,
         updateResourceMultiplier: function() {
-          if (this.actionUsed < 100) {
+          if (this.actionUsed < this.upgradeCap) {
             setResourcesState(initialState => {
               if (initialState.money > actions.four.hireEmployee.money) {
                 const newActions = { ...actions };
@@ -754,9 +758,10 @@ const App = () => {
         label: 'Build Factory',
         description: 'Double Process and Package output, and also GG impact',
         actionUsed: 0,
+        upgradeCap: 1,
         money: 1000,
         updateResourceMultiplier: function() {
-          if (resourcesState.employee >= 60 && this.actionUsed === 0) {
+          if (resourcesState.employee >= 60 && this.actionUsed < this.upgradeCap) {
             setResourcesState(initialState => {
               if (initialState.money > actions.four.buildFactory2.money) {
                 const newActions = { ...actions };
@@ -787,9 +792,10 @@ const App = () => {
         label: 'Strike The Best Deal',
         description: 'Get 10 times the number of cows per buy, at 5 times the cost',
         actionUsed: 0,
+        upgradeCap: 1,
         money: 45000000,
         updateResourceMultiplier: function() {
-          if (this.actionUsed === 0) {
+          if (this.actionUsed < this.upgradeCap) {
             setResourcesState(initialState => {
               if (initialState.money > actions.four.strikeTheBestDeal.money) {
                 const newActions = { ...actions };
@@ -818,9 +824,10 @@ const App = () => {
         label: 'Hire HR Team',
         description: 'Our cowatherapists will increase Sell Patty prices by a multiple of 10',
         actionUsed: 0,
+        upgradeCap: 1,
         money: 50000000,
         updateResourceMultiplier: function() {
-          if (this.actionUsed === 0) {
+          if (this.actionUsed < this.upgradeCap) {
             setResourcesState(initialState => {
               if (initialState.money > actions.four.hireHRTeam.money) {
                 const newActions = { ...actions };
@@ -848,9 +855,10 @@ const App = () => {
         label: 'Upgrade Factory',
         description: 'Triple Process and Package output, and also energy usage',
         actionUsed: 0,
+        upgradeCap: 1,
         money: 100000000,
         updateResourceMultiplier: function() {
-          if (this.actionUsed === 0) {
+          if (this.actionUsed < this.upgradeCap) {
             setResourcesState(initialState => {
               if (initialState.money > actions.four.upgradeFactory.money) {
                 const newActions = { ...actions };
@@ -881,11 +889,12 @@ const App = () => {
       },
       runForPresident: {
         label: 'Run For President',
-        description: 'Unlock fifth stage',
+        description: 'Unlock fifth stage. Requires "Hire HR Team"',
         actionUsed: 0,
+        upgradeCap: 1,
         money: 200000000,
         updateResourceMultiplier: function() {
-          if (actions.four.hireHRTeam.actionUsed > 0 && this.actionUsed === 0) {
+          if (actions.four.hireHRTeam.actionUsed > 0 && this.actionUsed < this.upgradeCap) {
             setResourcesState(initialState => {
               if (initialState.money > actions.four.runForPresident.money) {
                 const newActions = { ...actions };
@@ -897,7 +906,7 @@ const App = () => {
 
                 newActions.four.runForPresident.actionUsed += 1;
 
-                setStage(5)
+                setStage(5);
                 setActions(newActions);
                 animateMinusMoney();
 
@@ -913,14 +922,15 @@ const App = () => {
     five: {
       establishCowDept: {
         label: 'Establish National Cow Department',
-        description: 'RM 1b, reduce Process Cow and Package Patty costs, GG impact',
+        description: 'Reduce Process Cow and Package Patty costs, GG impact',
         actionUsed: 0,
+        upgradeCap: 1,
         costMultiplier: 10,
         money: 1000000000,
         updateResourceMultiplier: function() {
           setResourcesState(initialState => {
-            const { money, costMultiplier } = actions.five.establishCowDept;
-            if (initialState.money >= money) {
+            const { money, costMultiplier, actionUsed, upgradeCap } = actions.five.establishCowDept;
+            if (initialState.money >= money && actionUsed < upgradeCap) {
               const newActions = { ...actions };
 
               newActions.one.processCow.money = actions.one.processCow.money * 0.7;
@@ -1053,11 +1063,12 @@ const App = () => {
         label: 'Strike The Very Bestest Deal',
         description: 'x15 Buy Cow price, get x25 cows each time, increase GG impact',
         actionUsed: 0,
+        upgradeCap: 1,
         money: 30000000000,
         updateResourceMultiplier: function() {
           setResourcesState(initialState => {
-            const { money, actionUsed } = actions.five.strikeTheVeryBestDeal;
-            if (initialState.money >= money && actionUsed === 0) {
+            const { money, actionUsed, upgradeCap } = actions.five.strikeTheVeryBestDeal;
+            if (initialState.money >= money && actionUsed < upgradeCap) {
               const newActions = { ...actions };
 
               newActions.one.buyCow.money = actions.one.buyCow.money * 15;
@@ -1084,11 +1095,12 @@ const App = () => {
         label: 'Make Beef Patty The National Food',
         description: 'Increase Sell Patty price, GG impact',
         actionUsed: 0,
+        upgradeCap: 1,
         money: 50000000000,
         updateResourceMultiplier: function() {
           setResourcesState(initialState => {
-            const { money } = actions.five.makeNationalFood;
-            if (initialState.money >= money && initialState.actionUsed === 0) {
+            const { money, actionUsed, upgradeCap } = actions.five.makeNationalFood;
+            if (initialState.money >= money && actionUsed < upgradeCap) {
               const newActions = { ...actions };
 
               newActions.one.buyCow.gg = actions.one.buyCow.gg * 1.5;
@@ -1238,8 +1250,8 @@ const App = () => {
             gg: initialState.gg + action.gg
           };
 
-          if (stage === 1 && initialState.money > 1000 ) {
-            setStage(2)
+          if (stage === 1 && initialState.money > 1000) {
+            setStage(2);
           }
           setTodayGG(initialGG => initialGG + action.gg);
 
@@ -1305,7 +1317,7 @@ const App = () => {
     }
 
     if (newState.gg >= 400000) {
-      setIsGameOver(true)
+      setIsGameOver(true);
     }
 
     const visualContainer = document.getElementsByClassName('town-image')[0];
@@ -1362,15 +1374,15 @@ const App = () => {
         <div className="stats-container">
           <div className="stats">
             <div className="calendar">
-              <img src={Calendar} />
+              <img src={Calendar} alt="Current day" />
               {day}
             </div>
             <div className="temperature">
-              <img src={Thermometer} />
+              <img src={Thermometer} alt="Current world temperature" />
               {resourcesState.temperature.toFixed(2)}°c
             </div>
             <div className="today-gg">
-              <img src={TodayGG} />
+              <img src={TodayGG} alt="GG Level produced today" />
               {todayGG.toFixed(2)}ppm
             </div>
           </div>
@@ -1461,99 +1473,115 @@ const App = () => {
               <div className="actions-header start-up">
                 <span className="actions-header-text">Start up</span>
               </div>
-              {stage >= 2 && Object.values(actions.two).map(action => (
-                <div className="action" key={`${action.label}-key`}>
-                  <div className="action-icon">
-                    <img src={Act} />
+              {stage >= 2 &&
+                Object.values(actions.two).map(action => (
+                  <div className="action" key={`${action.label}-key`}>
+                    <div className="action-icon">
+                      <img src={Act} />
+                    </div>
+                    <div className="action-content">
+                      <span className="action-label">
+                        {action.label}
+                        <span className="action-bought">
+                          (bought: {action.actionUsed}
+                          {action.upgradeCap && ` / ${action.upgradeCap}`})
+                        </span>
+                      </span>
+                      <span className="action-description">{action.description}</span>
+                    </div>
+                    <div className="action-button-container">
+                      <button className="action-button" onClick={() => action.updateResourceMultiplier()}>
+                        <div>
+                          <img src={Money} /> {abbreviateNumber(action.money)}
+                        </div>
+                      </button>
+                    </div>
                   </div>
-                  <div className="action-content">
-                    <span className="action-label">
-                      {action.label}
-                      <span className="action-bought">(bought: {action.actionUsed})</span>
-                    </span>
-                    <span className="action-description">{action.description}</span>
-                  </div>
-                  <div className="action-button-container">
-                    <button className="action-button" onClick={() => action.updateResourceMultiplier()}>
-                      <div>
-                        <img src={Money} /> {abbreviateNumber(action.money)}
-                      </div>
-                    </button>
-                  </div>
-                </div>
-              ))}
+                ))}
               <div className="actions-header sme">
                 <span className="actions-header-text">Small company</span>
               </div>
-              {stage >= 3 && Object.values(actions.three).map(action => (
-                <div className="action" key={`${action.label}-key`}>
-                  <div className="action-icon">
-                    <img src={Act} />
+              {stage >= 3 &&
+                Object.values(actions.three).map(action => (
+                  <div className="action" key={`${action.label}-key`}>
+                    <div className="action-icon">
+                      <img src={Act} />
+                    </div>
+                    <div className="action-content">
+                      <span className="action-label">
+                        {action.label}
+                        <span className="action-bought">
+                          (bought: {action.actionUsed}
+                          {action.upgradeCap && ` / ${action.upgradeCap}`})
+                        </span>
+                      </span>
+                      <span className="action-description">{action.description}</span>
+                    </div>
+                    <div className="action-button-container">
+                      <button className="action-button" onClick={() => action.updateResourceMultiplier()}>
+                        <div>
+                          <img src={Money} /> {abbreviateNumber(action.money)}
+                        </div>
+                      </button>
+                    </div>
                   </div>
-                  <div className="action-content">
-                    <span className="action-label">
-                      {action.label}
-                      <span className="action-bought">(bought: {action.actionUsed})</span>
-                    </span>
-                    <span className="action-description">{action.description}</span>
-                  </div>
-                  <div className="action-button-container">
-                    <button className="action-button" onClick={() => action.updateResourceMultiplier()}>
-                      <div>
-                        <img src={Money} /> {abbreviateNumber(action.money)}
-                      </div>
-                    </button>
-                  </div>
-                </div>
-              ))}
+                ))}
               <div className="actions-header ipo">
                 <span className="actions-header-text">Large company</span>
               </div>
-              {stage >= 4 && Object.values(actions.four).map(action => (
-                <div className="action" key={`${action.label}-key`}>
-                  <div className="action-icon">
-                    <img src={Act} />
+              {stage >= 4 &&
+                Object.values(actions.four).map(action => (
+                  <div className="action" key={`${action.label}-key`}>
+                    <div className="action-icon">
+                      <img src={Act} />
+                    </div>
+                    <div className="action-content">
+                      <span className="action-label">
+                        {action.label}
+                        <span className="action-bought">
+                          (bought: {action.actionUsed}
+                          {action.upgradeCap && ` / ${action.upgradeCap}`})
+                        </span>
+                      </span>
+                      <span className="action-description">{action.description}</span>
+                    </div>
+                    <div className="action-button-container">
+                      <button className="action-button" onClick={() => action.updateResourceMultiplier()}>
+                        <div>
+                          <img src={Money} /> {abbreviateNumber(action.money)}
+                        </div>
+                      </button>
+                    </div>
                   </div>
-                  <div className="action-content">
-                    <span className="action-label">
-                      {action.label}
-                      <span className="action-bought">(bought: {action.actionUsed})</span>
-                    </span>
-                    <span className="action-description">{action.description}</span>
-                  </div>
-                  <div className="action-button-container">
-                    <button className="action-button" onClick={() => action.updateResourceMultiplier()}>
-                      <div>
-                        <img src={Money} /> {abbreviateNumber(action.money)}
-                      </div>
-                    </button>
-                  </div>
-                </div>
-              ))}
+                ))}
               <div className="actions-header glc">
                 <span className="actions-header-text">Government Corporation</span>
               </div>
-              {stage >= 5 && Object.values(actions.five).map(action => (
-                <div className="action" key={`${action.label}-key`}>
-                  <div className="action-icon">
-                    <img src={Act} />
+              {stage >= 5 &&
+                Object.values(actions.five).map(action => (
+                  <div className="action" key={`${action.label}-key`}>
+                    <div className="action-icon">
+                      <img src={Act} />
+                    </div>
+                    <div className="action-content">
+                      <span className="action-label">
+                        {action.label}
+                        <span className="action-bought">
+                          (bought: {action.actionUsed}
+                          {action.upgradeCap && ` / ${action.upgradeCap}`})
+                        </span>
+                      </span>
+                      <span className="action-description">{action.description}</span>
+                    </div>
+                    <div className="action-button-container">
+                      <button className="action-button" onClick={() => action.updateResourceMultiplier()}>
+                        <div>
+                          <img src={Money} /> {abbreviateNumber(action.money)}
+                        </div>
+                      </button>
+                    </div>
                   </div>
-                  <div className="action-content">
-                    <span className="action-label">
-                      {action.label}
-                      <span className="action-bought">(bought: {action.actionUsed})</span>
-                    </span>
-                    <span className="action-description">{action.description}</span>
-                  </div>
-                  <div className="action-button-container">
-                    <button className="action-button" onClick={() => action.updateResourceMultiplier()}>
-                      <div>
-                        <img src={Money} /> {abbreviateNumber(action.money)}
-                      </div>
-                    </button>
-                  </div>
-                </div>
-              ))}
+                ))}
             </div>
           </div>
         </div>
