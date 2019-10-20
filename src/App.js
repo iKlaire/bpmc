@@ -6,6 +6,11 @@ import Stage3 from './stage3.png';
 import Stage4 from './stage4.png';
 import Stage5 from './stage5.png';
 import Cow from './cow.png';
+import CowIcon from './cow1.png';
+import MeatIcon from './meat1.png';
+import EarthIcon from './earth1.png';
+import HouseIcon from './house1.png';
+import TimeIcon from './time1.png';
 import Beef from './meat.png';
 import Energy from './energy.png';
 import Money from './money.png';
@@ -33,7 +38,7 @@ const App = () => {
   const [energyCap, setEnergyCap] = useState(100);
   const [pricePerPatty, setPricePerPatty] = useState(2);
   const [day, setDay] = useState(1);
-  const [graphData, setGraphData] = useState([]);
+  const [graphData, setGraphData] = useState([{}]);
   const [todayGG, setTodayGG] = useState(0);
   const [stage, setStage] = useState(1);
   const [proceedToNextStage, setProceedToNextStage] = useState(false);
@@ -84,6 +89,7 @@ const App = () => {
         money: 0.5,
         cow: 1,
         gg: 1,
+        logo: CowIcon,
         onClick: () => handleAction('buyCow')
       },
       processCow: {
@@ -94,6 +100,7 @@ const App = () => {
         cow: 1,
         beef: 1,
         gg: 1,
+        logo: MeatIcon,
         onClick: () => handleAction('processCow')
       },
       packagePatty: {
@@ -114,6 +121,7 @@ const App = () => {
         actionUsed: 0,
         costMultiplier: 1.5,
         money: 1000,
+        logo: MeatIcon,
         updateResourceMultiplier: function() {
           setResourcesState(initialState => {
             if (initialState.money > actions.two.improveMeatQuality.money) {
@@ -147,6 +155,7 @@ const App = () => {
         actionUsed: 0,
         costMultiplier: 1.5,
         money: 2000,
+        logo: HouseIcon,
         updateResourceMultiplier: function() {
           setResourcesState(initialState => {
             if (initialState.money > actions.two.reduceProcessCost.money) {
@@ -179,6 +188,7 @@ const App = () => {
         actionUsed: 0,
         costMultiplier: 1.5,
         money: 2000,
+        logo: EarthIcon,
         updateResourceMultiplier: function() {
           setResourcesState(initialState => {
             if (initialState.money > actions.two.reducePackageCost.money) {
@@ -211,6 +221,7 @@ const App = () => {
         actionUsed: 0,
         costMultiplier: 3,
         money: 5000,
+        logo: CowIcon,
         updateResourceMultiplier: function() {
           setResourcesState(initialState => {
             if (initialState.money > actions.two.redBull.money) {
@@ -240,6 +251,7 @@ const App = () => {
         description: 'Get 5 times the number of cows per buy, at 1.5 times the cost',
         actionUsed: 0,
         money: 2000,
+        logo: TimeIcon,
         updateResourceMultiplier: function() {
           if (this.actionUsed === 0) {
             setResourcesState(initialState => {
@@ -271,6 +283,7 @@ const App = () => {
         description: 'Reduce Process and Package price and energy usage significantly, while increasing GG impact',
         actionUsed: 0,
         money: 10000,
+        logo: HouseIcon,
         updateResourceMultiplier: function() {
           if (this.actionUsed === 0) {
             setResourcesState(initialState => {
@@ -371,6 +384,7 @@ const App = () => {
         actionUsed: 0,
         upgradeCap: 1,
         money: 20000,
+        logo: HouseIcon,
         updateResourceMultiplier: function() {
           if (actions.two.buildWorkshop.actionUsed > 0 && this.actionUsed < this.upgradeCap) {
             setResourcesState(initialState => {
@@ -438,6 +452,7 @@ const App = () => {
         actionUsed: 0,
         costMultiplier: 1.9,
         money: 35000,
+        logo: HouseIcon,
         updateResourceMultiplier: function() {
           setResourcesState(initialState => {
             if (initialState.money > actions.three.hireWorker.money) {
@@ -503,6 +518,7 @@ const App = () => {
         actionUsed: 0,
         upgradeCap: 1,
         money: 100000,
+        logo: TimeIcon,
         updateResourceMultiplier: function() {
           setResourcesState(initialState => {
             const { money, actionUsed, upgradeCap } = actions.three.StrikeABetterDeal;
@@ -567,6 +583,7 @@ const App = () => {
         upgradeCap: 2,
         costMultiplier: 2,
         money: 500000,
+        logo: HouseIcon,
         updateResourceMultiplier: function() {
           setResourcesState(initialState => {
             const { money, costMultiplier, actionUsed, upgradeCap } = actions.three.buildFarm;
@@ -601,6 +618,7 @@ const App = () => {
         upgradeCap: 1,
         costMultiplier: 2,
         money: 2000000,
+        logo: HouseIcon,
         updateResourceMultiplier: function() {
           setResourcesState(initialState => {
             const { money, actionUsed, upgradeCap } = actions.three.buildFactory;
@@ -639,6 +657,7 @@ const App = () => {
         upgradeCap: 1,
         costMultiplier: 2,
         money: 1000000,
+        logo: HouseIcon,
         updateResourceMultiplier: function() {
           setResourcesState(initialState => {
             const { money, actionUsed, upgradeCap } = actions.three.ipo;
@@ -1632,7 +1651,7 @@ const App = () => {
               {Object.values(actions.one).map(action => (
                 <div className="action" key={`${action.label}-key`}>
                   <div className="action-icon">
-                    <img src={Act} />
+                    <img src={action.logo || Act} />
                   </div>
                   <div className="action-content">
                     <span className="action-label">{action.label}</span>
@@ -1657,7 +1676,7 @@ const App = () => {
                 Object.values(actions.two).map(action => (
                   <div className="action" key={`${action.label}-key`}>
                     <div className="action-icon">
-                      <img src={Act} />
+                      <img src={action.logo || Act} />
                     </div>
                     <div className="action-content">
                       <span className="action-label">
@@ -1685,7 +1704,7 @@ const App = () => {
                 Object.values(actions.three).map(action => (
                   <div className="action" key={`${action.label}-key`}>
                     <div className="action-icon">
-                      <img src={Act} />
+                      <img src={action.logo || Act} />
                     </div>
                     <div className="action-content">
                       <span className="action-label">
@@ -1713,7 +1732,7 @@ const App = () => {
                 Object.values(actions.four).map(action => (
                   <div className="action" key={`${action.label}-key`}>
                     <div className="action-icon">
-                      <img src={Act} />
+                      <img src={action.logo || Act} />
                     </div>
                     <div className="action-content">
                       <span className="action-label">
@@ -1741,7 +1760,7 @@ const App = () => {
                 Object.values(actions.five).map(action => (
                   <div className="action" key={`${action.label}-key`}>
                     <div className="action-icon">
-                      <img src={Act} />
+                      <img src={action.logo || HouseIcon} />
                     </div>
                     <div className="action-content">
                       <span className="action-label">
@@ -1769,7 +1788,7 @@ const App = () => {
                 Object.values(actions.pr).map(action => (
                   <div className="action" key={`${action.label}-key`}>
                     <div className="action-icon">
-                      <img src={Act} />
+                      <img src={action.logo || EarthIcon} />
                     </div>
                     <div className="action-content">
                       <span className="action-label">
